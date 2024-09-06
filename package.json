@@ -2,6 +2,7 @@
   "name": "foodies-front",
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://top10-ms-students.github.io/Foodies-Front/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
