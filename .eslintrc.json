@@ -1,154 +1,155 @@
 {
-    "parser": "@babel/eslint-parser",
-    "plugins": [
-        "react",
-        "react-hooks",
-        "prettier",
-        "import"
-    ],
-    "extends": [
-        "eslint:recommended",
-        "plugin:react/recommended",
-        "plugin:prettier/recommended",
-        "plugin:react-hooks/recommended",
-        "plugin:import/recommended"
-    ],
-    "parserOptions": {
-        "ecmaVersion": 2020,
-        "sourceType": "module",
-        "requireConfigFile": false,
-        "babelOptions": {
-            "presets": ["@babel/preset-react"],
-            "parserOpts": {
-                "plugins": ["jsx"]
-            }
-        }
-    },
-    "settings": {
-        "import/resolver": {
-            "alias": [
-                ["~", "./src"]
-            ]
-        }
-    },
-    "env": {
-        "browser": true,
-        "node": true
-    },
-    "rules": {
-        "no-console": "error",
-        "react/jsx-filename-extension": [
-            "warn",
-            {
-                "extensions": [".js", ".jsx"]
-            }
-        ],
-        "indent": "off",
-        "arrow-body-style": "error",
-        "no-plusplus": [
-            "error",
-            {
-                "allowForLoopAfterthoughts": true
-            }
-        ],
-        "react/jsx-indent": ["error", 4],
-        "react/jsx-indent-props": ["error", 4],
-        "react/require-default-props": "off",
-        "react/no-did-mount-set-state": "off",
-        "react/no-unused-state": "error",
-        "react/no-unused-prop-types": "off",
-        "react/jsx-curly-brace-presence": "error",
-        "react/jsx-boolean-value": "error",
-        "react/prefer-stateless-function": "error",
-        "react/jsx-closing-bracket-location": "error",
-        "no-unused-vars": "off",
-        "no-use-before-define": "off",
-        "no-unreachable": "error",
-        "spaced-comment": "error",
-        "react/prop-types": "off",
-        "react/default-props-match-prop-types": "off",
-        "react/jsx-props-no-spreading": "off",
-        "import/no-extraneous-dependencies": "off",
-        "import/prefer-default-export": "off",
-        "import/no-unresolved": "off",
-        "import/default": "off",
-        "import/named": "off",
-        "prettier/prettier": [
-            "error",
-            {
-                "singleQuote": true,
-                "tabWidth": 4,
-                "printWidth": 120,
-                "trailingComma": "all"
-            }
-        ],
-        "import/order": [
-            "error",
-            {
-                "groups": ["external", "internal", "unknown"],
-                "pathGroups": [
-                    {
-                        "pattern": "react",
-                        "group": "external",
-                        "position": "before"
-                    },
-                    {
-                        "pattern": "{./,**}/+(containers|components|pages|layouts){*,/**}",
-                        "group": "internal",
-                        "position": "before"
-                    },
-                    {
-                        "pattern": "{./,**}/hooks{*,/**}",
-                        "group": "internal",
-                        "position": "before"
-                    },
-                    {
-                        "pattern": "{./,**}/+(utils|services){*,/**}",
-                        "group": "internal",
-                        "position": "before"
-                    },
-                    {
-                        "pattern": "**/api{*,/**}",
-                        "group": "internal",
-                        "position": "before"
-                    },
-                    {
-                        "pattern": "{./,**}/context{*,/**}",
-                        "group": "internal",
-                        "position": "before"
-                    },
-                    {
-                        "pattern": "**/store{*,/**}",
-                        "group": "internal",
-                        "position": "before"
-                    },
-                    {
-                        "pattern": "{./,**}/+(routes|constants|fragments){*,/**}",
-                        "group": "internal",
-                        "position": "before"
-                    },
-                    {
-                        "pattern": "**/schema",
-                        "group": "internal",
-                        "position": "before"
-                    },
-                    {
-                        "pattern": "**/types{*,/**}",
-                        "group": "internal",
-                        "position": "after"
-                    },
-                    {
-                        "pattern": "**/assets{*,/**}",
-                        "group": "internal",
-                        "position": "after"
-                    }
-                ],
-                "newlines-between": "always",
-                "alphabetize": {
-                    "order": "asc",
-                    "caseInsensitive": true
-                }
-            }
-        ]
+  "parser": "@babel/eslint-parser",
+  "plugins": ["react", "react-hooks", "prettier", "import"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:prettier/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:import/recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "requireConfigFile": false,
+    "babelOptions": {
+      "presets": ["@babel/preset-react"],
+      "parserOpts": {
+        "plugins": ["jsx"]
+      }
     }
+  },
+  "settings": {
+    "import/resolver": {
+      "alias": [["~", "./src"]]
+    }
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "rules": {
+    "no-console": "error",
+    "react/jsx-filename-extension": [
+      "warn",
+      {
+        "extensions": [".js", ".jsx"]
+      }
+    ],
+    "indent": "off",
+    "arrow-body-style": "error",
+    "no-plusplus": [
+      "error",
+      {
+        "allowForLoopAfterthoughts": true
+      }
+    ],
+    "react/jsx-indent": ["error", 2],
+    "react/jsx-indent-props": ["error", 4],
+    "react/require-default-props": "off",
+    "react/no-did-mount-set-state": "off",
+    "react/no-unused-state": "error",
+    "react/no-unused-prop-types": "off",
+    "react/jsx-curly-brace-presence": "error",
+    "react/jsx-boolean-value": "error",
+    "react/prefer-stateless-function": "error",
+    "react/jsx-closing-bracket-location": "error",
+    "no-unused-vars": "off",
+    "no-use-before-define": "off",
+    "no-unreachable": "error",
+    "spaced-comment": "error",
+    "react/prop-types": "off",
+    "react/default-props-match-prop-types": "off",
+    "react/jsx-props-no-spreading": "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/prefer-default-export": "off",
+    "import/no-unresolved": "off",
+    "import/default": "off",
+    "import/named": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        "printWidth": 80,
+        "tabWidth": 2,
+        "useTabs": false,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "es5",
+        "bracketSpacing": true,
+        "jsxBracketSameLine": true,
+        "arrowParens": "avoid",
+        "proseWrap": "preserve",
+        "htmlWhitespaceSensitivity": "css",
+        "endOfLine": "auto"
+      }
+    ],
+    "import/order": [
+      "error",
+      {
+        "groups": ["external", "internal", "unknown"],
+        "pathGroups": [
+          {
+            "pattern": "react",
+            "group": "external",
+            "position": "before"
+          },
+          {
+            "pattern": "{./,**}/+(containers|components|pages|layouts){*,/**}",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "{./,**}/hooks{*,/**}",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "{./,**}/+(utils|services){*,/**}",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "**/api{*,/**}",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "{./,**}/context{*,/**}",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "**/store{*,/**}",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "{./,**}/+(routes|constants|fragments){*,/**}",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "**/schema",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "**/types{*,/**}",
+            "group": "internal",
+            "position": "after"
+          },
+          {
+            "pattern": "**/assets{*,/**}",
+            "group": "internal",
+            "position": "after"
+          }
+        ],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ]
+  }
 }

@@ -1,19 +1,19 @@
-import React, { Suspense } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Spin } from "antd";
+import React, { Suspense } from "react";
+import { Outlet } from "react-router-dom";
 
-import { Loader } from '~/common/components/index';
-
-import { LayoutFooter } from './LayoutFooter';
-import { LayoutHeader } from './LayoutHeader';
+import { LayoutFooter } from "./LayoutFooter";
+import { LayoutHeader } from "./LayoutHeader";
+import { MainLayout } from "./MainLayout";
 
 export const Layout = () => (
-    <>
-        <LayoutHeader />
-        <div className="main">
-            <Suspense fallback={<Loader />}>
-                <Outlet />
-            </Suspense>
-        </div>
-        <LayoutFooter />
-    </>
+  <>
+    <LayoutHeader />
+    <MainLayout>
+      <Suspense fallback={<Spin />}>
+        <Outlet />
+      </Suspense>
+    </MainLayout>
+    <LayoutFooter />
+  </>
 );
