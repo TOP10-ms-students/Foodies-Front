@@ -1,8 +1,9 @@
-import { Modal, notification, Spin } from "antd";
+import { Modal, notification } from "antd";
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { styled } from "styled-components";
 
+import { LogoutModalContent } from "~/common/components/custom/LogoutModalContent";
 import { LoginForm } from "~/common/components/forms/LoginForm";
 import { SignUpForm } from "~/common/components/forms/SignUpForm";
 
@@ -28,6 +29,7 @@ export const LayoutHeader = () => {
 
   const [notificationApi, notificationContext] = notification.useNotification();
 
+  const [isOpenLogout, setIsOpenLogout] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const {
     isOpenLogin,
@@ -38,6 +40,10 @@ export const LayoutHeader = () => {
     handleCancel,
   } = useAuthModals();
 
+  const handleOpenLogout = () => setIsOpenLogout(true);
+
+  const handleCloseLogout = () => !isLoading && setIsOpenLogout(false);
+
   const handleLogout = () => {
     setIsLoading(true);
 
@@ -45,6 +51,7 @@ export const LayoutHeader = () => {
       .then(() => {
         dispatch(setUser(null));
         authTokenService.unset();
+        setIsOpenLogout();
         notificationApi.success({ message: "Logout successfull!" });
       })
       .catch(() => {
@@ -64,7 +71,7 @@ export const LayoutHeader = () => {
           {user ? (
             <div>
               {user.name}
-              <button type="button" onClick={handleLogout}>
+              <button type="button" onClick={handleOpenLogout}>
                 Logout
               </button>
             </div>
@@ -84,11 +91,25 @@ export const LayoutHeader = () => {
       <Modal open={isOpenSignUp} onCancel={handleCancel} centered footer={null}>
         <SignUpForm onLinkClick={switchModals} onSuccess={handleCancel} />
       </Modal>
+
       <Modal open={isOpenLogin} onCancel={handleCancel} centered footer={null}>
         <LoginForm onLinkClick={switchModals} onSuccess={handleCancel} />
       </Modal>
 
-      {isLoading && <Spin spinning fullscreen />}
+      <Modal
+        open={isOpenLogout}
+        onCancel={handleCloseLogout}
+        centered
+        closable={!isLoading}
+        footer={null}
+        // eslint-disable-next-line prettier/prettier
+      >
+        <LogoutModalContent
+          isLoading={isLoading}
+          onLogout={handleLogout}
+          onCancel={handleCloseLogout}
+        />
+      </Modal>
 
       {notificationContext}
     </>
