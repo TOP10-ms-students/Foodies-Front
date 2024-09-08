@@ -7,7 +7,7 @@ const root = resolve("src");
 
 export default defineConfig({
   plugins: [react()],
-  base: "/Foodies-Front",
+  base: "/",
   resolve: {
     alias: {
       "~": root,

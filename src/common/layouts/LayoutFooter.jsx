@@ -7,6 +7,6 @@ const StyledLayoutFooter = styled.footer``;
 
 export const LayoutFooter = () => (
   <PageContainer>
-    <StyledLayoutFooter>Footer qweqwe</StyledLayoutFooter>
+    <StyledLayoutFooter>Footer</StyledLayoutFooter>
   </PageContainer>
 );
