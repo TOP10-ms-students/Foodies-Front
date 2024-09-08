@@ -23,7 +23,7 @@ const StyledSegmented = styled(AntdSegmented)`
   .ant-segmented-thumb {
     background-color: ${({ theme }) => theme.colors.darkgray};
     color: ${({ theme }) => theme.colors.white};
-    border: 1px solid ${({ theme }) => theme.colors.grey};
+    border: 1px solid ${({ theme }) => theme.colors.gray};
     border-radius: 30px;
   }
 `;
