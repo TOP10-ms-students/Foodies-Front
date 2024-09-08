@@ -1,3 +1,7 @@
 export const ROUTE_PATHS = {
-  home: "/",
+  HOME: "/",
+  ADD_RECIPE: "/add-recipe",
+  RECIPE_PAGE: "/recipe/:id",
+  USER_PAGE: "/users/:id",
+  MY_PROFILE: "/my-profile",
 };

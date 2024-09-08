@@ -1,26 +1,12 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Route, Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 import { getIsAuthenticated } from "../../store/selectors";
+import { ROUTE_PATHS } from "../constants";
 
-export default function PrivateRoute({
-  component: Component,
-  redirectTo,
-  ...routeProps
-}) {
+export const PrivateRoute = ({ children }) => {
   const isAuthenticated = useSelector(getIsAuthenticated);
 
-  return (
-    <Route
-      {...routeProps}
-      render={(props) =>
-        isAuthenticated ? (
-          <Component {...props} />
-        ) : (
-          <Redirect to={redirectTo} />
-        )
-      }
-    />
-  );
-}
+  return isAuthenticated ? children : <Navigate to={ROUTE_PATHS.HOME} />;
+};
