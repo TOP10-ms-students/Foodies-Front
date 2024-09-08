@@ -1,3 +1,3 @@
-export const routePaths = {
-    home: () => '/',
+export const ROUTE_PATHS = {
+  home: "/",
 };

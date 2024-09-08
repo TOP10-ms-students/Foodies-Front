@@ -1,3 +1,3 @@
-import React from 'react';
+import React from "react";
 
-export const HomePage = () => <p>Homepage</p>;
+export const HomePage = () => <div>Homepage</div>;
