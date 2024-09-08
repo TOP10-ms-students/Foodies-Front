@@ -45,7 +45,7 @@
       }
     ],
     "react/jsx-indent": ["error", 2],
-    "react/jsx-indent-props": ["error", 4],
+    "react/jsx-indent-props": ["error", "first"],
     "react/require-default-props": "off",
     "react/no-did-mount-set-state": "off",
     "react/no-unused-state": "error",
@@ -77,7 +77,7 @@
         "trailingComma": "es5",
         "bracketSpacing": true,
         "jsxBracketSameLine": true,
-        "arrowParens": "avoid",
+        "arrowParens": "always",
         "proseWrap": "preserve",
         "htmlWhitespaceSensitivity": "css",
         "endOfLine": "auto"

@@ -2,8 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Route, Redirect } from "react-router-dom";
 
-// TODO - connect it with redux
-import { getIsAuthenticated } from "../../redux/selectors";
+import { getIsAuthenticated } from "../../store/selectors";
 
 export default function PublicRoute({
   component: Component,

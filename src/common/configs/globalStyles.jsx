@@ -37,7 +37,6 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   .ant-dropdown-menu-item-active {
-    background-color: ${({ theme }) => theme.colors.grey} !important;
-
+    background-color: ${({ theme }) => theme.colors.gray} !important;
   }
 `;

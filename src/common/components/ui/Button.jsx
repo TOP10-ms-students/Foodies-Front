@@ -10,7 +10,7 @@ const StyledButton = styled(AndtButton)`
   font-weight: 700;
   line-height: 24px;
   letter-spacing: -0.02em;
-  border: 1px solid ${({ theme }) => theme.colors.grey};
+  border: 1px solid ${({ theme }) => theme.colors.gray};
 
   padding: ${({ children }) =>
     children ? "16px 32px !important" : "16px !important"};
@@ -18,7 +18,7 @@ const StyledButton = styled(AndtButton)`
 
   &:disabled {
     border-color: transparent;
-    background-color: ${({ theme }) => theme.colors.grey};
+    background-color: ${({ theme }) => theme.colors.gray};
     color: ${({ theme }) => theme.colors.white};
   }
 `;
