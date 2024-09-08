@@ -1,7 +1,7 @@
-import { ACCESS_TOKEN_KEY } from "constants/localStorage";
+import { authTokenService } from "./ApiService";
 
 const onRequest = (config) => {
-  const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
+  const accessToken = authTokenService.get();
 
   if (accessToken) {
     config.headers.authorization = `Bearer ${accessToken}`;
