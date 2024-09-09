@@ -2,13 +2,13 @@ import { Form, notification } from "antd";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
+import { AuthFormLayout } from "~/common/components/custom/AuthFormLayout";
+import { Input, PasswordInput } from "~/common/components/ui/Input";
+
 import { authTokenService } from "~/api/ApiService";
 import { login } from "~/api/user";
 
 import { setUser } from "~/store/slices/auth";
-
-import { AuthFormLayout } from "../custom/AuthFormLayout";
-import { Input, PasswordInput } from "../ui/Input";
 
 const FORM_ITEM_RULES = {
   email: [{ required: true, message: "Please input your email!" }],

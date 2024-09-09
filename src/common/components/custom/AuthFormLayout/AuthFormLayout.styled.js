@@ -1,10 +1,7 @@
-import { Form, Typography } from "antd";
-import React from "react";
+import { Typography } from "antd";
 import { styled } from "styled-components";
 
-import { Button } from "../ui/Button";
-
-const Box = styled.div`
+export const Box = styled.div`
   padding: 40px 6px;
 
   @media ${({ theme }) => theme.media.tablet} {
@@ -12,7 +9,7 @@ const Box = styled.div`
   }
 `;
 
-const Title = styled.p`
+export const Title = styled.p`
   font-size: 28px;
   font-weight: 800;
   line-height: 32px;
@@ -27,7 +24,7 @@ const Title = styled.p`
   }
 `;
 
-const InputsBox = styled.div`
+export const InputsBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -38,7 +35,7 @@ const InputsBox = styled.div`
   }
 `;
 
-const SeccondaryAction = styled(Typography)`
+export const SecondaryAction = styled(Typography)`
   width: fit-content;
   font-size: 14px;
   font-weight: 500;
@@ -52,36 +49,7 @@ const SeccondaryAction = styled(Typography)`
   }
 `;
 
-const Link = styled(Typography.Text)`
+export const Link = styled(Typography.Text)`
   color: ${({ theme }) => theme.colors.black};
   cursor: pointer;
 `;
-
-export const AuthFormLayout = ({
-  title,
-  children,
-  form,
-  onSubmit,
-  submitText,
-  seccondaryActionText,
-  seccondaryActionLinkText,
-  onLinkClick,
-  isLoading,
-}) => (
-  <Box>
-    <Title>{title}</Title>
-
-    <Form form={form} onFinish={onSubmit} disabled={isLoading}>
-      <InputsBox>{children}</InputsBox>
-
-      <Button htmlType="submit" block loading={isLoading}>
-        {submitText}
-      </Button>
-    </Form>
-
-    <SeccondaryAction>
-      {seccondaryActionText}{" "}
-      <Link onClick={onLinkClick}>{seccondaryActionLinkText}</Link>
-    </SeccondaryAction>
-  </Box>
-);

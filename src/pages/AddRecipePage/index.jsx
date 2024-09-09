@@ -1,3 +1,7 @@
 import React from "react";
 
-export const AddRecipePage = () => <div>AddRecipePage</div>;
+export const AddRecipePage = () => {
+  //
+
+  return <div>AddRecipePage</div>;
+};

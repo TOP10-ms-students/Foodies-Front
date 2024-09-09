@@ -1,10 +1,10 @@
 import { Form, notification } from "antd";
 import React, { useState } from "react";
 
-import { signUp } from "~/api/user";
+import { AuthFormLayout } from "~/common/components/custom/AuthFormLayout";
+import { Input, PasswordInput } from "~/common/components/ui/Input";
 
-import { AuthFormLayout } from "../custom/AuthFormLayout";
-import { Input, PasswordInput } from "../ui/Input";
+import { signUp } from "~/api/user";
 
 const FORM_ITEM_RULES = {
   name: [{ required: true, message: "Please input your name!" }],
