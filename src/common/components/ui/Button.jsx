@@ -13,8 +13,10 @@ const StyledButton = styled(AndtButton)`
   border: 1px solid ${({ theme }) => theme.colors.gray};
 
   padding: ${({ children }) =>
-    children ? "16px 32px !important" : "16px !important"};
-  width: ${({ children, icon }) => !children && icon && "50px !important"};
+    children ? "15px 32px !important" : "16px !important"};
+
+  ${({ children, icon }) =>
+    !children && icon && "width: 56px !important; height: 56px !important;"};
 
   &:disabled {
     border-color: transparent;

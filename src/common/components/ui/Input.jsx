@@ -10,6 +10,16 @@ const baseInputStyles = css`
   padding-right: 14px;
 `;
 
+const baseBorderlessInputStyles = css`
+  ${baseInputStyles}
+
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-radius: 0;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.gray};
+`;
+
 const StyledInput = styled(AntdInput)`
   ${baseInputStyles}
 `;
@@ -23,10 +33,22 @@ const StyledPasswordInput = styled(AntdInput.Password)`
   }
 `;
 
-export const Input = ({ width, ...props }) => (
-  <StyledInput {...props} width={width} />
-);
+const Input = ({ width, ...props }) => <StyledInput {...props} width={width} />;
 
-export const PasswordInput = ({ width, ...props }) => (
+const PasswordInput = ({ width, ...props }) => (
   <StyledPasswordInput {...props} width={width} />
 );
+
+const BorderlessInput = styled((props) => (
+  <AntdInput {...props} variant="borderless" />
+))`
+  ${baseBorderlessInputStyles}
+`;
+
+const BorderlessTextarea = styled((props) => (
+  <AntdInput.TextArea {...props} variant="borderless" />
+))`
+  ${baseBorderlessInputStyles}
+`;
+
+export { Input, PasswordInput, BorderlessInput, BorderlessTextarea };
