@@ -6,10 +6,12 @@ import Icon, {
   InstagramFilled,
   YoutubeFilled,
   DownOutlined,
+  DeleteOutlined,
 } from "@ant-design/icons";
 import React from "react";
 import { styled } from "styled-components";
 
+import { CameraIconSvg } from "./CameraIconSvg";
 import { FacebookIconSvg } from "./FacebookIconSvg";
 
 // COMMON ICONS
@@ -20,6 +22,8 @@ export const ArrowUpIcon = styled(ArrowUpOutlined)`
   transform: rotate(45deg);
 `;
 export const DownIcon = DownOutlined;
+export const CameraIcon = () => <Icon component={CameraIconSvg} />;
+export const DeleteIcon = DeleteOutlined;
 
 // SOCIAL ICONS
 export const FacebookIcon = () => <Icon component={FacebookIconSvg} />;
