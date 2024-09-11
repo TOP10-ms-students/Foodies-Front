@@ -17,7 +17,6 @@ export const StyledLayoutHeader = styled.header`
     font-weight: 800;
     font-size: 20px;
     color: ${({ theme }) => theme?.colors?.white};
-    cursor: pointer;
     text-decoration: none;
   }
 
@@ -57,7 +56,6 @@ export const HeaderMenuWrapper = styled.div`
 
       a {
         padding: 9px;
-        cursor: pointer;
         color: ${({ theme }) => theme?.colors?.white};
         background-color: ${({ theme }) => theme?.colors?.black};
         border-radius: 30px;
