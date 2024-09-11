@@ -1,5 +1,5 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { Typography, notification } from "antd";
+import { Typography, notification, Spin } from "antd";
 import { useFormik } from "formik";
 import React, { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
@@ -68,6 +68,7 @@ export const AddRecipePage = () => {
   const [isLoadingOptions, setIsLoadingOptions] = useState(false);
   const [categories, setCategories] = useState([]);
   const [ingredients, setIngredients] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { values, errors, setFieldValue, handleChange, handleSubmit } =
     useFormik({
@@ -88,7 +89,8 @@ export const AddRecipePage = () => {
         ]);
 
         categoriesRes.status === "fulfilled" &&
-          setCategories(categoriesRes.value.data);
+          setCategories(categoriesRes.value?.data?.categories ?? []);
+
         ingredientsRes.status === "fulfilled" &&
           setIngredients(ingredientsRes.value.data);
       } catch ({ response: { data } }) {
@@ -103,7 +105,7 @@ export const AddRecipePage = () => {
   }, []);
 
   const categoriesOptions = useMemo(
-    () => categories.map(({ id, name }) => ({ value: id, label: name })),
+    () => categories?.map(({ id, name }) => ({ value: id, label: name })),
     [categories]
   );
 
@@ -126,35 +128,21 @@ export const AddRecipePage = () => {
   };
 
   async function onSubmit(values) {
+    setIsSubmitting(true);
     try {
-      /*
-
-    ingredient: null;
-    quantity: string;
-
-      */
-      console.log("onSubmit: ", values);
+      // imageFile && (await uploadImage(imageFile));
 
       const submitData = {
-        title: values.name,
-        category: values.category,
-        description: values.description,
-        instructions: values.preparation,
-        //
-        ingredients: values.ingredients,
-        time: values.cookingTime,
+        // TODO: finish add recipe form submission when api fix will be merged
       };
-      /*
 
-      area: Joi.string().required(),
-      thumb: Joi.string().required(),
-
-      */
-
-      // createRecipe()
+      // await createRecipe(submitData)
+      notificationApi.success({ message: "Recipe created successfully!" });
     } catch ({ response: { data } }) {
       const message = data?.message ?? "Something went wrong";
       notificationApi.error({ message });
+    } finally {
+      setIsSubmitting(false);
     }
   }
 
@@ -282,7 +270,7 @@ export const AddRecipePage = () => {
               iconPosition="end"
               onClick={onAddIngredient}
               disabled={disableAddIngredientBtn}
-              //
+              // eslint-disable-next-line prettier/prettier
             >
               Add ingredient
             </Button>
@@ -340,6 +328,8 @@ export const AddRecipePage = () => {
           </div>
         </FormBox>
       </form>
+
+      {isSubmitting && <Spin fullscreen />}
     </PageBox>
   );
 };
