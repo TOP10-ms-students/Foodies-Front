@@ -8,7 +8,6 @@ const flexCenterBetween = css`
 
 export const StyledLayoutHeader = styled.header`
   ${flexCenterBetween};
-  padding: 0 16px;
   width: ${(theme) => theme?.media?.mobile};
   height: 38px;
   background-color: ${({ theme }) => theme?.colors?.black};
@@ -25,14 +24,12 @@ export const StyledLayoutHeader = styled.header`
   }
 
   @media ${({ theme }) => theme.media.tablet} {
-    padding: 0 32px;
     & > div {
       font-size: 24px;
     }
   }
 
   @media ${({ theme }) => theme.media.desktop} {
-    padding: 0 60px;
     height: 40px;
   }
 `;
@@ -87,6 +84,7 @@ export const UserAuthButtons = styled.div`
   border-radius: 30px;
   background-color: white;
   border: 1px solid ${({ theme }) => theme?.colors?.white};
+  overflow: hidden;
 
   button {
     width: 80px;
@@ -126,6 +124,25 @@ export const ProfileWrapper = styled.div`
 
   svg {
     cursor: pointer;
+  }
+`;
+
+export const StyledDrawer = styled.ul`
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    margin-bottom: 30px;
+    a {
+      color: ${({ theme }) => theme?.colors?.black};
+      font-weight: 500;
+      padding: 8px;
+      &.active {
+        border: 1px solid ${({ theme }) => theme?.colors?.black};
+        border-radius: 30px;
+      }
+    }
   }
 `;
 

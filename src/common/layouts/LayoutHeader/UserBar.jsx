@@ -1,5 +1,10 @@
 import React from "react";
-import { ProfileWrapper, UserName, UserPopUp } from "./LayoutHeader.styled";
+import {
+  ProfileWrapper,
+  StyledDrawer,
+  UserName,
+  UserPopUp,
+} from "./LayoutHeader.styled";
 import { Avatar } from "../../components/ui/Avatar";
 import { MenuIconSvg } from "../../components/icons/MenuIconSvg";
 import { Drawer } from "antd";
@@ -36,18 +41,25 @@ const UserBar = ({
         onClose={switchDrawer}
         open={isDrawer}
       >
-        <NavLink
-          to={ROUTE_PATHS.HOME}
-          className={({ isActive }) => (isActive ? "active" : "")}
-        >
-          HOME
-        </NavLink>
-        <NavLink
-          to={ROUTE_PATHS.ADD_RECIPE}
-          className={({ isActive }) => (isActive ? "active" : "")}
-        >
-          ADD RECIPE
-        </NavLink>
+        <StyledDrawer>
+          <li>
+            <NavLink
+              to={ROUTE_PATHS.HOME}
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              HOME
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink
+              to={ROUTE_PATHS.ADD_RECIPE}
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              ADD RECIPE
+            </NavLink>
+          </li>
+        </StyledDrawer>
       </Drawer>
 
       {isUserPopUp && (
