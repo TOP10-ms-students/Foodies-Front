@@ -68,28 +68,55 @@ export const Label = styled.label`
 `;
 
 export const InputsBox = styled.div`
-  padding: 32px 0;
   display: grid;
   grid-template-columns: 1fr;
   row-gap: 20px;
 
   @media ${({ theme }) => theme.media.tablet} {
-    padding: 60px 0 40px;
     grid-template-columns: 1fr 1fr;
     row-gap: 60px;
     column-gap: 20px;
   }
 `;
 
-export const IngredientsBox = styled.div`
+export const CategoryBox = styled.div`
+  padding-top: 32px;
+
+  @media ${({ theme }) => theme.media.tablet} {
+    padding-top: 60px;
+  }
+`;
+
+export const IngredientsInputsBox = styled.div`
+  padding-top: 20px;
+  padding-bottom: 32px;
+
+  @media ${({ theme }) => theme.media.tablet} {
+    padding-top: 60px;
+    padding-bottom: 40px;
+  }
+`;
+
+export const QuantityInputBox = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
+  align-items: end;
+`;
+
+export const IngredientsBox = styled.div`
   padding: 32px 0 64px;
 
   @media ${({ theme }) => theme.media.tablet} {
-    gap: 20px;
     padding: 40px 0 80px;
+  }
+`;
+
+export const IngredientsList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+
+  @media ${({ theme }) => theme.media.tablet} {
+    gap: 20px;
   }
 `;
 
