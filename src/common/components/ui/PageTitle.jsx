@@ -10,6 +10,13 @@ const StyledPageTitle = styled(Typography.Title)`
   letter-spacing: -0.02em;
   margin-top: 32px;
   margin-bottom: 16px;
+
+  @media ${({ theme }) => theme.media.tablet} {
+    font-size: 40px;
+    line-height: 44px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
 `;
 
 export const PageTitle = ({ ...props }) => <StyledPageTitle {...props} />;
