@@ -21,6 +21,9 @@ export const HeartIcon = HeartOutlined;
 export const ArrowUpIcon = styled(ArrowUpOutlined)`
   transform: rotate(45deg);
 `;
+export const ArrowLeftIcon = styled(ArrowUpOutlined)`
+  transform: rotate(-90deg);
+`;
 export const DownIcon = DownOutlined;
 export const CameraIcon = () => <Icon component={CameraIconSvg} />;
 export const DeleteIcon = DeleteOutlined;

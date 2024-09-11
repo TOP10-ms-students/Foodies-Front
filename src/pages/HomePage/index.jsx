@@ -6,14 +6,18 @@ import { RecipesList } from "~/common/components/custom/RecipesList";
 import { useCategoriesQueries } from "~/common/hooks/useCategoriesQueries";
 
 export const HomePage = () => {
-  const { category, setCategory, resetCategory } = useCategoriesQueries();
+  const { categoryName, categoryId, setCategory, resetCategory } =
+    useCategoriesQueries();
 
   return (
     <div>
       <div>Homepage Hero</div>
 
-      {category ? (
-        <RecipesList category={category} goToCategories={resetCategory} />
+      {categoryName ? (
+        <RecipesList
+          category={{ name: categoryName, id: categoryId }}
+          goToCategories={resetCategory}
+        />
       ) : (
         <CategoriesList setCategory={setCategory} />
       )}
