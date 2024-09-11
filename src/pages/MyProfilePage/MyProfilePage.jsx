@@ -1,12 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { Breadcrumb, PageSubtitle } from "~/common/components";
+import { Breadcrumb, PageTitle, PageSubtitle } from "~/common/components";
 import { UserInfoCard } from "~/common/components/custom/UserInfoCard";
 
 import { ROUTE_PATHS } from "~/routing/constants";
 
-import { PageBox, PageTitle } from "./MyProfilePage.styled";
+import { PageBox } from "./MyProfilePage.styled";
 
 const BREADCRUMB_ITEMS = [
   { title: <Link to={ROUTE_PATHS.HOME}>Home</Link> },
