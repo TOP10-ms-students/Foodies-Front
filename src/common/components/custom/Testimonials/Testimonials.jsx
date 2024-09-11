@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import { getTestimonials } from "~/api/testimonials";
 
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -49,24 +48,24 @@ export const Testimonials = () => {
       <IconWrapper>
         <QuotesIcon />
       </IconWrapper>
-        <Swiper
-          modules={[Pagination, Autoplay]}
-          pagination={{ clickable: true }}
-          autoplay={{ delay: 522000 }}
-          spaceBetween={30}
-          slidesPerView={1}
-        >
-          {testimonials.map((testimonial, index) => (
-            <SwiperSlide key={index}>
-              <SlideWrapper>
-                <StyledBlockquote>
-                  <TestimonialText>{testimonial.testimonial}</TestimonialText>
-                  <Author>{testimonial.owner}</Author>
-                </StyledBlockquote>
-              </SlideWrapper>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+      <Swiper
+        modules={[Pagination, Autoplay]}
+        pagination={{ clickable: true }}
+        autoplay={{ delay: 5000 }}
+        spaceBetween={30}
+        slidesPerView={1}
+      >
+        {testimonials.map((testimonial, index) => (
+          <SwiperSlide key={index}>
+            <SlideWrapper>
+              <StyledBlockquote>
+                <TestimonialText>{testimonial.testimonial}</TestimonialText>
+                <Author>{testimonial.owner}</Author>
+              </StyledBlockquote>
+            </SlideWrapper>
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </TestimonialsSection>
   );
 };

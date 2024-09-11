@@ -8,11 +8,11 @@ export const TestimonialsSection = styled.div`
   margin: 0 auto;
   text-align: center;
 
-  @media (min-width: 768px) {
+  @media ${({ theme }) => theme.media.tablet} {
     max-width: 704px;
   }
 
-  @media (min-width: 1440px) {
+  @media ${({ theme }) => theme.media.desktop} {
     max-width: 822px;
   }
 `;
@@ -25,7 +25,7 @@ export const Subtitle = styled.h3`
   letter-spacing: -0.02em;
   text-align: center;
 
-  @media (min-width: 768px) {
+  @media ${({ theme }) => theme.media.tablet} {
     font-size: 16px;
   }
 `;
@@ -38,7 +38,7 @@ export const Title = styled.h2`
   letter-spacing: -0.02em;
   text-align: center;
 
-  @media (min-width: 768px) {
+  @media ${({ theme }) => theme.media.tablet} {
     font-size: 40px;
   }
 `;
@@ -50,7 +50,7 @@ export const IconWrapper = styled.div`
   width: 40px;
   height: 32px;
 
-  @media (min-width: 768px) {
+  @media ${({ theme }) => theme.media.tablet} {
     top: 76px;
     left: 40px;
     width: 59px;
@@ -62,7 +62,7 @@ export const StyledQuotesIcon = styled(QuotesIcon)`
   width: 40px;
   height: 32px;
 
-  @media (min-width: 768px) {
+  @media ${({ theme }) => theme.media.tablet} {
     width: 59px;
     height: 48px;
   }
@@ -73,14 +73,14 @@ export const StyledBlockquote = styled.div`
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  min-height: 240px;  
+  min-height: 240px;
   margin: 0;
   font-size: 18px;
   font-weight: 500;
 
-  @media (min-width: 768px) {
+  @media ${({ theme }) => theme.media.tablet} {
     font-size: 24px;
-    min-height: 250px;  
+    min-height: 250px;
   }
 `;
 
@@ -92,7 +92,7 @@ export const TestimonialText = styled.p`
   letter-spacing: -0.02em;
   text-align: center;
 
-  @media (min-width: 768px) {
+  @media ${({ theme }) => theme.media.tablet} {
     font-size: 24px;
     font-weight: 500;
     line-height: 36px;
@@ -107,14 +107,12 @@ export const Author = styled.p`
   font-weight: 800;
   padding-bottom: 0;
 
-  @media (min-width: 768px) {
+  @media ${({ theme }) => theme.media.tablet} {
     font-size: 20px;
     padding-bottom: 16px;
   }
 `;
 
-
-// Новый компонент для обертки слайда
 export const SlideWrapper = styled.div`
   display: flex;
- `;
+`;
