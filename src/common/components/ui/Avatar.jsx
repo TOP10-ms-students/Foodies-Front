@@ -5,6 +5,6 @@ import { styled } from "styled-components";
 
 const StyledAvatar = styled(AntdAvatar)``;
 
-export const Avatar = ({ ...props }) => (
-  <StyledAvatar icon={<UserOutlined />} {...props} />
+export const Avatar = ({ src, ...props }) => (
+  <StyledAvatar icon={!src && <UserOutlined />} src={src} {...props} />
 );
