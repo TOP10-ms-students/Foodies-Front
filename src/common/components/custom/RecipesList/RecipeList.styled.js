@@ -1,14 +1,12 @@
 import styled from "styled-components";
 
-
-export const RecipesSection = styled.div`
-  /* padding: 20px; */
-`;
+export const RecipesSection = styled.div``;
 
 export const BackButton = styled.button`
   background-color: transparent;
   outline: none;
   border: none;
+  cursor: pointer;
 `;
 
 export const Description = styled.p`
@@ -29,14 +27,16 @@ export const RecipeGrid = styled.div`
   row-gap: 40px;
   column-gap: 20px;
   flex-wrap: wrap;
-  justify-content: center;
 `;
 
 export const RecipesColumn = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 42px;
 
+  @media ${({ theme }) => theme.media.tablet} {
+    gap: 70px;
+  }
   @media ${({ theme }) => theme.media.desktop} {
     width: 910px;
   }
@@ -51,6 +51,7 @@ export const Filters = styled.div`
 
   @media ${({ theme }) => theme.media.desktop} {
     flex-direction: column;
+    justify-content: start;
   }
 `;
 

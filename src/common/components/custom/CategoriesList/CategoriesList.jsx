@@ -3,31 +3,33 @@ import {
   CategoriesSection,
   Description,
   CategoriesGrid,
-  CategoryCard,
-  CategoryImage,
-  CategoryOverlay,
-  CategoryInfo,
-  IconArrow,
   AllCategoriesCard,
   AllCategoriesContent,
 } from "./CategoriesList.styled.js";
-import { ArrowUpIcon } from "~/common/components/icons";
-import img from "/Beef.png";
 import { getAllCategories } from "~/api/categories";
 import { PageTitle } from "~/common/components/ui/PageTitle";
+import {
+  CategoryCard,
+  CategoryCardSkeleton,
+} from "~/common/components/custom/CategoryCard";
+
 export const CategoriesList = ({ setCategory }) => {
   const [categories, setCategories] = useState([]);
   const [expanded, setExpanded] = useState(false);
   const [error, setError] = useState();
+  const [isLoading, setIsLoading] = useState(true);
   const initialCategoriesCount = 11;
 
   useEffect(() => {
     const fetchCategories = async () => {
+      setIsLoading(true);
       try {
         const response = await getAllCategories();
         setCategories(response.data.categories);
       } catch (error) {
         setError(error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -51,24 +53,26 @@ export const CategoriesList = ({ setCategory }) => {
     return (
       <CategoryCard
         key={category.id}
-        onClick={() => handleCategoryClick(category)}
-        className={isLarge(index) ? "large" : ""}
-      >
-        <CategoryImage src={img} alt={category.name} />
-        <CategoryOverlay>
-          <CategoryInfo>
-            <h3>{category.name}</h3>
-          </CategoryInfo>
-          <IconArrow>
-            <ArrowUpIcon />
-          </IconArrow>
-        </CategoryOverlay>
-      </CategoryCard>
+        category={category}
+        onClick={handleCategoryClick}
+        isLarge={isLarge(index)}
+      />
     );
   };
-    if (error) {
-        return <div>{error}</div>
+
+  const renderSkeletonCard = (index) => {
+    const isLarge = (index) => {
+      const rowIndex = Math.floor(index / 3);
+      return index % 3 === rowIndex % 3;
+    };
+
+    return <CategoryCardSkeleton key={index} isLarge={isLarge(index)} />;
+  };
+
+  if (error) {
+    return <div>{error}</div>;
   }
+
   return (
     <CategoriesSection>
       <PageTitle>CATEGORIES</PageTitle>
@@ -78,13 +82,18 @@ export const CategoriesList = ({ setCategory }) => {
         kitchen.
       </Description>
       <CategoriesGrid>
-        {categories.slice(0, initialCategoriesCount).map(renderCategoryCard)}
+        {isLoading
+          ? Array(initialCategoriesCount)
+              .fill()
+              .map((_, index) => renderSkeletonCard(index))
+          : categories.slice(0, initialCategoriesCount).map(renderCategoryCard)}
         <AllCategoriesCard onClick={handleToggleExpand}>
           <AllCategoriesContent>
             <h3>{expanded ? "LESS CATEGORIES" : "ALL CATEGORIES"}</h3>
           </AllCategoriesContent>
         </AllCategoriesCard>
         {expanded &&
+          !isLoading &&
           categories.slice(initialCategoriesCount).map(renderCategoryCard)}
       </CategoriesGrid>
     </CategoriesSection>

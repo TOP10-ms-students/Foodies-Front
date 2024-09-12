@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { RecipeCard } from "../RecipeCard/RecipeCard";
-import { Pagination } from "~/common/components/custom/Pagination";
+import { RecipeCardSkeleton } from "../RecipeCard/RecipeCardSkeleton";
+import { Pagination } from "~/common/components/ui/Pagination";
 import { Select } from "~/common/components/ui/Select";
 import { getRecipes } from "~/api/recipes";
 import { getAllIngredients } from "~/api/ingredients";
@@ -10,13 +11,14 @@ import {
   BackButton,
   Description,
   RecipesWrapper,
-  RecipeGrid,RecipesColumn,
+  RecipeGrid,
+  RecipesColumn,
   Filters,
 } from "./RecipeList.styled";
 import { PageTitle } from "~/common/components/ui/PageTitle";
 import { ArrowLeftIcon } from "~/common/components/icons";
 
-export const RecipesList = ({ category, goToCategories }) => {
+export const RecipesList = ({ category, goToCategories, onError }) => {
   const [recipes, setRecipes] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [areas, setAreas] = useState([]);
@@ -24,37 +26,37 @@ export const RecipesList = ({ category, goToCategories }) => {
   const [selectedArea, setSelectedArea] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalRecipes, setTotalRecipes] = useState(0);
-  const [error, setError] = useState(null);
- 
+  const [isLoading, setIsLoading] = useState(false);
+
+  const topRef = useRef(null);
+
   const RECIPES_PER_PAGE = 12;
 
   const fetchRecipes = async (page = 1) => {
-    setError(null);
+    setIsLoading(true);
     try {
-      const response = await getRecipes({
-          category: category.id,
-          ingredient: selectedIngredient,
-          area: selectedArea,
-          page: page,
-          limit: RECIPES_PER_PAGE,
-      });
+      const params = {
+        category: category.id,
+        page: page,
+        ingredient: selectedIngredient,
+        area: selectedArea,
+        limit: RECIPES_PER_PAGE,
+      };
 
-  
-      if (response.data) {
-        // setRecipes(response.data.recipes);
-        // setTotalRecipes(response.data.totalCount);
+      const response = await getRecipes(params);
 
-        setRecipes(response.data);
-        setTotalRecipes(20);
+      setRecipes(response.data.recipes);
+      setTotalRecipes(response.data.count);
+      setCurrentPage(page);
 
-        setCurrentPage(page);
-      } else {
-        throw new Error("Invalid data format received from server");
+      if (topRef.current) {
+        topRef.current.scrollIntoView({ behavior: "smooth" });
       }
     } catch (error) {
-      setError("Failed to fetch recipes. Please try again later.");
-      setRecipes([]);
-    } 
+      onError("Failed to fetch recipes. Please try again later.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -63,16 +65,15 @@ export const RecipesList = ({ category, goToCategories }) => {
         const ingredientsResponse = await getAllIngredients();
         const areasResponse = await getAllAreas();
 
-        setIngredients(ingredientsResponse.data || []);
+        setIngredients(ingredientsResponse.data.ingredients || []);
         setAreas(areasResponse.data.areas || []);
       } catch (error) {
-        setError("Failed to fetch filters. Please try again later.");
+        onError("Failed to fetch filters. Please try again later.");
       }
     };
 
-
     fetchFilters();
-  }, []);
+  }, [onError]);
 
   useEffect(() => {
     if (category) {
@@ -98,7 +99,7 @@ export const RecipesList = ({ category, goToCategories }) => {
   ];
 
   return (
-    <RecipesSection>
+    <RecipesSection ref={topRef}>
       <ArrowLeftIcon />
       <BackButton onClick={goToCategories}>Back</BackButton>
       <PageTitle>{category.name}</PageTitle>
@@ -112,32 +113,34 @@ export const RecipesList = ({ category, goToCategories }) => {
           <Select
             width={"330px"}
             options={ingredientOptions}
-            placeholder="Select an ingredient"
+            placeholder="Ingredient"
             value={selectedIngredient}
             onChange={setSelectedIngredient}
           />
           <Select
             width={"330px"}
             options={areaOptions}
-            placeholder="Select an area"
+            placeholder="Area"
             value={selectedArea}
             onChange={setSelectedArea}
           />
         </Filters>
 
-        {error && <div>{error}</div>}
-
-        {!error && (
-          <RecipesColumn>
-            <RecipeGrid>
-              {recipes.length > 0 ? (
-                recipes.map((recipe) => (
-                  <RecipeCard key={recipe.id} recipe={recipe} />
-                ))
-              ) : (
-                <p>No recipes found for this category.</p>
-              )}
-            </RecipeGrid>
+        <RecipesColumn>
+          <RecipeGrid>
+            {isLoading ? (
+              Array(RECIPES_PER_PAGE)
+                .fill()
+                .map((_, index) => <RecipeCardSkeleton key={index} />)
+            ) : recipes.length > 0 ? (
+              recipes.map((recipe) => (
+                <RecipeCard key={recipe.id} recipe={recipe} />
+              ))
+            ) : (
+              <p>No recipes found for this category.</p>
+            )}
+          </RecipeGrid>
+          {totalRecipes > RECIPES_PER_PAGE && (
             <Pagination
               current={currentPage}
               total={totalRecipes}
@@ -146,8 +149,8 @@ export const RecipesList = ({ category, goToCategories }) => {
               showSizeChanger={false}
               showQuickJumper={true}
             />
-          </RecipesColumn>
-        )}
+          )}
+        </RecipesColumn>
       </RecipesWrapper>
     </RecipesSection>
   );

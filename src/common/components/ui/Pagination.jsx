@@ -1,5 +1,11 @@
 import React from "react";
 import { Pagination as AntdPagination } from "antd";
+import styled from "styled-components";
+
+const StyledPagintaion = styled(AntdPagination)`
+  display: flex;
+  justify-content: center;
+`;
 
 export const Pagination = ({
   current,
@@ -10,7 +16,7 @@ export const Pagination = ({
   disabled = false,
 }) => {
   return (
-    <AntdPagination
+    <StyledPagintaion
       current={current}
       total={total}
       pageSize={pageSize}

@@ -1,13 +1,20 @@
 import styled from "styled-components";
 
 export const Card = styled.div`
-  width: 342px;
+  width: 343px;
   height: 366px;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
+  justify-content: space-between;
+  @media ${({ theme }) => theme.media.tablet} {
+    width: 342px;
+    height: 427px;
+  }
 
   @media ${({ theme }) => theme.media.desktop} {
     width: 290px;
-    height: 421px;
+    height: 427px;
   }
 `;
 
@@ -16,6 +23,11 @@ export const Image = styled.img`
   height: 230px;
   object-fit: cover;
   border-radius: 30px;
+  margin-bottom: 12px;
+
+  @media ${({ theme }) => theme.media.tablet} {
+    height: 275px;
+  }
 
   @media ${({ theme }) => theme.media.desktop} {
     height: 275px;
@@ -25,7 +37,7 @@ export const Image = styled.img`
 
 export const Title = styled.h3`
   margin: 0;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
   display: -webkit-box;
   -webkit-line-clamp: 1;
@@ -33,8 +45,9 @@ export const Title = styled.h3`
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.5;
+  text-transform: uppercase;
 
-  @media ${({ theme }) => theme.media.desktop} {
+  @media ${({ theme }) => theme.media.table} {
     font-size: 20px;
   }
 `;
@@ -42,22 +55,23 @@ export const Title = styled.h3`
 export const Description = styled.p`
   margin: 8px 0;
   font-size: 14px;
-  color: #666;
+  color: ${({ theme }) => theme.colors.black};
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.5;
- 
 `;
 
 export const Footer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 8px;
- 
+  margin-top: 16px;
+  @media ${({ theme }) => theme.media.tablet} {
+    margin-top: 0px;
+  }
 `;
 
 export const Author = styled.div`
@@ -66,15 +80,26 @@ export const Author = styled.div`
 `;
 
 export const AuthorImage = styled.img`
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   margin-right: 8px;
+
+  @media ${({ theme }) => theme.media.tablet} {
+    width: 40px;
+    height: 40px;
+  }
+
+  @media ${({ theme }) => theme.media.desktop} {
+    width: 24px;
+    height: 24px;
+  }
 `;
 
 export const Actions = styled.div`
   display: flex;
 `;
+
 export const RecipesColumn = styled.div`
   display: flex;
   flex-direction: column;
@@ -94,6 +119,7 @@ export const FavoriteButton = styled.button`
   font-size: 20px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   background-color: transparent;
+  margin-right: 8px;
 `;
 
 export const ShareButton = styled.button`
