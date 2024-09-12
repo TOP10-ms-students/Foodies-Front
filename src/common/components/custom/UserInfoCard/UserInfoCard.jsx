@@ -15,7 +15,7 @@ import {
 export const UserInfoCard = ({
   userInfo,
   onClick,
-  isCurrentUser = true,
+  isCurrentUser,
   ...props
 }) => (
   <CardBox>
