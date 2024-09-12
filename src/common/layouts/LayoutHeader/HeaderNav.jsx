@@ -1,32 +1,17 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
 
-import { HeaderMenuWrapper } from "./LayoutHeader.styled";
-import { ROUTE_PATHS } from "../../../routing/constants";
+import { HEADER_LINKS } from "./constants";
 
-const HeaderNav = () => {
-  return (
-    <HeaderMenuWrapper>
-      <ul>
-        <li>
-          <NavLink
-            to={ROUTE_PATHS.HOME}
-            className={({ isActive }) => (isActive ? "active" : "")}
-          >
-            HOME
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to={ROUTE_PATHS.ADD_RECIPE}
-            className={({ isActive }) => (isActive ? "active" : "")}
-          >
-            ADD RECIPE
-          </NavLink>
-        </li>
-      </ul>
-    </HeaderMenuWrapper>
-  );
-};
+import { HeaderMenuWrapper, HeaderMenuLink } from "./LayoutHeader.styled";
+
+const HeaderNav = () => (
+  <HeaderMenuWrapper>
+    {HEADER_LINKS.map(({ name, path }) => (
+      <HeaderMenuLink key={name} to={path}>
+        {name}
+      </HeaderMenuLink>
+    ))}
+  </HeaderMenuWrapper>
+);
 
 export default HeaderNav;

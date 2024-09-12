@@ -5,18 +5,15 @@ import styled from "styled-components";
 import { DownIcon } from "../icons";
 import { Avatar } from "./Avatar";
 
-const StyledDropdown = styled(AntdDropdown)``;
-
 const StyledDropdownBox = styled.div`
   height: 32px;
   border-radius: 16px;
 
-  background-color: ${({ theme }) => theme.colors.black};
+  background-color: ${({ theme }) => theme.colors.darkgray};
   color: ${({ theme }) => theme.colors.white};
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
   padding-right: 14px;
 
   @media ${({ theme }) => theme.media.desktop} {
@@ -31,6 +28,12 @@ const UserName = styled.span`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  padding: 0 4px 0 6px;
+
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 18px;
+  letter-spacing: -0.02em;
 `;
 
 const StyledAvatar = styled(Avatar)`
@@ -43,12 +46,17 @@ const StyledAvatar = styled(Avatar)`
   }
 `;
 
+const StyledDownIcon = styled(DownIcon)`
+  width: 12px;
+  height: 12px;
+`;
+
 export const UserDropdown = ({ avatarSrc, userName, ...props }) => (
-  <StyledDropdown {...props}>
+  <AntdDropdown {...props}>
     <StyledDropdownBox>
       <StyledAvatar src={avatarSrc} />
       <UserName>{userName}</UserName>
-      <DownIcon />
+      <StyledDownIcon />
     </StyledDropdownBox>
-  </StyledDropdown>
+  </AntdDropdown>
 );
