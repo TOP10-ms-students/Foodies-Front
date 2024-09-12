@@ -48,6 +48,48 @@ export const RecipeText = styled.div`
   }
 `;
 
+export const UserBox = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  /* width: 138px; */
+  height: 38px;
+
+  & > span {
+    @media ${({ theme }) => theme.media.tablet} {
+      width: 50px;
+      height: 50px;
+
+      svg {
+        width: 26px;
+        height: 26px;
+      }
+    }
+  }
+`;
+
+export const UserInfo = styled.div`
+  margin-left: 16px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 150%;
+  letter-spacing: -0.02em;
+  color: ${({ theme }) => theme?.colors?.gray};
+
+  @media ${({ theme }) => theme.media.tablet} {
+    font-size: 14px;
+  }
+`;
+
+export const UserName = styled.div`
+  font-weight: 700;
+  font-size: 14px;
+
+  @media ${({ theme }) => theme.media.tablet} {
+    font-size: 16px;
+  }
+`;
+
 export const RecipeMainInfo = styled.div``;
 
 export const LabelsBox = styled.div`

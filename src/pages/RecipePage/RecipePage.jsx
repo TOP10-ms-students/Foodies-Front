@@ -4,6 +4,7 @@ import { getPopularRecipes, getRecipe } from "../../api/recipes.js";
 import { notification } from "antd";
 
 import { ROUTE_PATHS } from "~/routing/constants";
+import { Avatar } from "~/common/components/";
 
 import { Breadcrumb, Button, IngredientCard } from "~/common/components";
 
@@ -26,6 +27,9 @@ import {
   RecipeImg,
   LabelsBox,
   RecipeLabel,
+  UserBox,
+  UserInfo,
+  UserName,
 } from "./RecipePage.styled.js";
 
 export const RecipePage = () => {
@@ -35,8 +39,6 @@ export const RecipePage = () => {
 
   const [recipe, setRecipe] = useState();
   const [isLoading, setIsLoading] = useState();
-
-  console.log(id, recipe);
 
   const BREADCRUMB_ITEMS = [
     { title: <Link to={ROUTE_PATHS.HOME}>Home</Link> },
@@ -95,6 +97,14 @@ export const RecipePage = () => {
               </LabelsBox>
 
               <RecipeText>{recipe.description}</RecipeText>
+
+              <UserBox>
+                <Avatar src={recipe.owner.avatar} />
+                <UserInfo>
+                  Created by:
+                  <UserName>{recipe.owner.name}</UserName>
+                </UserInfo>
+              </UserBox>
             </RecipeMainInfo>
 
             <RecipeIngredients>
