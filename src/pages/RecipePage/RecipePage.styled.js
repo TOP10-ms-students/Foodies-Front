@@ -4,6 +4,23 @@ export const PathInfo = styled.div``;
 
 export const RecipeInfo = styled.div``;
 
+export const RecipeImg = styled.img`
+  margin-top: 32px;
+  display: block;
+  width: 100%;
+  height: 318px;
+  border-radius: 30px;
+
+  @media ${({ theme }) => theme.media.tablet} {
+    width: 704px;
+    height: 400px;
+  }
+  @media ${({ theme }) => theme.media.desktop} {
+    width: 551px;
+    height: 400px;
+  }
+`;
+
 export const Title = styled.h2`
   margin: 0;
   margin-top: 32px;
@@ -12,6 +29,10 @@ export const Title = styled.h2`
   line-height: 133%;
   letter-spacing: -0.02em;
   text-transform: uppercase;
+
+  @media ${({ theme }) => theme.media.tablet} {
+    font-size: 24px;
+  }
 `;
 
 export const RecipeText = styled.div`
@@ -21,18 +42,13 @@ export const RecipeText = styled.div`
   line-height: 143%;
   letter-spacing: -0.02em;
   color: ${({ theme }) => theme?.colors?.gray};
+
+  @media ${({ theme }) => theme.media.tablet} {
+    font-size: 16px;
+  }
 `;
 
-export const RecipeMainInfo = styled.div`
-  margin-top: 32px;
-`;
-
-export const RecipeImg = styled.img`
-  display: block;
-  width: 100%;
-  height: 318px;
-  border-radius: 30px;
-`;
+export const RecipeMainInfo = styled.div``;
 
 export const LabelsBox = styled.div`
   display: flex;
@@ -77,6 +93,12 @@ export const RecipePreparation = styled.div`
     letter-spacing: -0.02em;
     text-transform: uppercase;
     color: ${({ theme }) => theme?.colors?.gray};
+
+    @media ${({ theme }) => theme.media.tablet} {
+      width: 215px;
+      height: 56px;
+      font-size: 16px;
+    }
   }
 `;
 

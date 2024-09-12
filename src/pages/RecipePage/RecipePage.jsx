@@ -8,6 +8,7 @@ import { ROUTE_PATHS } from "~/routing/constants";
 import { Breadcrumb, Button, IngredientCard } from "~/common/components";
 
 import {
+  FormBox,
   IngredientsList,
   Label,
   PageBox,
@@ -81,44 +82,46 @@ export const RecipePage = () => {
       </PathInfo>
 
       {recipe ? (
-        <RecipeInfo>
-          <RecipeMainInfo>
-            <RecipeImg src={recipe.thumb} alt={recipe.title} />
+        <FormBox>
+          <RecipeImg src={recipe.thumb} alt={recipe.title} />
 
-            <Title>{recipe.title}</Title>
+          <RecipeInfo>
+            <RecipeMainInfo>
+              <Title>{recipe.title}</Title>
 
-            <LabelsBox>
-              <RecipeLabel>{recipe.category.name}</RecipeLabel>
-              <RecipeLabel>{recipe.time} min</RecipeLabel>
-            </LabelsBox>
+              <LabelsBox>
+                <RecipeLabel>{recipe.category.name}</RecipeLabel>
+                <RecipeLabel>{recipe.time} min</RecipeLabel>
+              </LabelsBox>
 
-            <RecipeText>{recipe.description}</RecipeText>
-          </RecipeMainInfo>
+              <RecipeText>{recipe.description}</RecipeText>
+            </RecipeMainInfo>
 
-          <RecipeIngredients>
-            <Label>Ingredients</Label>
+            <RecipeIngredients>
+              <Label>Ingredients</Label>
 
-            <IngredientsList>
-              {recipe.ingredients.map((ingredient, index) => (
-                <IngredientCard
-                  key={index}
-                  imageSrc={ingredient.img}
-                  title={ingredient.name}
-                  weight={ingredient.measure}
-                  isClose={false}
-                />
-              ))}
-            </IngredientsList>
-          </RecipeIngredients>
+              <IngredientsList>
+                {recipe.ingredients.map((ingredient, index) => (
+                  <IngredientCard
+                    key={index}
+                    imageSrc={ingredient.img}
+                    title={ingredient.name}
+                    weight={ingredient.measure}
+                    isClose={false}
+                  />
+                ))}
+              </IngredientsList>
+            </RecipeIngredients>
 
-          <RecipePreparation>
-            <Label>RecipePreparation</Label>
+            <RecipePreparation>
+              <Label>RecipePreparation</Label>
 
-            <RecipeText>{recipe.instructions}</RecipeText>
+              <RecipeText>{recipe.instructions}</RecipeText>
 
-            <Button disabled={false}>Add to favorites</Button>
-          </RecipePreparation>
-        </RecipeInfo>
+              <Button disabled={false}>Add to favorites</Button>
+            </RecipePreparation>
+          </RecipeInfo>
+        </FormBox>
       ) : (
         <Title>Loading...</Title>
       )}
