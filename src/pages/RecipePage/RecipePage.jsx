@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { getPopularRecipes, getRecipe } from "../../api/recipes";
+import { getPopularRecipes, getRecipe } from "../../api/recipes.js";
 import { notification } from "antd";
 
 import { ROUTE_PATHS } from "~/routing/constants";
@@ -25,7 +25,7 @@ import {
   RecipeImg,
   LabelsBox,
   RecipeLabel,
-} from "./RecipePage.styled";
+} from "./RecipePage.styled.js";
 
 export const RecipePage = () => {
   const { id } = useParams();
