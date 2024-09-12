@@ -2,7 +2,7 @@ import React from "react";
 import { styled } from "styled-components";
 
 export const HeroSection = styled.section`
-  width: 359px;
+  width: 100%;
   height: 796px;
   flex-shrink: 0;
   border-radius: 20px;
@@ -10,13 +10,11 @@ export const HeroSection = styled.section`
   background-color: ${({ theme }) => theme.colors.black};
 
   @media ${({ theme }) => theme.media.tablet} {
-    width: 736px;
     height: 992px;
     border-radius: 30px;
   }
 
   @media ${({ theme }) => theme.media.desktop} {
-    width: 1400px;
     height: 970px;
     border-radius: 30px;
   }
@@ -101,11 +99,9 @@ const StyledHeroImage = styled.div`
   }
 `;
 
-export const HeroImage = ({ size, imageUrl }) => {
-  return (
-    <StyledHeroImage
-      size={size}
-      style={{ backgroundImage: `url(${imageUrl})` }}
-    />
-  );
-};
+export const HeroImage = ({ size, imageUrl }) => (
+  <StyledHeroImage
+    size={size}
+    style={{ backgroundImage: `url(${imageUrl})` }}
+  />
+);
