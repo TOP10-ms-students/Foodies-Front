@@ -29,6 +29,7 @@ export const RecipeGrid = styled.div`
   row-gap: 40px;
   column-gap: 20px;
   flex-wrap: wrap;
+  justify-content: center;
 `;
 
 export const RecipesColumn = styled.div`
@@ -46,6 +47,7 @@ export const Filters = styled.div`
   flex-direction: row;
   gap: 20px;
   margin-bottom: 20px;
+  justify-content: center;
 
   @media ${({ theme }) => theme.media.desktop} {
     flex-direction: column;
