@@ -8,6 +8,14 @@ export const GlobalStyle = createGlobalStyle`
     font-family: Mulish, sans-serif;
   }
 
+  html { 
+    box-sizing: border-box; 
+  } 
+
+  *, *:before, *:after {
+    box-sizing: inherit; 
+  }
+
   /* 
   * Overwrite antd styles
   */
