@@ -92,7 +92,7 @@ export const AddRecipePage = () => {
           setCategories(categoriesRes.value?.data?.categories ?? []);
 
         ingredientsRes.status === "fulfilled" &&
-          setIngredients(ingredientsRes.value.data);
+          setIngredients(ingredientsRes.value.data?.ROUTE_PATHS ?? []);
       } catch ({ response: { data } }) {
         const message = data?.message ?? "Something went wrong";
         notificationApi.error({ message });

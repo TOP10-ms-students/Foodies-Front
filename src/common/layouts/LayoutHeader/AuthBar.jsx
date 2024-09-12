@@ -1,34 +1,31 @@
-import React from "react";
-import { UserAuthButtons } from "./LayoutHeader.styled";
-import { Button } from "antd";
+import React, { useState } from "react";
 
-const AuthBar = ({
-  isLoginActive = false,
-  handleOpenLogin,
-  handleOpenSignUp,
-  setIsLoginActive,
-}) => {
+import { Segmented } from "~/common/components";
+
+const items = [
+  { value: "login", label: "Login" },
+  { value: "signup", label: "Sign Up" },
+];
+
+const AuthBar = ({ handleOpenLogin, handleOpenSignUp }) => {
+  const [isLoginActive, setIsLoginActive] = useState(false);
+
+  const onChange = (value) => {
+    if (value === "login") {
+      handleOpenLogin();
+      setIsLoginActive(true);
+    } else {
+      handleOpenSignUp();
+      setIsLoginActive(false);
+    }
+  };
+
   return (
-    <UserAuthButtons>
-      <Button
-        type={isLoginActive ? "primary" : "button"}
-        onClick={() => {
-          handleOpenLogin();
-          setIsLoginActive(true);
-        }}
-      >
-        SIGN IN
-      </Button>
-      <Button
-        type={!isLoginActive ? "primary" : "button"}
-        onClick={() => {
-          handleOpenSignUp();
-          setIsLoginActive(false);
-        }}
-      >
-        SIGN UP
-      </Button>
-    </UserAuthButtons>
+    <Segmented
+      options={items}
+      value={isLoginActive ? "login" : "signup"}
+      onChange={onChange}
+    />
   );
 };
 
