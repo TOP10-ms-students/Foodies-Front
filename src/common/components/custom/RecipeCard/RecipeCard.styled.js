@@ -53,7 +53,7 @@ export const Title = styled.h3`
 `;
 
 export const Description = styled.p`
-  margin: 8px 0;
+  margin: 0;
   font-size: 14px;
   color: ${({ theme }) => theme.colors.black};
   display: -webkit-box;
@@ -62,6 +62,9 @@ export const Description = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.5;
+  @media ${({ theme }) => theme.media.tablet} {
+    margin: 8px 0;
+  }
 `;
 
 export const Footer = styled.div`
