@@ -24,7 +24,7 @@ export const RecipeText = styled.div`
 `;
 
 export const RecipeMainInfo = styled.div`
-  margin-top: 40px;
+  margin-top: 32px;
 `;
 
 export const RecipeImg = styled.img`

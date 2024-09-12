@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { getRecipe, getRecipes } from "../../api/recipes";
+import { getPopularRecipes, getRecipe } from "../../api/recipes";
 import { notification } from "antd";
 
 import { ROUTE_PATHS } from "~/routing/constants";
+
+import { Breadcrumb, Button, IngredientCard } from "~/common/components";
 
 import {
   IngredientsList,
   Label,
   PageBox,
 } from "../AddRecipePage/AddRecipePage.styled.jsx";
+
 import {
   PathInfo,
   RecipeInfo,
@@ -23,20 +26,6 @@ import {
   LabelsBox,
   RecipeLabel,
 } from "./RecipePage.styled";
-
-import {
-  Breadcrumb,
-  PageTitle,
-  PageSubtitle,
-  UploadPhoto,
-  Select,
-  StepsRangeInput,
-  BorderlessInput,
-  BorderlessTextarea,
-  Button,
-  IngredientCard,
-  DeleteIcon,
-} from "~/common/components";
 
 export const RecipePage = () => {
   const { id } = useParams();
@@ -66,8 +55,23 @@ export const RecipePage = () => {
       .finally(() => setIsLoading(false));
   };
 
+  const getPopular = async () => {
+    getPopularRecipes()
+      .then(({ data }) => {
+        console.log(data);
+        notificationApi.success({
+          message: "Popular recipe get successfully!",
+        });
+      })
+      .catch(({ response: { data } }) => {
+        const message = data?.message ?? "Something went wrong";
+        notificationApi.error({ message });
+      });
+  };
+
   useEffect(() => {
-    id && getAllRecipe();
+    getAllRecipe();
+    getPopular();
   }, []);
 
   return (
@@ -119,7 +123,7 @@ export const RecipePage = () => {
         <Title>Loading...</Title>
       )}
       <PopularRecipes>
-        <Title>PopularRecipes</Title>
+        <Title>Popular Recipes</Title>
       </PopularRecipes>
 
       {notificationContext}
