@@ -80,7 +80,7 @@ export const RecipeDescription = styled.p`
   font-size: 14px;
   line-height: 20px;
   letter-spacing: -0.02em;
-  // color: ${({ theme }) => theme.colors.gray};
+  color: ${({ theme }) => theme.colors.gray};
   width: 166px;
   margin: 0;
   display: -webkit-box;
@@ -93,10 +93,12 @@ export const RecipeDescription = styled.p`
     font-size: 16px;
     line-height: 24px;
     width: 468px;
+    color: ${({ theme }) => theme.colors.black};
   }
 
   @media ${({ theme }) => theme.media.desktop} {
     width: 610px;
+    color: ${({ theme }) => theme.colors.black};
   }
 `;
 
@@ -106,9 +108,6 @@ export const BoxInfoIcons = styled.div`
 `;
 
 export const WrapperIcon = styled.div`
-  // box-sizing: border-box
-  // margin: 0;
-  // padding: 0px;
   width: 34px;
   height: 34px;
   display: flex;
