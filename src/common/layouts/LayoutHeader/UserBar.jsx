@@ -1,85 +1,70 @@
-import React from "react";
+import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
+
+import { UserDropdown } from "~/common/components";
+import { ArrowUpIcon } from "~/common/components/icons/icons";
+import { MenuIconSvg } from "~/common/components/icons/MenuIconSvg";
+
+import { HEADER_LINKS } from "./constants";
+import { ROUTE_PATHS } from "~/routing/constants";
+
 import {
   ProfileWrapper,
   StyledDrawer,
-  UserName,
-  UserPopUp,
+  StyledDrawerContent,
+  StyledDrawerLink,
+  MobileMenuButtonBox,
 } from "./LayoutHeader.styled";
-import { Avatar } from "../../components/ui/Avatar";
-import { MenuIconSvg } from "../../components/icons/MenuIconSvg";
-import { Drawer } from "antd";
-import { ArrowUpIcon, DownIcon, UpIcon } from "../../components/icons/icons";
-import { NavLink } from "react-router-dom";
-import { ROUTE_PATHS } from "../../../routing/constants";
 
-const UserBar = ({
-  name = "User",
-  isDrawer = false,
-  isUserPopUp,
-  switchDrawer,
-  switchUserPopUp,
-  handleOpenLogout,
-}) => {
+const UserBar = ({ name = "User", handleOpenLogout }) => {
+  const [isOpenMobileMenu, setIsOpenMobileMenu] = useState(false);
+
+  const openMobileMenu = () => setIsOpenMobileMenu(true);
+  const closeMobileMenu = () => setIsOpenMobileMenu(false);
+
+  const items = [
+    {
+      key: "1",
+      label: <NavLink to={ROUTE_PATHS.MY_PROFILE}>Profile</NavLink>,
+    },
+    {
+      key: "2",
+      label: (
+        <div onClick={handleOpenLogout}>
+          <span>Log out</span>
+          <ArrowUpIcon />
+        </div>
+      ),
+    },
+  ];
+
   return (
-    <ProfileWrapper>
-      <div onClick={switchUserPopUp}>
-        <Avatar />
+    <>
+      <ProfileWrapper>
+        <UserDropdown menu={{ items }} avatarSrc={null} userName={name} />
 
-        <UserName>
-          <span>{name}</span>
-          {isUserPopUp ? <DownIcon /> : <UpIcon />}
-        </UserName>
-      </div>
+        <MobileMenuButtonBox onClick={openMobileMenu}>
+          <MenuIconSvg />
+        </MobileMenuButtonBox>
+      </ProfileWrapper>
 
-      <span onClick={switchDrawer}>
-        <MenuIconSvg />
-      </span>
-
-      <Drawer
-        title="Foodies"
-        placement="right"
-        onClose={switchDrawer}
-        open={isDrawer}
+      <StyledDrawer
+        title="foodies"
+        placement="top"
+        height="100%"
+        onClose={closeMobileMenu}
+        open={isOpenMobileMenu}
+        // eslint-disable-next-line prettier/prettier
       >
-        <StyledDrawer>
-          <li>
-            <NavLink
-              to={ROUTE_PATHS.HOME}
-              className={({ isActive }) => (isActive ? "active" : "")}
-            >
-              HOME
-            </NavLink>
-          </li>
-
-          <li>
-            <NavLink
-              to={ROUTE_PATHS.ADD_RECIPE}
-              className={({ isActive }) => (isActive ? "active" : "")}
-            >
-              ADD RECIPE
-            </NavLink>
-          </li>
-        </StyledDrawer>
-      </Drawer>
-
-      {isUserPopUp && (
-        <UserPopUp>
-          <li>
-            <NavLink
-              to={ROUTE_PATHS.MY_PROFILE}
-              className={({ isActive }) => (isActive ? "active" : "")}
-            >
-              Profile
-            </NavLink>
-          </li>
-
-          <li onClick={handleOpenLogout}>
-            <span>Log out</span>
-            <ArrowUpIcon />
-          </li>
-        </UserPopUp>
-      )}
-    </ProfileWrapper>
+        <StyledDrawerContent>
+          {HEADER_LINKS.map(({ name, path }) => (
+            <StyledDrawerLink key={name} to={path} onClick={closeMobileMenu}>
+              {name}
+            </StyledDrawerLink>
+          ))}
+        </StyledDrawerContent>
+      </StyledDrawer>
+    </>
   );
 };
 

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { CategoriesList } from "~/common/components/custom/CategoriesList";
+import { Hero } from "~/common/components/custom/Hero";
 import { RecipesList } from "~/common/components/custom/RecipesList";
 import { useCategoriesQueries } from "~/common/hooks/useCategoriesQueries";
 import { Button } from "~/common/components/ui/Button";
