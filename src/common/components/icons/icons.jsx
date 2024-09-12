@@ -25,6 +25,9 @@ export const ArrowLeftIcon = styled(ArrowUpOutlined)`
   transform: rotate(-90deg);
 `;
 export const DownIcon = DownOutlined;
+export const UpIcon = styled(DownOutlined)`
+  transform: rotate(180deg);
+`;
 export const CameraIcon = () => <Icon component={CameraIconSvg} />;
 export const DeleteIcon = DeleteOutlined;
 
