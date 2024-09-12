@@ -9,7 +9,7 @@ import {
   CloseButton,
 } from "./IngredientCard.styled";
 
-export const IngredientCard = ({ imageSrc, title, weight }) => (
+export const IngredientCard = ({ imageSrc, title, weight, isClose = true }) => (
   <IngredientCardBox>
     <IngredientImageCard>
       <IngredientImage src={imageSrc} alt="ingredient" />
@@ -20,6 +20,6 @@ export const IngredientCard = ({ imageSrc, title, weight }) => (
       <IngredientWeight>{weight}</IngredientWeight>
     </div>
 
-    <CloseButton />
+    {isClose && <CloseButton />}
   </IngredientCardBox>
 );

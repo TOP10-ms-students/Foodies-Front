@@ -6,12 +6,22 @@ import { notification } from "antd";
 import { ROUTE_PATHS } from "~/routing/constants";
 
 import {
+  IngredientsList,
+  Label,
+  PageBox,
+} from "../AddRecipePage/AddRecipePage.styled.jsx";
+import {
   PathInfo,
   RecipeInfo,
   RecipeMainInfo,
   RecipeIngredients,
   RecipePreparation,
   PopularRecipes,
+  RecipeText,
+  Title,
+  RecipeImg,
+  LabelsBox,
+  RecipeLabel,
 } from "./RecipePage.styled";
 
 import {
@@ -27,7 +37,6 @@ import {
   IngredientCard,
   DeleteIcon,
 } from "~/common/components";
-import { Label, PageBox } from "../AddRecipePage/AddRecipePage.styled.jsx";
 
 export const RecipePage = () => {
   const { id } = useParams();
@@ -67,36 +76,52 @@ export const RecipePage = () => {
         <Breadcrumb items={BREADCRUMB_ITEMS} />
       </PathInfo>
 
-      {recipe && (
+      {recipe ? (
         <RecipeInfo>
           <RecipeMainInfo>
-            <img src={recipe.thumb} alt={recipe.title} />
-            <h2>{recipe.title}</h2>
-            <p>{recipe.description}</p>
+            <RecipeImg src={recipe.thumb} alt={recipe.title} />
+
+            <Title>{recipe.title}</Title>
+
+            <LabelsBox>
+              <RecipeLabel>{recipe.category.name}</RecipeLabel>
+              <RecipeLabel>{recipe.time} min</RecipeLabel>
+            </LabelsBox>
+
+            <RecipeText>{recipe.description}</RecipeText>
           </RecipeMainInfo>
+
           <RecipeIngredients>
             <Label>Ingredients</Label>
-            <ul>
-              {recipe.ingredients.map(({ img, name, measure }) => (
-                <li>
-                  <img src={img} alt={name} />
-                  <div>
-                    <p>{name}</p>
-                    <span>{measure}</span>
-                  </div>
-                </li>
+
+            <IngredientsList>
+              {recipe.ingredients.map((ingredient, index) => (
+                <IngredientCard
+                  key={index}
+                  imageSrc={ingredient.img}
+                  title={ingredient.name}
+                  weight={ingredient.measure}
+                  isClose={false}
+                />
               ))}
-            </ul>
+            </IngredientsList>
           </RecipeIngredients>
+
           <RecipePreparation>
             <Label>RecipePreparation</Label>
-            <p>{recipe.instructions}</p>
+
+            <RecipeText>{recipe.instructions}</RecipeText>
+
+            <Button disabled={false}>Add to favorites</Button>
           </RecipePreparation>
         </RecipeInfo>
+      ) : (
+        <Title>Loading...</Title>
       )}
       <PopularRecipes>
-        <h2>PopularRecipes</h2>
+        <Title>PopularRecipes</Title>
       </PopularRecipes>
+
       {notificationContext}
     </PageBox>
   );

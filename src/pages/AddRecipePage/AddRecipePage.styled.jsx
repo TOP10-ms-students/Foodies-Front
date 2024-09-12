@@ -4,7 +4,7 @@ import { styled } from "styled-components";
 import { Input } from "~/common/components";
 
 export const PageBox = styled.div`
-  padding: 126px 0 64px;
+  padding: 64px 0;
 `;
 
 export const FormBox = styled.div`
