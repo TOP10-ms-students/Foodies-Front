@@ -7,16 +7,32 @@ const StyledSegmented = styled(AntdSegmented)`
   background-color: ${({ theme }) => theme.colors.white};
 
   .ant-segmented-item {
-    padding: 16px 32px !important;
-    text-transform: uppercase;
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 24px;
     letter-spacing: -0.02em;
     border-radius: 30px;
     box-shadow: none;
     color: ${({ theme }) => theme.colors.black};
     border: 1px solid transparent;
+    text-transform: uppercase;
+
+    padding: 9px 16px !important;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 18px;
+
+    @media ${({ theme }) => theme.media.tablet} {
+    }
+
+    @media ${({ theme }) => theme.media.desktop} {
+      padding: 13px 28px !important;
+      text-transform: uppercase;
+      line-height: 24px;
+    }
+  }
+
+  .ant-segmented-item-label {
+    padding: 0;
+    min-height: unset;
+    line-height: inherit;
   }
 
   .ant-segmented-item-selected,
