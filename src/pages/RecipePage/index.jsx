@@ -1,132 +1,103 @@
-import React from "react";
-import { useParams } from "react-router-dom";
-import styled from "styled-components";
+import React, { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import { getRecipe, getRecipes } from "../../api/recipes";
+import { notification } from "antd";
 
-const PathInfo = styled.div``;
+import { ROUTE_PATHS } from "~/routing/constants";
 
-const RecipeInfo = styled.div``;
+import {
+  PathInfo,
+  RecipeInfo,
+  RecipeMainInfo,
+  RecipeIngredients,
+  RecipePreparation,
+  PopularRecipes,
+} from "./RecipePage.styled";
 
-const RecipeMainInfo = styled.div``;
-
-const RecipeIngredients = styled.div`
-  ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    margin-bottom: 32px;
-
-    li {
-      min-width: 152px;
-      height: 75px;
-
-      a {
-        width: 100%;
-        color: ${({ theme }) => theme?.colors?.black};
-        font-weight: 500;
-        padding: 8px;
-        border-radius: 30px;
-        text-decoration: none;
-        &:hover {
-          background-color: ${({ theme }) => theme?.colors?.gray};
-        }
-      }
-      div {
-        display: flex;
-        align-items: center;
-
-        flex-direction: row;
-        img {
-          width: 75px;
-          height: 75px;
-          margin-right: 10px;
-        }
-
-        div {
-          align-items: start;
-          flex-direction: column;
-          p {
-            text-align: start;
-            font-size: 14px;
-            font-weight: 600;
-          }
-          span {
-            font-size: 14px;
-            color: ${({ theme }) => theme?.colors?.gray};
-          }
-        }
-      }
-    }
-  }
-`;
-
-const RecipePreparation = styled.div``;
-
-const PopularRecipes = styled.div``;
+import {
+  Breadcrumb,
+  PageTitle,
+  PageSubtitle,
+  UploadPhoto,
+  Select,
+  StepsRangeInput,
+  BorderlessInput,
+  BorderlessTextarea,
+  Button,
+  IngredientCard,
+  DeleteIcon,
+} from "~/common/components";
+import { Label, PageBox } from "../AddRecipePage/AddRecipePage.styled.jsx";
 
 export const RecipePage = () => {
-  const params = useParams();
+  const { id } = useParams();
+
+  const [notificationApi, notificationContext] = notification.useNotification();
+
+  const [recipe, setRecipe] = useState();
+  const [isLoading, setIsLoading] = useState();
+
+  console.log(id, recipe);
+
+  const BREADCRUMB_ITEMS = [
+    { title: <Link to={ROUTE_PATHS.HOME}>Home</Link> },
+    { title: recipe?.title ?? "Recipe" },
+  ];
+
+  const getAllRecipe = async () => {
+    getRecipe(id)
+      .then(({ data }) => {
+        setRecipe(data.recipe);
+        notificationApi.success({ message: "Recipe get successfully!" });
+      })
+      .catch(({ response: { data } }) => {
+        const message = data?.message ?? "Something went wrong";
+        notificationApi.error({ message });
+      })
+      .finally(() => setIsLoading(false));
+  };
+
+  useEffect(() => {
+    id && getAllRecipe();
+  }, []);
 
   return (
-    <div>
-      RecipePage. id: {params.id}
-      <PathInfo>PathInfo</PathInfo>
-      <RecipeInfo>
-        <RecipeMainInfo>RecipeMainInfo</RecipeMainInfo>
-        <RecipeIngredients>
-          <h2> Ingredients</h2>
-          <ul>
-            <li>
-              <a href="">
-                <div>
-                  <img src="" alt="" />
+    <PageBox>
+      <PathInfo>
+        <Breadcrumb items={BREADCRUMB_ITEMS} />
+      </PathInfo>
+
+      {recipe && (
+        <RecipeInfo>
+          <RecipeMainInfo>
+            <img src={recipe.thumb} alt={recipe.title} />
+            <h2>{recipe.title}</h2>
+            <p>{recipe.description}</p>
+          </RecipeMainInfo>
+          <RecipeIngredients>
+            <Label>Ingredients</Label>
+            <ul>
+              {recipe.ingredients.map(({ img, name, measure }) => (
+                <li>
+                  <img src={img} alt={name} />
                   <div>
-                    <p>name</p>
-                    <span>quantity</span>
+                    <p>{name}</p>
+                    <span>{measure}</span>
                   </div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="">
-                <div>
-                  <img src="" alt="" />
-                  <div>
-                    <p>name</p>
-                    <span>quantity</span>
-                  </div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="">
-                <div>
-                  <img src="" alt="" />
-                  <div>
-                    <p>name</p>
-                    <span>quantity</span>
-                  </div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="">
-                <div>
-                  <img src="" alt="" />
-                  <div>
-                    <p>name</p>
-                    <span>quantity</span>
-                  </div>
-                </div>
-              </a>
-            </li>
-          </ul>
-        </RecipeIngredients>
-        <RecipePreparation>RecipePreparation</RecipePreparation>
-      </RecipeInfo>
-      <PopularRecipes>PopularRecipes</PopularRecipes>
-    </div>
+                </li>
+              ))}
+            </ul>
+          </RecipeIngredients>
+          <RecipePreparation>
+            <Label>RecipePreparation</Label>
+            <p>{recipe.instructions}</p>
+          </RecipePreparation>
+        </RecipeInfo>
+      )}
+      <PopularRecipes>
+        <h2>PopularRecipes</h2>
+      </PopularRecipes>
+      {notificationContext}
+    </PageBox>
   );
 };
