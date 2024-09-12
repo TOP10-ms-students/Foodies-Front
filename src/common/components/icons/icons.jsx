@@ -13,6 +13,7 @@ import { styled } from "styled-components";
 
 import { CameraIconSvg } from "./CameraIconSvg";
 import { FacebookIconSvg } from "./FacebookIconSvg";
+import { QuotesIconSvg } from "./QuotesIconSvg";
 
 // COMMON ICONS
 export const EyeIcon = EyeOutlined;
@@ -27,7 +28,7 @@ export const UpIcon = styled(DownOutlined)`
 `;
 export const CameraIcon = () => <Icon component={CameraIconSvg} />;
 export const DeleteIcon = DeleteOutlined;
-
+export const QuotesIcon = () => <Icon component={QuotesIconSvg} />;
 // SOCIAL ICONS
 export const FacebookIcon = () => <Icon component={FacebookIconSvg} />;
 export const InstagramIcon = InstagramFilled;

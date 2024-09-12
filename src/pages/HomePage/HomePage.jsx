@@ -13,6 +13,7 @@ import {
   HeroImagesBox,
   HeroImage,
 } from "./HomePage.styled";
+import { Testimonials } from "~/common/components/custom/Testimonials";
 
 export const HomePage = () => {
   const { category, setCategory, resetCategory } = useCategoriesQueries();
@@ -42,7 +43,7 @@ export const HomePage = () => {
       )}
 
       <section>
-        <div>Info block</div>
+        <Testimonials />
       </section>
     </div>
   );
