@@ -1,7 +1,6 @@
 import { Modal, notification } from "antd";
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { styled } from "styled-components";
 
 import { LogoutModalContent } from "~/common/components/custom/LogoutModalContent";
 import { LoginForm } from "~/common/components/forms/LoginForm";
@@ -15,13 +14,14 @@ import { logout } from "~/api/user";
 import { getCurrentUser } from "~/store/selectors";
 import { setUser } from "~/store/slices/auth";
 
-import { PageContainer } from "./PageContainer";
+import { StyledLayoutHeader } from "./LayoutHeader.styled";
 
-const StyledLayoutHeader = styled.header`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
+import { PageContainer } from "../PageContainer";
+import UserBar from "./UserBar";
+import HeaderNav from "./HeaderNav";
+import AuthBar from "./AuthBar";
+import { Link } from "react-router-dom";
+import { ROUTE_PATHS } from "../../../routing/constants";
 
 export const LayoutHeader = () => {
   const dispatch = useDispatch();
@@ -31,6 +31,10 @@ export const LayoutHeader = () => {
 
   const [isOpenLogout, setIsOpenLogout] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoginActive, setIsLoginActive] = useState(false);
+  const [isUserPopUp, setIsUserPopUp] = useState(false);
+  const [isDrawer, setIsDrawer] = useState(false);
+
   const {
     isOpenLogin,
     isOpenSignUp,
@@ -44,6 +48,10 @@ export const LayoutHeader = () => {
 
   const handleCloseLogout = () => !isLoading && setIsOpenLogout(false);
 
+  const switchDrawer = () => setIsDrawer(!isDrawer);
+
+  const switchUserPopUp = () => setIsUserPopUp(!isUserPopUp);
+
   const handleLogout = () => {
     setIsLoading(true);
 
@@ -52,7 +60,7 @@ export const LayoutHeader = () => {
         dispatch(setUser(null));
         authTokenService.unset();
         setIsOpenLogout();
-        notificationApi.success({ message: "Logout successfull!" });
+        notificationApi.success({ message: "Logout successful!" });
       })
       .catch(() => {
         notificationApi.error({ message: "Something went wrong" });
@@ -66,24 +74,28 @@ export const LayoutHeader = () => {
     <>
       <PageContainer>
         <StyledLayoutHeader>
-          <div>Header</div>
+          <Link to={ROUTE_PATHS.HOME}>foodies</Link>
 
           {user ? (
-            <div>
-              {user.name}
-              <button type="button" onClick={handleOpenLogout}>
-                Logout
-              </button>
-            </div>
+            <>
+              <HeaderNav />
+
+              <UserBar
+                name={user.name}
+                isDrawer={isDrawer}
+                isUserPopUp={isUserPopUp}
+                switchDrawer={switchDrawer}
+                switchUserPopUp={switchUserPopUp}
+                handleOpenLogout={handleOpenLogout}
+              />
+            </>
           ) : (
-            <div>
-              <button type="button" onClick={handleOpenSignUp}>
-                SignUp
-              </button>
-              <button type="button" onClick={handleOpenLogin}>
-                Login
-              </button>
-            </div>
+            <AuthBar
+              isLoginActive={isLoginActive}
+              handleOpenLogin={handleOpenLogin}
+              handleOpenSignUp={handleOpenSignUp}
+              setIsLoginActive={setIsLoginActive}
+            />
           )}
         </StyledLayoutHeader>
       </PageContainer>
