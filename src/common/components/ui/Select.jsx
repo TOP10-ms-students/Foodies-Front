@@ -20,6 +20,10 @@ const StyledSelect = styled(AntdSelect)`
   .ant-select-arrow {
     right: 18px;
   }
+
+  .ant-select-selection-search > input {
+    height: 54px !important;
+  }
 `;
 
 export const Select = ({ width, ...props }) => (
