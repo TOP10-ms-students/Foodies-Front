@@ -42,7 +42,7 @@ export const HomePage = () => {
       )}
 
       <section>
-        <div>Info block</div>
+        <Testimonials />
       </section>
     </div>
   );
