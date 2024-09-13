@@ -9,6 +9,7 @@ import {
   RecipePreparation,
   PopularRecipes,
 } from "~/common/components";
+import thumb from "~/common/components/img/template_recipe.jpg";
 
 import { getRecipe } from "~/api/recipes.js";
 
@@ -56,7 +57,7 @@ export const RecipePage = () => {
 
       {!isLoading && recipe ? (
         <FormBox>
-          <RecipeImg src={recipe.thumb} alt={recipe.title} />
+          <RecipeImg src={recipe.thumb || thumb} alt={recipe.title} />
 
           <RecipeInfo>
             <RecipeMainInfo

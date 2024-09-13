@@ -1,14 +1,28 @@
 import { Spin, notification } from "antd";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 
 import { FollowerInfoCard } from "~/common/components/custom/FollowerInfoCard";
-import { RecipeCard } from "~/common/components/custom/RecipeCard";
+import { SmallRecipeCard } from "~/common/components/custom/SmallRecipeCard";
 import { Tabs } from "~/common/components/ui/Tabs";
+
+import { getMyRecipes, getRecipes, getFavoriteRecipes } from "~/api/recipes";
+import { getUserFollowers, getUserFollowing } from "~/api/user";
+
+import { RecipesList } from "./TabsList.styled";
+
+const TABS = {
+  MY_RECIPES: "myRecipes",
+  MY_FAVORITES: "myFavorites",
+  FOLLOWERS: "followers",
+  FOLLOWING: "following",
+  RECIPES: "recipes",
+};
 
 export const TabsList = ({ isCurrentUser, userId }) => {
   const [activeTab, setActiveTab] = useState(
-    isCurrentUser ? "myRecipes" : "recipes"
+    isCurrentUser ? TABS.MY_RECIPES : TABS.RECIPES
   );
+
   const [listItems, setListItems] = useState(null);
   const [loading, setLoading] = useState(true);
   const [notificationApi, notificationContext] = notification.useNotification();
@@ -18,60 +32,75 @@ export const TabsList = ({ isCurrentUser, userId }) => {
     fetchTabData(key);
   };
 
-  const fetchTabData = async (key) => {
-    setLoading(true);
-    setListItems(null);
+  const fetchTabData = useCallback(
+    async (key) => {
+      setLoading(true);
+      setListItems(null);
 
-    try {
-      let response;
-      switch (key) {
-        case "myRecipes":
-          response = await fetch(`/recipes/my`);
-          break;
-        case "recipes":
-          response = await fetch(``);
-          break;
-        case "myFavorites":
-          response = await fetch(`/recipes/favorite`);
-          break;
-        case "followers":
-          response = await fetch(`/users/${userId}/followers`);
-          break;
-        case "following":
-          response = await fetch(`/users/following`);
-          break;
-        default:
-          break;
+      try {
+        let response;
+        switch (key) {
+          case TABS.MY_RECIPES:
+            response = await getMyRecipes();
+            setListItems(response.data.recipes);
+            break;
+          case TABS.RECIPES:
+            response = await getRecipes();
+            setListItems(response.data.recipes);
+            break;
+          case TABS.MY_FAVORITES:
+            response = await getFavoriteRecipes();
+            setListItems(response.data.recipes);
+            break;
+          case TABS.FOLLOWERS:
+            response = await getUserFollowers(userId);
+            setListItems(response.data.followers);
+            break;
+          case TABS.FOLLOWING:
+            response = await getUserFollowing();
+            setListItems(response.data.following);
+            break;
+          default:
+            break;
+        }
+
+        // TODO - handle pagination
+        // response.data.count
+      } catch (err) {
+        notificationApi.error({
+          message: "Error",
+          description: err.message || "Failed to fetch data.",
+        });
+      } finally {
+        setLoading(false);
       }
+    },
+    [userId]
+  );
 
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message || "Error fetching data");
-      setListItems(data);
-    } catch (err) {
-      notificationApi.error({
-        message: "Error",
-        description: err.message || "Failed to fetch data.",
-      });
-    } finally {
-      setLoading(false);
-    }
+  const onDeleteMyRecipe = (recipeId) => {
+    // TODO
   };
 
   useEffect(() => {
     fetchTabData(activeTab);
   }, [activeTab]);
 
-  const tabItems = isCurrentUser
-    ? [
-        { label: "My Recipes", key: "myRecipes" },
-        { label: "My Favorites", key: "myFavorites" },
-        { label: "Followers", key: "followers" },
-        { label: "Following", key: "following" },
-      ]
-    : [
-        { label: "Recipes", key: "recipes" },
-        { label: "Followers", key: "followers" },
-      ];
+  const tabItems = useMemo(
+    () =>
+      isCurrentUser
+        ? [
+            { label: "My Recipes", key: TABS.MY_RECIPES },
+            { label: "My Favorites", key: TABS.MY_FAVORITES },
+            { label: "Followers", key: TABS.FOLLOWERS },
+            { label: "Following", key: TABS.FOLLOWING },
+          ]
+        : [
+            { label: "Recipes", key: TABS.RECIPES },
+            { label: "Followers", key: TABS.FOLLOWERS },
+          ],
+    [isCurrentUser]
+  );
 
   return (
     <div>
@@ -84,18 +113,24 @@ export const TabsList = ({ isCurrentUser, userId }) => {
           <Spin size="large" />
         ) : (
           <>
-            {activeTab === "myRecipes" ||
-            activeTab === "recipes" ||
-            activeTab === "myFavorites" ? (
-              <div>
+            {activeTab === TABS.MY_RECIPES ||
+            activeTab === TABS.RECIPES ||
+            activeTab === TABS.MY_FAVORITES ? (
+              <RecipesList>
                 {listItems?.length ? (
                   listItems.map((recipe) => (
-                    <RecipeCard key={recipe.id} recipe={recipe} />
+                    <SmallRecipeCard
+                      key={recipe.id}
+                      recipe={recipe}
+                      {...(isCurrentUser
+                        ? { onDelete: () => onDeleteMyRecipe(recipe.id) }
+                        : {})}
+                    />
                   ))
                 ) : (
                   <p>No recipes found.</p>
                 )}
-              </div>
+              </RecipesList>
             ) : (
               <div>
                 {listItems?.length ? (
@@ -103,7 +138,7 @@ export const TabsList = ({ isCurrentUser, userId }) => {
                     <FollowerInfoCard
                       key={user.id}
                       userInfo={user}
-                      initialFollowing={activeTab === "following"}
+                      initialFollowing={activeTab === TABS.FOLLOWING}
                     />
                   ))
                 ) : (

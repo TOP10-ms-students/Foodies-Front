@@ -19,3 +19,5 @@ export * from "./custom/RecipeMainInfo";
 export * from "./custom/RecipeIngredients";
 export * from "./custom/RecipePreparation";
 export * from "./custom/PopularRecipes";
+export * from "./custom/TabsList";
+export * from "./custom/UserInfoCard";
