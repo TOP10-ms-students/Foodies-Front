@@ -10,7 +10,7 @@ import { styledComponentTheme, antdTheme } from "~/common/configs/themes";
 import { GlobalStyle } from "~/common/configs/globalStyles";
 
 const App = () => (
-  <BrowserRouter>
+  <BrowserRouter basename="/Foodies-Front">
     <ThemeProvider theme={styledComponentTheme}>
       <ConfigProvider theme={antdTheme}>
         <GlobalStyle />
