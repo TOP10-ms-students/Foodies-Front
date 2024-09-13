@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { Pagination, Autoplay } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+
+import { QuotesIcon } from "~/common/components/icons";
 
 import { getTestimonials } from "~/api/testimonials";
 
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Autoplay } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "./swiper.css";
-
-import { QuotesIcon } from "~/common/components/icons";
 import {
   TestimonialsSection,
   Subtitle,
@@ -21,6 +17,11 @@ import {
   SlideWrapper,
 } from "./Testimonials.styled.js";
 
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "./swiper.css";
+
 export const Testimonials = () => {
   const [testimonials, setTestimonials] = useState([]);
   const [error, setError] = useState(null);
@@ -28,8 +29,9 @@ export const Testimonials = () => {
   useEffect(() => {
     const fetchTestimonials = async () => {
       try {
-        const response = await getTestimonials();
-        setTestimonials(response.data);
+        const { data } = await getTestimonials();
+
+        setTestimonials(data.testimonials);
       } catch (error) {
         setError("Failed to load testimonials");
       }
@@ -61,7 +63,7 @@ export const Testimonials = () => {
             <SlideWrapper>
               <StyledBlockquote>
                 <TestimonialText>{testimonial.testimonial}</TestimonialText>
-                <Author>{testimonial.owner}</Author>
+                <Author>{testimonial.owner?.name}</Author>
               </StyledBlockquote>
             </SlideWrapper>
           </SwiperSlide>
