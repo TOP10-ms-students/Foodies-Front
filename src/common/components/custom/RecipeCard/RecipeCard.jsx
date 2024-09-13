@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { Link } from "react-router-dom";
 
+import { HeartIcon, ArrowUpIcon } from "~/common/components/icons";
 import avatar from "~/common/components/img/template_avatar.png";
 import thumb from "~/common/components/img/template_recipe.jpg";
 
@@ -30,9 +32,17 @@ export const RecipeCard = ({ recipe }) => (
           />
           <span>{recipe.owner.name}</span>
         </Author>
+
         <Actions>
-          <FavoriteButton>♡</FavoriteButton>
-          <ShareButton>↗</ShareButton>
+          <FavoriteButton>
+            <HeartIcon />
+          </FavoriteButton>
+
+          <Link to={`/recipe/${recipe.id}`}>
+            <ShareButton>
+              <ArrowUpIcon />
+            </ShareButton>
+          </Link>
         </Actions>
       </Footer>
     </>

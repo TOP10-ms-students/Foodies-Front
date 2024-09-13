@@ -1,12 +1,13 @@
-import React, { useState, useEffect, useRef } from "react";
+import { Spin } from "antd";
+import debounce from "lodash/debounce";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 
-import { PageTitle } from "~/common/components";
+import { PageTitle, Select } from "~/common/components";
 import { ArrowLeftIcon } from "~/common/components/icons";
 import { Pagination } from "~/common/components/ui/Pagination";
-import { Select } from "~/common/components/ui/Select";
 
 import { getAllAreas } from "~/api/areas";
-import { getAllIngredients } from "~/api/ingredients";
+import { getIngredients } from "~/api/ingredients";
 import { getRecipes } from "~/api/recipes";
 
 import {
@@ -23,12 +24,13 @@ import { RecipeCardSkeleton } from "../RecipeCard/RecipeCardSkeleton";
 
 export const RecipesList = ({ category, goToCategories, onError }) => {
   const [recipes, setRecipes] = useState([]);
-  const [ingredients, setIngredients] = useState([]);
+  const [ingredientsOptions, setIngredientsOptions] = useState([]);
   const [areas, setAreas] = useState([]);
-  const [selectedIngredient, setSelectedIngredient] = useState("");
-  const [selectedArea, setSelectedArea] = useState("");
+  const [selectedIngredient, setSelectedIngredient] = useState(null);
+  const [selectedArea, setSelectedArea] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalRecipes, setTotalRecipes] = useState(0);
+  const [isLoadingIngredients, setIsLoadingIngredients] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const topRef = useRef(null);
@@ -65,10 +67,10 @@ export const RecipesList = ({ category, goToCategories, onError }) => {
   useEffect(() => {
     const fetchFilters = async () => {
       try {
-        const ingredientsResponse = await getAllIngredients();
+        // const ingredientsResponse = await getAllIngredients();
         const areasResponse = await getAllAreas();
 
-        setIngredients(ingredientsResponse.data.ingredients || []);
+        // setIngredients(ingredientsResponse.data.ingredients || []);
         setAreas(areasResponse.data.areas || []);
       } catch (error) {
         onError("Failed to fetch filters. Please try again later.");
@@ -88,23 +90,46 @@ export const RecipesList = ({ category, goToCategories, onError }) => {
     fetchRecipes(page);
   };
 
-  const ingredientOptions = [
-    { value: "", label: "Ingredients" },
-    ...ingredients.map((ingredient) => ({
-      value: ingredient.id,
-      label: ingredient.name,
-    })),
-  ];
+  const fetchRef = useRef(null);
 
-  const areaOptions = [
-    { value: "", label: "Areas" },
-    ...areas.map((area) => ({ value: area.id, label: area.name })),
-  ];
+  const debounceIngredientsFetcher = useMemo(() => {
+    const loadOptions = (value) => {
+      fetchRef.current += 1;
+
+      const fetchId = fetchRef.current;
+      setIngredientsOptions([]);
+      setIsLoadingIngredients(true);
+
+      getIngredients(value).then(({ data }) => {
+        if (fetchId !== fetchRef.current) {
+          // for fetch callback order
+          return;
+        }
+
+        setIngredientsOptions(
+          data?.ingredients?.map(({ id, name, img }) => ({
+            value: id,
+            label: name,
+          })) ?? []
+        );
+        setIsLoadingIngredients(false);
+      });
+    };
+
+    return debounce(loadOptions, 500);
+  }, []);
+
+  const areaOptions = areas.map(({ id, name }) => ({
+    value: id,
+    label: name,
+  }));
 
   return (
     <RecipesSection ref={topRef}>
-      <ArrowLeftIcon />
-      <BackButton onClick={goToCategories}>Back</BackButton>
+      <BackButton onClick={goToCategories}>
+        <ArrowLeftIcon />
+        Back
+      </BackButton>
       <PageTitle>{category.name}</PageTitle>
       <Description>
         Go on a taste journey, where every sip is a sophisticated creative
@@ -114,16 +139,24 @@ export const RecipesList = ({ category, goToCategories, onError }) => {
       <RecipesWrapper>
         <Filters>
           <Select
-            width={"330px"}
-            options={ingredientOptions}
-            placeholder="Ingredient"
+            width="330px"
+            allowClear
+            options={ingredientsOptions}
+            placeholder="Ingredients"
             value={selectedIngredient}
             onChange={setSelectedIngredient}
+            notFoundContent={
+              isLoadingIngredients ? <Spin size="small" /> : null
+            }
+            filterOption={false}
+            showSearch
+            onSearch={debounceIngredientsFetcher}
           />
           <Select
-            width={"330px"}
+            width="330px"
+            allowClear
             options={areaOptions}
-            placeholder="Area"
+            placeholder="Areas"
             value={selectedArea}
             onChange={setSelectedArea}
           />
@@ -150,7 +183,7 @@ export const RecipesList = ({ category, goToCategories, onError }) => {
               pageSize={RECIPES_PER_PAGE}
               onChange={handlePageChange}
               showSizeChanger={false}
-              showQuickJumper={true}
+              showQuickJumper
             />
           )}
         </RecipesColumn>
