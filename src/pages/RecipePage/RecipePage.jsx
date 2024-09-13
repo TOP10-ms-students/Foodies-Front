@@ -7,19 +7,14 @@ import {
   RecipeMainInfo,
   RecipeIngredients,
   RecipePreparation,
+  PopularRecipes,
 } from "~/common/components";
 
-import { getPopularRecipes, getRecipe } from "~/api/recipes.js";
+import { getRecipe } from "~/api/recipes.js";
 
 import { ROUTE_PATHS } from "~/routing/constants";
 
-import {
-  PathInfo,
-  RecipeInfo,
-  PopularRecipes,
-  Title,
-  RecipeImg,
-} from "./RecipePage.styled.js";
+import { PathInfo, RecipeInfo, RecipeImg } from "./RecipePage.styled.js";
 import { FormBox, PageBox } from "../AddRecipePage/AddRecipePage.styled.jsx";
 
 export const RecipePage = () => {
@@ -28,7 +23,7 @@ export const RecipePage = () => {
   const [notificationApi, notificationContext] = notification.useNotification();
 
   const [recipe, setRecipe] = useState();
-  const [isLoading, setIsLoading] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   const BREADCRUMB_ITEMS = [
     { title: <Link to={ROUTE_PATHS.HOME}>Home</Link> },
@@ -36,6 +31,7 @@ export const RecipePage = () => {
   ];
 
   const getAllRecipe = async () => {
+    setIsLoading(true);
     getRecipe(id)
       .then(({ data }) => {
         setRecipe(data.recipe);
@@ -48,22 +44,8 @@ export const RecipePage = () => {
       .finally(() => setIsLoading(false));
   };
 
-  const getPopular = async () => {
-    getPopularRecipes()
-      .then(({ data }) => {
-        notificationApi.success({
-          message: "Popular recipe get successfully!",
-        });
-      })
-      .catch(({ response: { data } }) => {
-        const message = data?.message ?? "Something went wrong";
-        notificationApi.error({ message });
-      });
-  };
-
   useEffect(() => {
     getAllRecipe();
-    getPopular();
   }, []);
 
   return (
@@ -72,7 +54,7 @@ export const RecipePage = () => {
         <Breadcrumb items={BREADCRUMB_ITEMS} />
       </PathInfo>
 
-      {recipe ? (
+      {!isLoading && recipe ? (
         <FormBox>
           <RecipeImg src={recipe.thumb} alt={recipe.title} />
 
@@ -88,15 +70,14 @@ export const RecipePage = () => {
 
             <RecipeIngredients recipe={recipe} />
 
-            <RecipePreparation instructions={recipe.instructions} />
+            <RecipePreparation instructions={recipe.instructions} id={id} />
           </RecipeInfo>
         </FormBox>
       ) : (
-        <Title>Recipes Loading...</Title>
+        <h2>Recipes Loading...</h2>
       )}
-      <PopularRecipes>
-        <Title>Popular Recipes</Title>
-      </PopularRecipes>
+
+      <PopularRecipes />
 
       {notificationContext}
     </PageBox>

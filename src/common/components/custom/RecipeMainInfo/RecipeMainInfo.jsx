@@ -1,4 +1,10 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { Modal } from "antd";
+import { getCurrentUser } from "~/store/selectors";
+import { Avatar } from "../../ui/Avatar";
+import { LoginForm } from "~/common/components/forms/LoginForm";
+import { useAuthModals } from "~/common/hooks/useAuthModals";
 import {
   LabelsBox,
   RecipeLabel,
@@ -8,7 +14,7 @@ import {
   UserInfo,
   UserName,
 } from "./RecipeMainInfo.styled";
-import { Avatar } from "../../ui/Avatar";
+import { useNavigate } from "react-router-dom";
 
 export const RecipeMainInfo = ({
   title,
@@ -18,6 +24,17 @@ export const RecipeMainInfo = ({
   ownerAvatar,
   ownerName,
 }) => {
+  const { id } = useSelector(getCurrentUser);
+
+  const { isOpenLogin, handleOpenLogin, switchModals, handleCancel } =
+    useAuthModals();
+
+  const navigate = useNavigate();
+
+  const goToUserPage = () => {
+    navigate(`/users/${id}`);
+  };
+
   return (
     <>
       <Title>{title}</Title>
@@ -29,13 +46,18 @@ export const RecipeMainInfo = ({
 
       <RecipeText>{description}</RecipeText>
 
-      <UserBtn>
+      <UserBtn onClick={id ? goToUserPage : handleOpenLogin}>
         <Avatar src={ownerAvatar} />
+
         <UserInfo>
           Created by:
           <UserName>{ownerName}</UserName>
         </UserInfo>
       </UserBtn>
+
+      <Modal open={isOpenLogin} onCancel={handleCancel} centered footer={null}>
+        <LoginForm onLinkClick={switchModals} onSuccess={handleCancel} />
+      </Modal>
     </>
   );
 };
