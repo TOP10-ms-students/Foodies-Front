@@ -10,11 +10,11 @@ import App from "~/App";
 const root = createRoot(document.getElementById("root"));
 
 root.render(
-  <StrictMode>
-    <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <App />
-      </PersistGate>
-    </Provider>
-  </StrictMode>
+  // <StrictMode>
+  <Provider store={store}>
+    <PersistGate persistor={persistor}>
+      <App />
+    </PersistGate>
+  </Provider>
+  // </StrictMode>
 );

@@ -48,100 +48,12 @@ export const RecipeText = styled.div`
   }
 `;
 
-export const UserBox = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  /* width: 138px; */
-  height: 38px;
-
-  & > span {
-    @media ${({ theme }) => theme.media.tablet} {
-      width: 50px;
-      height: 50px;
-
-      svg {
-        width: 26px;
-        height: 26px;
-      }
-    }
-  }
-`;
-
-export const UserInfo = styled.div`
-  margin-left: 16px;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 150%;
-  letter-spacing: -0.02em;
-  color: ${({ theme }) => theme?.colors?.gray};
-
-  @media ${({ theme }) => theme.media.tablet} {
-    font-size: 14px;
-  }
-`;
-
-export const UserName = styled.div`
-  font-weight: 700;
-  font-size: 14px;
-
-  @media ${({ theme }) => theme.media.tablet} {
-    font-size: 16px;
-  }
-`;
-
-export const RecipeMainInfo = styled.div``;
-
-export const LabelsBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: start;
-  gap: 8px;
-  margin-top: 20px;
-  width: 145px;
-  height: 38px;
-`;
-
-export const RecipeLabel = styled.span`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 20px;
-  padding: 0 10px;
-  height: 38px;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 129%;
-  letter-spacing: -0.02em;
-  color: ${({ theme }) => theme?.colors?.gray};
-  border: 1px solid ${({ theme }) => theme?.colors?.gray};
-`;
-
 export const RecipeIngredients = styled.div`
   margin-top: 32px;
 `;
 
 export const RecipePreparation = styled.div`
   margin-top: 32px;
-
-  button {
-    border-radius: 30px;
-    padding: 14px 20px;
-    width: 172px;
-    height: 48px;
-    font-weight: 700;
-    font-size: 14px;
-    line-height: 143%;
-    letter-spacing: -0.02em;
-    text-transform: uppercase;
-    color: ${({ theme }) => theme?.colors?.gray};
-
-    @media ${({ theme }) => theme.media.tablet} {
-      width: 215px;
-      height: 56px;
-      font-size: 16px;
-    }
-  }
 `;
 
 export const PopularRecipes = styled.div`

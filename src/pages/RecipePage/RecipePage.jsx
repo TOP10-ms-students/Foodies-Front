@@ -18,19 +18,14 @@ import {
 import {
   PathInfo,
   RecipeInfo,
-  RecipeMainInfo,
   RecipeIngredients,
   RecipePreparation,
   PopularRecipes,
   RecipeText,
   Title,
   RecipeImg,
-  LabelsBox,
-  RecipeLabel,
-  UserBox,
-  UserInfo,
-  UserName,
 } from "./RecipePage.styled.js";
+import RecipeMainInfo from "../../common/components/custom/RecipeMainInfo/RecipeMainInfo.jsx";
 
 export const RecipePage = () => {
   const { id } = useParams();
@@ -88,24 +83,14 @@ export const RecipePage = () => {
           <RecipeImg src={recipe.thumb} alt={recipe.title} />
 
           <RecipeInfo>
-            <RecipeMainInfo>
-              <Title>{recipe.title}</Title>
-
-              <LabelsBox>
-                <RecipeLabel>{recipe.category.name}</RecipeLabel>
-                <RecipeLabel>{recipe.time} min</RecipeLabel>
-              </LabelsBox>
-
-              <RecipeText>{recipe.description}</RecipeText>
-
-              <UserBox>
-                <Avatar src={recipe.owner.avatar} />
-                <UserInfo>
-                  Created by:
-                  <UserName>{recipe.owner.name}</UserName>
-                </UserInfo>
-              </UserBox>
-            </RecipeMainInfo>
+            <RecipeMainInfo
+              title={recipe.title}
+              categoryName={recipe.category.name}
+              time={recipe.time}
+              description={recipe.description}
+              ownerAvatar={recipe.owner.avatar}
+              ownerName={recipe.owner.name}
+            />
 
             <RecipeIngredients>
               <Label>Ingredients</Label>
@@ -133,7 +118,7 @@ export const RecipePage = () => {
           </RecipeInfo>
         </FormBox>
       ) : (
-        <Title>Loading...</Title>
+        <Title>Recipes Loading...</Title>
       )}
       <PopularRecipes>
         <Title>Popular Recipes</Title>
