@@ -1,8 +1,9 @@
 import { PlusOutlined } from "@ant-design/icons";
 import { Typography, notification, Spin } from "antd";
 import { useFormik } from "formik";
-import React, { useState, useEffect, useMemo } from "react";
-import { Link } from "react-router-dom";
+import debounce from "lodash/debounce";
+import React, { useState, useEffect, useMemo, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import {
   Breadcrumb,
@@ -18,8 +19,9 @@ import {
   DeleteIcon,
 } from "~/common/components";
 
+import { getAllAreas } from "~/api/areas";
 import { getAllCategories } from "~/api/categories";
-import { getAllIngredients } from "~/api/ingredients";
+import { getIngredients } from "~/api/ingredients";
 import { createRecipe } from "~/api/recipes";
 
 import { ROUTE_PATHS } from "~/routing/constants";
@@ -45,6 +47,10 @@ import { COOKING_TIME_OPTIONS } from "./helpers";
 
 const { Text } = Typography;
 
+const ErrorMessage = ({ errors, touched, name }) =>
+  errors?.[name] &&
+  touched?.[name] && <Text type="danger">{errors[name]}</Text>;
+
 const BREADCRUMB_ITEMS = [
   { title: <Link to={ROUTE_PATHS.HOME}>Home</Link> },
   { title: "Add Recipe" },
@@ -53,6 +59,7 @@ const BREADCRUMB_ITEMS = [
 const INIT_VALUES = {
   name: "",
   description: "",
+  area: null,
   category: null,
   ingredient: null,
   quantity: "",
@@ -62,15 +69,21 @@ const INIT_VALUES = {
 };
 
 export const AddRecipePage = () => {
+  const navigate = useNavigate();
   const [notificationApi, notificationContext] = notification.useNotification();
 
-  const [imageFile, setImageFile] = useState(null);
-  const [isLoadingOptions, setIsLoadingOptions] = useState(false);
-  const [categories, setCategories] = useState([]);
-  const [ingredients, setIngredients] = useState([]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoadingCategories, setIsLoadingCategories] = useState(false);
+  const [isLoadingAreas, setIsLoadingAreas] = useState(false);
+  const [isLoadingIngredients, setIsLoadingIngredients] = useState(false);
 
-  const { values, errors, setFieldValue, handleChange, handleSubmit } =
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [ingredientsOptions, setIngredientsOptions] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [areas, setAreas] = useState([]);
+
+  const [imageFile, setImageFile] = useState(null);
+
+  const { values, errors, setFieldValue, handleChange, handleSubmit, touched } =
     useFormik({
       initialValues: INIT_VALUES,
       validationSchema: addRecipeSchema,
@@ -78,30 +91,25 @@ export const AddRecipePage = () => {
     });
 
   useEffect(() => {
-    const loadOptions = async () => {
-      try {
-        setIsLoadingOptions(true);
-
-        // eslint-disable-next-line no-undef
-        const [categoriesRes, ingredientsRes] = await Promise.allSettled([
-          getAllCategories(),
-          getAllIngredients(),
-        ]);
-
-        categoriesRes.status === "fulfilled" &&
-          setCategories(categoriesRes.value?.data?.categories ?? []);
-
-        ingredientsRes.status === "fulfilled" &&
-          setIngredients(ingredientsRes.value.data?.ROUTE_PATHS ?? []);
-      } catch ({ response: { data } }) {
+    setIsLoadingCategories(true);
+    getAllCategories()
+      .then(({ data }) => setCategories(data?.categories ?? []))
+      .catch(({ response: { data } }) => {
         const message = data?.message ?? "Something went wrong";
         notificationApi.error({ message });
-      } finally {
-        setIsLoadingOptions(false);
-      }
-    };
+      })
+      .finally(() => setIsLoadingCategories(false));
+  }, []);
 
-    loadOptions();
+  useEffect(() => {
+    setIsLoadingAreas(true);
+    getAllAreas()
+      .then(({ data }) => setAreas(data?.areas ?? []))
+      .catch(({ response: { data } }) => {
+        const message = data?.message ?? "Something went wrong";
+        notificationApi.error({ message });
+      })
+      .finally(() => setIsLoadingAreas(false));
   }, []);
 
   const categoriesOptions = useMemo(
@@ -109,16 +117,26 @@ export const AddRecipePage = () => {
     [categories]
   );
 
-  const ingredientsOptions = useMemo(
-    () => ingredients.map(({ id, name }) => ({ value: id, label: name })),
-    [ingredients]
+  const areasOptions = useMemo(
+    () => areas?.map(({ id, name }) => ({ value: id, label: name })),
+    [areas]
   );
 
-  const onAddIngredient = () => {
-    const ingredient = ingredients?.find((i) => i.id === values.ingredient);
+  const onChangeIngredient = (o) => {
+    const ingredient = ingredientsOptions.find((i) => i.value === o.value);
+    setFieldValue("ingredient", ingredient);
+  };
 
+  const onRemoveIngredient = (key) => {
+    setFieldValue(
+      "ingredients",
+      values.ingredients.filter((i) => i.value !== key)
+    );
+  };
+
+  const onAddIngredient = () => {
     const newIngredient = {
-      ...ingredient,
+      ...values.ingredient,
       quantity: values.quantity,
     };
 
@@ -127,17 +145,63 @@ export const AddRecipePage = () => {
     setFieldValue("quantity", null);
   };
 
+  const fetchRef = useRef(0);
+
+  const debounceIngredientsFetcher = useMemo(() => {
+    const loadOptions = (value) => {
+      fetchRef.current += 1;
+
+      const fetchId = fetchRef.current;
+      setIngredientsOptions([]);
+      setIsLoadingIngredients(true);
+
+      getIngredients(value).then(({ data }) => {
+        if (fetchId !== fetchRef.current) {
+          // for fetch callback order
+          return;
+        }
+
+        setIngredientsOptions(
+          data?.ingredients?.map(({ id, name, img }) => ({
+            value: id,
+            label: name,
+            img,
+          })) ?? []
+        );
+        setIsLoadingIngredients(false);
+      });
+    };
+
+    return debounce(loadOptions, 500);
+  }, []);
+
   async function onSubmit(values) {
     setIsSubmitting(true);
     try {
-      // imageFile && (await uploadImage(imageFile));
+      if (!imageFile) {
+        notificationApi.error({ message: "Please upload an image" });
+        return;
+      }
 
-      const submitData = {
-        // TODO: finish add recipe form submission when api fix will be merged
-      };
+      const formdata = new FormData();
+      formdata.append("title", values.name);
+      formdata.append("thumb", imageFile, imageFile.name);
+      formdata.append("categoryId", values.category);
+      formdata.append("areaId", values.area);
+      formdata.append("instructions", values.preparation);
+      formdata.append("description", values.description);
+      formdata.append("time", values.cookingTime * 60);
 
-      // await createRecipe(submitData)
+      values.ingredients.forEach(({ value, quantity }, index) => {
+        formdata.append(`ingredients[${index}][ingredientId]`, value);
+        formdata.append(`ingredients[${index}][measure]`, quantity);
+      });
+
+      const { data } = await createRecipe(formdata);
+
       notificationApi.success({ message: "Recipe created successfully!" });
+
+      navigate(`/recipe/${data.recipe.id}`);
     } catch ({ response: { data } }) {
       const message = data?.message ?? "Something went wrong";
       notificationApi.error({ message });
@@ -175,7 +239,7 @@ export const AddRecipePage = () => {
                   onChange={handleChange}
                   value={values.name}
                 />
-                {errors?.name && <Text type="danger">{errors.name}</Text>}
+                <ErrorMessage errors={errors} touched={touched} name="name" />
               </div>
             </NameInpuBox>
 
@@ -190,9 +254,29 @@ export const AddRecipePage = () => {
                   onChange={handleChange}
                   value={values.description}
                 />
-                {errors?.description && (
-                  <Text type="danger">{errors.description}</Text>
-                )}
+                <ErrorMessage
+                  errors={errors}
+                  touched={touched}
+                  name="description"
+                />
+              </div>
+            </DescriptionInpuBox>
+
+            <DescriptionInpuBox>
+              <Label>Area</Label>
+
+              <div>
+                <Select
+                  width="100%"
+                  options={areasOptions}
+                  name="area"
+                  onChange={(v) => setFieldValue("area", v)}
+                  value={values.area}
+                  notFoundContent={
+                    isLoadingAreas ? <Spin size="small" /> : null
+                  }
+                />
+                <ErrorMessage errors={errors} touched={touched} name="area" />
               </div>
             </DescriptionInpuBox>
 
@@ -208,11 +292,15 @@ export const AddRecipePage = () => {
                       name="category"
                       onChange={(v) => setFieldValue("category", v)}
                       value={values.category}
-                      disabled={isLoadingOptions}
+                      notFoundContent={
+                        isLoadingCategories ? <Spin size="small" /> : null
+                      }
                     />
-                    {errors?.category && (
-                      <Text type="danger">{errors.category}</Text>
-                    )}
+                    <ErrorMessage
+                      errors={errors}
+                      touched={touched}
+                      name="category"
+                    />
                   </div>
                 </div>
 
@@ -226,9 +314,11 @@ export const AddRecipePage = () => {
                       setValue={(v) => setFieldValue("cookingTime", v)}
                       value={values.cookingTime}
                     />
-                    {errors?.cookingTime && (
-                      <Text type="danger">{errors.cookingTime}</Text>
-                    )}
+                    <ErrorMessage
+                      errors={errors}
+                      touched={touched}
+                      name="cookingTime"
+                    />
                   </div>
                 </div>
               </InputsBox>
@@ -239,16 +329,20 @@ export const AddRecipePage = () => {
                 <div>
                   <Label>Ingredients</Label>
 
-                  <div>
-                    <Select
-                      width="100%"
-                      options={ingredientsOptions}
-                      name="ingredient"
-                      onChange={(v) => setFieldValue("ingredient", v)}
-                      value={values.ingredient}
-                      disabled={isLoadingOptions}
-                    />
-                  </div>
+                  <Select
+                    labelInValue
+                    value={values.ingredient}
+                    onChange={onChangeIngredient}
+                    notFoundContent={
+                      isLoadingIngredients ? <Spin size="small" /> : null
+                    }
+                    filterOption={false}
+                    showSearch
+                    onSearch={debounceIngredientsFetcher}
+                    width="100%"
+                    options={ingredientsOptions}
+                    name="ingredient"
+                  />
                 </div>
 
                 <QuantityInputBox>
@@ -281,9 +375,11 @@ export const AddRecipePage = () => {
               )}
 
               <div>
-                {errors?.ingredients && (
-                  <Text type="danger">{errors.ingredients}</Text>
-                )}
+                <ErrorMessage
+                  errors={errors}
+                  touched={touched}
+                  name="ingredients"
+                />
               </div>
 
               {values.ingredients.length > 0 && (
@@ -292,8 +388,9 @@ export const AddRecipePage = () => {
                     <IngredientCard
                       key={index}
                       imageSrc={ingredient.img}
-                      title={ingredient.name}
+                      title={ingredient.label}
                       weight={ingredient.quantity}
+                      onDelete={() => onRemoveIngredient(ingredient.value)}
                     />
                   ))}
                 </IngredientsList>
@@ -311,9 +408,11 @@ export const AddRecipePage = () => {
                 onChange={handleChange}
                 value={values.preparation}
               />
-              {errors?.preparation && (
-                <Text type="danger">{errors.preparation}</Text>
-              )}
+              <ErrorMessage
+                errors={errors}
+                touched={touched}
+                name="preparation"
+              />
             </div>
 
             <ButtonsBox>

@@ -2,11 +2,11 @@ import { useSearchParams } from "react-router-dom";
 
 export const useCategoriesQueries = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-
-  const category = searchParams.get("category");
+  const categoryName = searchParams.get("category");
+  const categoryId = searchParams.get("id");
 
   const setCategory = (category) => {
-    setSearchParams({ category });
+    setSearchParams({ category: category.name, id: category.id });
   };
 
   const resetCategory = () => {
@@ -14,7 +14,8 @@ export const useCategoriesQueries = () => {
   };
 
   return {
-    category,
+    categoryName,
+    categoryId,
     setCategory,
     resetCategory,
   };

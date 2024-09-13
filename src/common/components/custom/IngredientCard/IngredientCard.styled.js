@@ -11,13 +11,15 @@ export const IngredientCardBox = styled.div`
   padding-right: 10px;
   width: fit-content;
   max-width: 175px;
+  & > div {
+    width: 70px;
+  }
 `;
 
 export const IngredientImageCard = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px;
   width: 75px;
   height: 75px;
   border: 1px solid ${({ theme }) => theme.colors.gray};
