@@ -15,3 +15,7 @@ export * from "./ui/UploadPhoto";
 export * from "./ui/StepsRangeInput";
 
 export * from "./custom/IngredientCard";
+
+export * from "./custom/RecipeMainInfo";
+export * from "./custom/RecipeIngredients";
+export * from "./custom/RecipePreparation";
