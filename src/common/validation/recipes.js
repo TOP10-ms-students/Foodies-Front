@@ -10,6 +10,7 @@ export const addRecipeSchema = yup.object({
     .min(5, "Description should be of minimum 8 characters length")
     .max(200, "Description should be of maximum 200 characters length")
     .required("Recipe description is required"),
+  area: yup.string().required("Recipe area is required"),
   category: yup.string().required("Recipe category is required"),
   ingredients: yup.array().min(1, "Add at least one ingredient"),
   preparation: yup
