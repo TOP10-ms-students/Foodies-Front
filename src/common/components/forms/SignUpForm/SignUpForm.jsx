@@ -1,10 +1,13 @@
 import { Form, notification } from "antd";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 
 import { AuthFormLayout } from "~/common/components/custom/AuthFormLayout";
 import { Input, PasswordInput } from "~/common/components/ui/Input";
 
-import { signUp } from "~/api/user";
+import { signUp, login } from "~/api/user";
+
+import { setUser } from "~/store/slices/auth";
 
 const FORM_ITEM_RULES = {
   name: [{ required: true, message: "Please input your name!" }],
@@ -13,6 +16,7 @@ const FORM_ITEM_RULES = {
 };
 
 export const SignUpForm = ({ onLinkClick, onSuccess }) => {
+  const dispatch = useDispatch();
   const [form] = Form.useForm();
   const [notificationApi, notificationContext] = notification.useNotification();
 
@@ -22,7 +26,14 @@ export const SignUpForm = ({ onLinkClick, onSuccess }) => {
     setIsLoading(true);
 
     return signUp(values)
-      .then(() => {
+      .then(async () => {
+        const { data } = await login({
+          email: values.email,
+          password: values.password,
+        });
+
+        dispatch(setUser(data.user));
+
         notificationApi.success({ message: "Registration successfull!" });
         form.resetFields();
         onSuccess();
