@@ -1,8 +1,8 @@
 import { Spin, notification } from "antd";
 import React, { useState, useEffect } from "react";
 
+import { FollowerInfoCard } from "~/common/components/custom/FollowerInfoCard";
 import { RecipeCard } from "~/common/components/custom/RecipeCard";
-import { UserInfoCard } from "~/common/components/custom/UserInfoCard";
 import { Tabs } from "~/common/components/ui/Tabs";
 
 export const TabsList = ({ isCurrentUser, userId }) => {
@@ -100,10 +100,10 @@ export const TabsList = ({ isCurrentUser, userId }) => {
               <div>
                 {listItems?.length ? (
                   listItems.map((user) => (
-                    <UserInfoCard
+                    <FollowerInfoCard
                       key={user.id}
                       userInfo={user}
-                      isCurrentUser={isCurrentUser}
+                      initialFollowing={activeTab === "following"}
                     />
                   ))
                 ) : (
