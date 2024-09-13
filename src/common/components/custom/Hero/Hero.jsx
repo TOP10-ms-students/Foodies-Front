@@ -1,4 +1,3 @@
-import { Tooltip } from "antd";
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -20,10 +19,8 @@ import {
   HeroImage,
 } from "./Hero.styled";
 
-export const Hero = () => {
+export const Hero = ({ openLoginModal }) => {
   const isAuth = useSelector(getIsAuthenticated);
-
-  const tooltipTitle = isAuth ? "" : "Sign in to add recipes";
 
   return (
     <HeroSection>
@@ -33,13 +30,16 @@ export const Hero = () => {
           Amazing recipes for beginners in the world of cooking, enveloping you
           in the aromas and tastes of various cuisines.
         </HeroSubtitle>
-        <Tooltip placement="bottom" title={tooltipTitle}>
+
+        {isAuth ? (
           <Link to={ROUTE_PATHS.ADD_RECIPE}>
-            <Button type="primary" disabled={!isAuth}>
-              Add recipe
-            </Button>
+            <Button type="primary">Add recipe</Button>
           </Link>
-        </Tooltip>
+        ) : (
+          <Button type="primary" onClick={openLoginModal}>
+            Add recipe
+          </Button>
+        )}
       </HeroContentBox>
 
       <HeroImagesBox>

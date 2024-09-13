@@ -2,6 +2,8 @@ import { Drawer } from "antd";
 import { NavLink } from "react-router-dom";
 import { styled, css } from "styled-components";
 
+import { Button } from "~/common/components/ui/Button";
+
 const flexCenterBetween = css`
   display: flex;
   align-items: center;
@@ -137,5 +139,22 @@ export const StyledDrawerLink = styled(NavLink)`
   &.active {
     border-radius: 17px;
     border: 1px solid ${({ theme }) => theme?.colors?.white};
+  }
+`;
+
+export const StyledAuthBar = styled.div`
+  ${flexCenterBetween};
+  background-color: ${({ theme }) => theme?.colors?.white};
+  border-radius: 30px;
+`;
+
+export const StyledAuthButton = styled(Button)`
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: -0.02em;
+  padding: 10px 16px !important;
+
+  @media ${({ theme }) => theme.media.tablet} {
+    padding: 14px 28px !important;
   }
 `;
