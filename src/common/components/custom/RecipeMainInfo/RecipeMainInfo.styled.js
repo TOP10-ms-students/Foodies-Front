@@ -96,10 +96,6 @@ export const RecipeLabel = styled.span`
   border: 1px solid ${({ theme }) => theme?.colors?.gray};
 `;
 
-export const RecipeIngredients = styled.div`
-  margin-top: 32px;
-`;
-
 export const RecipePreparation = styled.div`
   margin-top: 32px;
 

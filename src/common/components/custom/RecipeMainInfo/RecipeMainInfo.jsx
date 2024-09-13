@@ -10,7 +10,7 @@ import {
 } from "./RecipeMainInfo.styled";
 import { Avatar } from "../../ui/Avatar";
 
-const RecipeMainInfo = ({
+export const RecipeMainInfo = ({
   title,
   categoryName,
   time,
@@ -39,5 +39,3 @@ const RecipeMainInfo = ({
     </>
   );
 };
-
-export default RecipeMainInfo;

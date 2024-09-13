@@ -4,28 +4,23 @@ import { getPopularRecipes, getRecipe } from "../../api/recipes.js";
 import { notification } from "antd";
 
 import { ROUTE_PATHS } from "~/routing/constants";
-import { Avatar } from "~/common/components/";
 
-import { Breadcrumb, Button, IngredientCard } from "~/common/components";
+import { FormBox, PageBox } from "../AddRecipePage/AddRecipePage.styled.jsx";
 
 import {
-  FormBox,
-  IngredientsList,
-  Label,
-  PageBox,
-} from "../AddRecipePage/AddRecipePage.styled.jsx";
+  Breadcrumb,
+  RecipeMainInfo,
+  RecipeIngredients,
+  RecipePreparation,
+} from "~/common/components";
 
 import {
   PathInfo,
   RecipeInfo,
-  RecipeIngredients,
-  RecipePreparation,
   PopularRecipes,
-  RecipeText,
   Title,
   RecipeImg,
 } from "./RecipePage.styled.js";
-import RecipeMainInfo from "../../common/components/custom/RecipeMainInfo/RecipeMainInfo.jsx";
 
 export const RecipePage = () => {
   const { id } = useParams();
@@ -92,29 +87,9 @@ export const RecipePage = () => {
               ownerName={recipe.owner.name}
             />
 
-            <RecipeIngredients>
-              <Label>Ingredients</Label>
+            <RecipeIngredients recipe={recipe} />
 
-              <IngredientsList>
-                {recipe.ingredients.map((ingredient, index) => (
-                  <IngredientCard
-                    key={index}
-                    imageSrc={ingredient.img}
-                    title={ingredient.name}
-                    weight={ingredient.measure}
-                    isClose={false}
-                  />
-                ))}
-              </IngredientsList>
-            </RecipeIngredients>
-
-            <RecipePreparation>
-              <Label>RecipePreparation</Label>
-
-              <RecipeText>{recipe.instructions}</RecipeText>
-
-              <Button disabled={false}>Add to favorites</Button>
-            </RecipePreparation>
+            <RecipePreparation instructions={recipe.instructions} />
           </RecipeInfo>
         </FormBox>
       ) : (
