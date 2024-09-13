@@ -1,7 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+export const AUTH_MODALS = {
+  signUp: "signUp",
+  login: "login",
+};
+
 const initialState = {
   user: null,
+  currentAuthModal: null,
 };
 
 export const authSlice = createSlice({
@@ -11,9 +17,28 @@ export const authSlice = createSlice({
     setUser: (state, action) => {
       state.user = action.payload;
     },
+    closeAuthModal: (state) => {
+      state.currentAuthModal = null;
+    },
+    openLoginModal: (state) => {
+      state.currentAuthModal = AUTH_MODALS.login;
+    },
+    openSignUpModal: (state) => {
+      state.currentAuthModal = AUTH_MODALS.signUp;
+    },
+    switchAuthModal: (state) => {
+      state.currentAuthModal =
+        state.currentAuthModal === "login" ? "signUp" : "login";
+    },
   },
 });
 
-export const { setUser } = authSlice.actions;
+export const {
+  setUser,
+  closeAuthModal,
+  openLoginModal,
+  openSignUpModal,
+  switchAuthModal,
+} = authSlice.actions;
 
 export default authSlice.reducer;

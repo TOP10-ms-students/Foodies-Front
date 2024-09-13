@@ -10,7 +10,9 @@ const StyledButton = styled(AndtButton)`
   font-weight: 700;
   line-height: 24px;
   letter-spacing: -0.02em;
-  border: 1px solid ${({ theme }) => theme.colors.gray};
+  border: 1px solid
+    ${({ theme, type }) =>
+      type !== "text" ? theme.colors.gray : "transparent"};
 
   padding: ${({ children }) =>
     children ? "15px 32px !important" : "16px !important"};
