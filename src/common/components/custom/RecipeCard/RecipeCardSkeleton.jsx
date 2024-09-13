@@ -1,36 +1,46 @@
+import { Skeleton, Space } from "antd";
 import React from "react";
+
+import { HeartIcon, ArrowUpIcon } from "~/common/components/icons";
+
 import {
   Card,
-  Image,
+  SkeletonImage,
   Title,
   Description,
   Footer,
-  Author,
-  AuthorImage,
   Actions,
   FavoriteButton,
   ShareButton,
 } from "./RecipeCard.styled";
 
-export const RecipeCardSkeleton = () => {
-  return (
-    <Card>
-      <Image />
-      <>
-        <Title />
-        <Description />
-        <Description />
-        <Footer>
-          <Author>
-            <AuthorImage />
-            <Author />
-          </Author>
-          <Actions>
-            <FavoriteButton>♡</FavoriteButton>
-            <ShareButton>↗</ShareButton>
-          </Actions>
-        </Footer>
-      </>
-    </Card>
-  );
-};
+export const RecipeCardSkeleton = () => (
+  <Card>
+    <SkeletonImage active />
+    <>
+      <Title>
+        <Skeleton.Input active />
+      </Title>
+
+      <Description>
+        <Skeleton.Input active />
+      </Description>
+
+      <Footer>
+        <Space>
+          <Skeleton.Avatar active size={32} />
+          <Skeleton.Input active />
+        </Space>
+
+        <Actions>
+          <FavoriteButton>
+            <HeartIcon />
+          </FavoriteButton>
+          <ShareButton>
+            <ArrowUpIcon />
+          </ShareButton>
+        </Actions>
+      </Footer>
+    </>
+  </Card>
+);

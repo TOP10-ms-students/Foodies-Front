@@ -24,6 +24,12 @@ const StyledSelect = styled(AntdSelect)`
   .ant-select-selection-search > input {
     height: 54px !important;
   }
+
+  .ant-select-clear {
+    top: 25px;
+    right: 46px;
+    font-size: 20px;
+  }
 `;
 
 export const Select = ({ width, ...props }) => (

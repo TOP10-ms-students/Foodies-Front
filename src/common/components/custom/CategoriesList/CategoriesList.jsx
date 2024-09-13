@@ -1,4 +1,13 @@
 import React, { useState, useEffect } from "react";
+
+import {
+  CategoryCard,
+  CategoryCardSkeleton,
+} from "~/common/components/custom/CategoryCard";
+import { PageTitle } from "~/common/components/ui/PageTitle";
+
+import { getAllCategories } from "~/api/categories";
+
 import {
   CategoriesSection,
   Description,
@@ -6,12 +15,6 @@ import {
   AllCategoriesCard,
   AllCategoriesContent,
 } from "./CategoriesList.styled.js";
-import { getAllCategories } from "~/api/categories";
-import { PageTitle } from "~/common/components/ui/PageTitle";
-import {
-  CategoryCard,
-  CategoryCardSkeleton,
-} from "~/common/components/custom/CategoryCard";
 
 export const CategoriesList = ({ setCategory }) => {
   const [categories, setCategories] = useState([]);

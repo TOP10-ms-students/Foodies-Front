@@ -1,11 +1,6 @@
+import { notification } from "antd";
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { getPopularRecipes, getRecipe } from "../../api/recipes.js";
-import { notification } from "antd";
-
-import { ROUTE_PATHS } from "~/routing/constants";
-
-import { FormBox, PageBox } from "../AddRecipePage/AddRecipePage.styled.jsx";
 
 import {
   Breadcrumb,
@@ -14,6 +9,10 @@ import {
   RecipePreparation,
 } from "~/common/components";
 
+import { getPopularRecipes, getRecipe } from "~/api/recipes.js";
+
+import { ROUTE_PATHS } from "~/routing/constants";
+
 import {
   PathInfo,
   RecipeInfo,
@@ -21,6 +20,7 @@ import {
   Title,
   RecipeImg,
 } from "./RecipePage.styled.js";
+import { FormBox, PageBox } from "../AddRecipePage/AddRecipePage.styled.jsx";
 
 export const RecipePage = () => {
   const { id } = useParams();
@@ -51,7 +51,6 @@ export const RecipePage = () => {
   const getPopular = async () => {
     getPopularRecipes()
       .then(({ data }) => {
-        console.log(data);
         notificationApi.success({
           message: "Popular recipe get successfully!",
         });

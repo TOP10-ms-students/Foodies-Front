@@ -1,13 +1,15 @@
 import React from "react";
+
 import { ArrowUpIcon } from "~/common/components/icons";
+
 import {
-   CategoryCardWrapper,
-   CategoryImage,
-   CategoryOverlay,
-   CategoryInfo,
-   IconArrow,
- } from "./CategoryCard.styled.jsx";
- 
+  CategoryImage,
+  CategoryCardWrapper,
+  CategoryOverlay,
+  CategoryInfo,
+  IconArrow,
+} from "./CategoryCard.styled";
+
 export const CategoryCard = ({ category, onClick, isLarge }) => (
   <CategoryCardWrapper className={isLarge ? "large" : ""}>
     <CategoryImage src={category.img} alt={category.name} />
