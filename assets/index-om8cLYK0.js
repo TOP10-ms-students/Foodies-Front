@@ -1972,4 +1972,4 @@ attempted value: ${a}
   .ant-dropdown-menu-item-active {
     background-color: ${({theme:e})=>e.colors.gray} !important;
   }
-`,Hge=()=>D.jsx(Xte,{children:D.jsx(K4,{theme:zge,children:D.jsxs(Uo,{theme:Fge,children:[D.jsx(Bge,{}),D.jsx(Lge,{})]})})}),Vge=sR(document.getElementById("root"));Vge.render(D.jsx(c.StrictMode,{children:D.jsx(s6,{store:_R,children:D.jsx(mR,{persistor:jF,children:D.jsx(Hge,{})})})}))});export default Wge();
+`,Hge=()=>D.jsx(Xte,{basename:"/Foodies-Front",children:D.jsx(K4,{theme:zge,children:D.jsxs(Uo,{theme:Fge,children:[D.jsx(Bge,{}),D.jsx(Lge,{})]})})}),Vge=sR(document.getElementById("root"));Vge.render(D.jsx(c.StrictMode,{children:D.jsx(s6,{store:_R,children:D.jsx(mR,{persistor:jF,children:D.jsx(Hge,{})})})}))});export default Wge();
