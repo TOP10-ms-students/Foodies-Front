@@ -122,9 +122,21 @@ export const AddRecipePage = () => {
     [areas]
   );
 
+  const onChangeIngredient = (o) => {
+    const ingredient = ingredientsOptions.find((i) => i.value === o.value);
+    setFieldValue("ingredient", ingredient);
+  };
+
+  const onRemoveIngredient = (key) => {
+    setFieldValue(
+      "ingredients",
+      values.ingredients.filter((i) => i.value !== key)
+    );
+  };
+
   const onAddIngredient = () => {
     const newIngredient = {
-      id: values.ingredient,
+      ...values.ingredient,
       quantity: values.quantity,
     };
 
@@ -150,9 +162,10 @@ export const AddRecipePage = () => {
         }
 
         setIngredientsOptions(
-          data?.ingredients?.map(({ id, name }) => ({
+          data?.ingredients?.map(({ id, name, img }) => ({
             value: id,
             label: name,
+            img,
           })) ?? []
         );
         setIsLoadingIngredients(false);
@@ -165,23 +178,26 @@ export const AddRecipePage = () => {
   async function onSubmit(values) {
     setIsSubmitting(true);
     try {
-      // imageFile && (await uploadImage(imageFile));
+      if (!imageFile) {
+        notificationApi.error({ message: "Please upload an image" });
+        return;
+      }
 
-      const submitData = {
-        // thumb: "thumb-url",
-        title: values.name,
-        categoryId: values.category,
-        areaId: values.area,
-        instructions: values.preparation,
-        description: values.description,
-        time: values.cookingTime,
-        ingredients: values.ingredients.map(({ id, quantity }) => ({
-          ingredientId: id,
-          measure: quantity,
-        })),
-      };
+      const formdata = new FormData();
+      formdata.append("title", values.name);
+      formdata.append("thumb", imageFile, imageFile.name);
+      formdata.append("categoryId", values.category);
+      formdata.append("areaId", values.area);
+      formdata.append("instructions", values.preparation);
+      formdata.append("description", values.description);
+      formdata.append("time", values.cookingTime * 60);
 
-      const { data } = await createRecipe(submitData);
+      values.ingredients.forEach(({ value, quantity }, index) => {
+        formdata.append(`ingredients[${index}][ingredientId]`, value);
+        formdata.append(`ingredients[${index}][measure]`, quantity);
+      });
+
+      const { data } = await createRecipe(formdata);
 
       notificationApi.success({ message: "Recipe created successfully!" });
 
@@ -316,7 +332,7 @@ export const AddRecipePage = () => {
                   <Select
                     labelInValue
                     value={values.ingredient}
-                    onChange={(v) => setFieldValue("ingredient", v.key)}
+                    onChange={onChangeIngredient}
                     notFoundContent={
                       isLoadingIngredients ? <Spin size="small" /> : null
                     }
@@ -372,8 +388,9 @@ export const AddRecipePage = () => {
                     <IngredientCard
                       key={index}
                       imageSrc={ingredient.img}
-                      title={ingredient.name}
+                      title={ingredient.label}
                       weight={ingredient.quantity}
+                      onDelete={() => onRemoveIngredient(ingredient.value)}
                     />
                   ))}
                 </IngredientsList>
