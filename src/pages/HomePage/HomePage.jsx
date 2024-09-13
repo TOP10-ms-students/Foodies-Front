@@ -8,6 +8,8 @@ import { Testimonials } from "~/common/components/custom/Testimonials";
 
 import { useCategoriesQueries } from "~/common/hooks/useCategoriesQueries";
 
+import { CategoriesAndRecipesWrapper } from "./HomePage.styled";
+
 export const HomePage = () => {
   const { categoryName, categoryId, setCategory, resetCategory } =
     useCategoriesQueries();
@@ -37,15 +39,17 @@ export const HomePage = () => {
         />
       )}
 
-      {categoryName ? (
-        <RecipesList
-          category={{ name: categoryName, id: categoryId }}
-          goToCategories={resetCategory}
-          onError={handleError}
-        />
-      ) : (
-        <CategoriesList setCategory={setCategory} />
-      )}
+      <CategoriesAndRecipesWrapper>
+        {categoryName ? (
+          <RecipesList
+            category={{ name: categoryName, id: categoryId }}
+            goToCategories={resetCategory}
+            onError={handleError}
+          />
+        ) : (
+          <CategoriesList setCategory={setCategory} />
+        )}
+      </CategoriesAndRecipesWrapper>
 
       <section>
         <Testimonials />

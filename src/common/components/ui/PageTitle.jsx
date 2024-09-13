@@ -8,13 +8,13 @@ const StyledPageTitle = styled(Typography.Title)`
   font-weight: 800;
   line-height: 32px;
   letter-spacing: -0.02em;
-  margin-top: 32px;
+  margin-top: 0;
   margin-bottom: 16px;
 
   @media ${({ theme }) => theme.media.tablet} {
     font-size: 40px;
     line-height: 44px;
-    margin-top: 40px;
+    margin-top: 0;
     margin-bottom: 20px;
   }
 `;

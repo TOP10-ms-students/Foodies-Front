@@ -3,10 +3,18 @@ import styled from "styled-components";
 export const RecipesSection = styled.div``;
 
 export const BackButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 6px;
   background-color: transparent;
   outline: none;
   border: none;
   cursor: pointer;
+  margin-bottom: 16px;
+
+  @media ${({ theme }) => theme.media.tablet} {
+    margin-bottom: 20px;
+  }
 `;
 
 export const Description = styled.p`

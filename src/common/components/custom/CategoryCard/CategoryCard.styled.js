@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+import { Button } from "~/common/components";
+
 export const CategoryCardWrapper = styled.div`
   height: 250px;
   position: relative;
@@ -68,4 +70,11 @@ export const IconArrow = styled.span`
   font-size: 20px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   cursor: pointer;
+`;
+
+export const StyledButton = styled(Button)`
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  color: ${({ theme }) => theme.colors.white};
 `;

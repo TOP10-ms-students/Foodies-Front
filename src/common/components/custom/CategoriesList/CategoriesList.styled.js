@@ -1,8 +1,6 @@
 import styled from "styled-components";
 
-export const CategoriesSection = styled.div`
-  text-align: left;
-`;
+export const CategoriesSection = styled.div``;
 
 export const Description = styled.p`
   margin-bottom: 32px;

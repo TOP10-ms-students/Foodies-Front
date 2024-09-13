@@ -10,6 +10,7 @@ export const RecipeImg = styled.img`
   width: 100%;
   height: 318px;
   border-radius: 30px;
+  object-fit: cover;
 
   @media ${({ theme }) => theme.media.tablet} {
     width: 704px;
