@@ -8,6 +8,8 @@ import { UserInfoCard } from "~/common/components/custom/UserInfoCard";
 import { ROUTE_PATHS } from "~/routing/constants";
 
 import { PageBox } from "./MyProfilePage.styled";
+import { TabsList } from "../../common/components/custom/TabsList/TabsList";
+import { Tabs } from "../../common/components/ui/Tabs";
 
 const BREADCRUMB_ITEMS = [
   { title: <Link to={ROUTE_PATHS.HOME}>Home</Link> },
@@ -25,7 +27,8 @@ export const MyProfilePage = () => (
       gastronomic masterpieces with us.
     </PageSubtitle>
 
-    {/* <UserInfoCard />
-    <FollowerInfoCard /> */}
+    <TabsList />
+    {/* <UserInfoCard /> */}
+    {/* <FollowerInfoCard /> */}
   </PageBox>
 );
