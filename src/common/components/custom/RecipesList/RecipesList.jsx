@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
-import { RecipeCard } from "../RecipeCard/RecipeCard";
-import { RecipeCardSkeleton } from "../RecipeCard/RecipeCardSkeleton";
+
+import { PageTitle } from "~/common/components";
+import { ArrowLeftIcon } from "~/common/components/icons";
 import { Pagination } from "~/common/components/ui/Pagination";
 import { Select } from "~/common/components/ui/Select";
-import { getRecipes } from "~/api/recipes";
-import { getAllIngredients } from "~/api/ingredients";
+
 import { getAllAreas } from "~/api/areas";
+import { getAllIngredients } from "~/api/ingredients";
+import { getRecipes } from "~/api/recipes";
+
 import {
   RecipesSection,
   BackButton,
@@ -15,8 +18,8 @@ import {
   RecipesColumn,
   Filters,
 } from "./RecipeList.styled";
-import { PageTitle } from "~/common/components/ui/PageTitle";
-import { ArrowLeftIcon } from "~/common/components/icons";
+import { RecipeCard } from "../RecipeCard/RecipeCard";
+import { RecipeCardSkeleton } from "../RecipeCard/RecipeCardSkeleton";
 
 export const RecipesList = ({ category, goToCategories, onError }) => {
   const [recipes, setRecipes] = useState([]);

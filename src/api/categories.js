@@ -1,3 +1,3 @@
 import { api } from "./ApiService";
 
-export const getAllCategories = () => api.get("categories/");
+export const getAllCategories = () => api.get("categories");

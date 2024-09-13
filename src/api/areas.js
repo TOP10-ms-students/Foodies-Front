@@ -1,4 +1,3 @@
 import { api } from "./ApiService";
 
-export const getAllAreas = () => api.get("areas/");
-
+export const getAllAreas = () => api.get("areas");
