@@ -8,8 +8,8 @@ export const CardBox = styled.div`
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  padding: 30px 54px;
-  width: 343px;
+  padding: 30px;
+  max-width: 343px;
 
   @media ${({ theme }) => theme.media.tablet} {
     width: 394px;

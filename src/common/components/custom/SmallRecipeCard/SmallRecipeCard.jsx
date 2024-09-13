@@ -15,7 +15,7 @@ import {
 } from "./SmallRecipeCard.styled";
 import { ArrowUpIcon, DeleteIcon } from "../../icons/icons";
 
-export const RecipeInfoCard = ({ recipe, onDelete }) => (
+export const SmallRecipeCard = ({ recipe, onDelete }) => (
   <CardBox>
     <RecipeImage src={recipe.thumb || thumb} alt={recipe.title} />
     <BoxInfo>
