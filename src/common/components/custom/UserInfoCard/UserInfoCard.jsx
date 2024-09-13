@@ -12,44 +12,53 @@ import {
   UserDetailNumber,
 } from "./UserInfoCard.styled";
 
-export const UserInfoCard = ({
-  userInfo,
-  onClick,
-  isCurrentUser,
-  ...props
-}) => (
-  <CardBox>
-    <AvatarWrapper>
-      <CustomAvatar src={null} alt="User Avatar" />
-      {isCurrentUser && (
-        <PlusIcon onClick={onClick}>
-          <PlusOutlined />
-        </PlusIcon>
-      )}
-    </AvatarWrapper>
+export const UserInfoCard = ({ userInfo, onClick, isCurrentUser }) => {
+  const {
+    user: { name, email, avatar },
+    statistic: {
+      createdRecipeCount,
+      favoriteRecipeCount,
+      followersCount,
+      followingCount,
+    },
+  } = userInfo;
 
-    <UserName>Name</UserName>
+  return (
+    <CardBox>
+      <AvatarWrapper>
+        <CustomAvatar src={avatar} alt="User Avatar" />
+        {isCurrentUser && (
+          <PlusIcon onClick={onClick}>
+            <PlusOutlined />
+          </PlusIcon>
+        )}
+      </AvatarWrapper>
 
-    <UserInfo>
-      <UserDetail>
-        Email: <UserDetailNumber>example@email.com</UserDetailNumber>
-      </UserDetail>
-      <UserDetail>
-        Added recipes: <UserDetailNumber>7</UserDetailNumber>
-      </UserDetail>
-      {isCurrentUser && (
+      <UserName>{name}</UserName>
+
+      <UserInfo>
         <UserDetail>
-          Favorites: <UserDetailNumber>7</UserDetailNumber>
+          Email: <UserDetailNumber>{email}</UserDetailNumber>
         </UserDetail>
-      )}
-      <UserDetail>
-        Followers: <UserDetailNumber>7</UserDetailNumber>
-      </UserDetail>
-      {isCurrentUser && (
         <UserDetail>
-          Following: <UserDetailNumber>7</UserDetailNumber>
+          Added recipes:{" "}
+          <UserDetailNumber>{createdRecipeCount}</UserDetailNumber>
         </UserDetail>
-      )}
-    </UserInfo>
-  </CardBox>
-);
+        {isCurrentUser && (
+          <UserDetail>
+            Favorites:{" "}
+            <UserDetailNumber>{favoriteRecipeCount}</UserDetailNumber>
+          </UserDetail>
+        )}
+        <UserDetail>
+          Followers: <UserDetailNumber>{followersCount}</UserDetailNumber>
+        </UserDetail>
+        {isCurrentUser && (
+          <UserDetail>
+            Following: <UserDetailNumber>{followingCount}</UserDetailNumber>
+          </UserDetail>
+        )}
+      </UserInfo>
+    </CardBox>
+  );
+};

@@ -88,3 +88,24 @@ export const StyledArrowButton = styled(Button)`
     height: 42px !important;
   }
 `;
+
+export const RecipesList = styled.ul`
+  display: flex;
+  gap: 15px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+`;
+
+export const RecipeItem = styled.div`
+  border-radius: 15px;
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+`;

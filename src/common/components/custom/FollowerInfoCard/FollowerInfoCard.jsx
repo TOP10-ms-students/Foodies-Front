@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useMediaQuery } from "react-responsive";
+import { useNavigate } from "react-router-dom";
 
 import { ArrowUpIcon } from "~/common/components";
 
@@ -11,59 +12,78 @@ import {
   StyledButton,
   StyledArrowButton,
   UserInfoBox,
+  RecipesList,
+  RecipeItem,
 } from "./FollowerInfoCard.styled";
 
 export const FollowerInfoCard = ({
   userInfo,
-  isFollowing: initialFollowing,
-  recipesList,
+  initialFollowing,
+  onFollow,
+  onUnfollow,
 }) => {
   const [isFollowing, setIsFollowing] = useState(initialFollowing);
 
   const isDesktop = useMediaQuery({ minWidth: 1440 });
   const isTablet = useMediaQuery({ minWidth: 768 });
+  const navigate = useNavigate();
 
-  const displayedImages = isDesktop
-    ? recipesList.slice(0, 4)
-    : isTablet
-      ? recipesList.slice(0, 3)
-      : [];
+  const { id, name, avatar, recipecount, recipes } = userInfo;
+
+  const displayedImages = recipes
+    ? isDesktop
+      ? recipes.slice(0, 4)
+      : isTablet
+        ? recipes.slice(0, 3)
+        : []
+    : [];
 
   const handleFollowToggle = () => {
+    if (isFollowing) {
+      onFollow();
+    } else {
+      onUnfollow();
+    }
     setIsFollowing((prevState) => !prevState);
-    // if (isFollowing) {
-    //   unfollowUser();
-    // } else {
-    //   followUser();
-    // }
+  };
+
+  const handleImageClick = (id) => {
+    navigate(`/recipe/${id}`);
+  };
+
+  const handleGoToFollowerProfile = () => {
+    navigate(`/users/${id}`);
   };
 
   return (
     <CardBox>
       <UserInfoBox>
-        <CustomAvatar src={null} alt="User Avatar" />
+        <CustomAvatar src={avatar} alt="User Avatar" />
         <div>
-          <UserName>Name</UserName>
-          <UserDetail>Own recipes: 30</UserDetail>
+          <UserName>{name}</UserName>
+          <UserDetail>Own recipes: {recipecount}</UserDetail>
           <StyledButton onClick={handleFollowToggle}>
             {isFollowing ? "Following" : "Follow"}
           </StyledButton>
         </div>
       </UserInfoBox>
 
-      {/* {displayedImages.length > 0 && (
-        <ul>
+      {displayedImages.length > 0 && (
+        <RecipesList>
           {displayedImages.map((link, index) => (
-            <li key={index}>
-              <a href={link.url} target="_blank" rel="noopener noreferrer">
-                <img src={link.imgSrc} alt={link.altText} />
+            <RecipeItem key={index}>
+              <a onClick={() => handleImageClick(link.id)}>
+                <img src={link.thumb} alt={`Recipe ${link.id}`} />
               </a>
-            </li>
+            </RecipeItem>
           ))}
-        </ul>
-      )} */}
+        </RecipesList>
+      )}
 
-      <StyledArrowButton icon={<ArrowUpIcon />} />
+      <StyledArrowButton
+        onClick={handleGoToFollowerProfile}
+        icon={<ArrowUpIcon />}
+      />
     </CardBox>
   );
 };

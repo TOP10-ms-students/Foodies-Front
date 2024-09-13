@@ -25,7 +25,7 @@ export const MyProfilePage = () => (
       gastronomic masterpieces with us.
     </PageSubtitle>
 
-    <UserInfoCard />
-    <FollowerInfoCard />
+    {/* <UserInfoCard />
+    <FollowerInfoCard /> */}
   </PageBox>
 );
