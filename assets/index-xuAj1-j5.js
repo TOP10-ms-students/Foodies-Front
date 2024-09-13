@@ -1344,7 +1344,7 @@ html body {
     margin: 0;
     color: ${({theme:e})=>e.colors.white};
   }
-`,Vae=({setCategory:e})=>{const[t,n]=c.useState([]),[r,o]=c.useState(!1),[i,a]=c.useState(),[s,l]=c.useState(!0),u=11;c.useEffect(()=>{(async()=>{l(!0);try{const b=await zA();n(b.data.categories)}catch(b){a(b)}finally{l(!1)}})()},[]);const d=v=>{e(v)},f=()=>{o(!r)},p=(v,b)=>{const S=h=>{const m=Math.floor(h/3);return h%3===m%3};return D.jsx(Aae,{category:v,onClick:d,isLarge:S(b)},v.id)},g=v=>{const b=S=>{const h=Math.floor(S/3);return S%3===h%3};return D.jsx(Lae,{isLarge:b(v)},v)};return i?D.jsx("div",{children:i}):D.jsxs(zae,{children:[D.jsx(ph,{children:"CATEGORIES"}),D.jsx(Fae,{children:"Discover a limitless world of culinary possibilities and enjoy exquisite recipes that combine taste, style, and the warm atmosphere of the kitchen."}),D.jsxs(Dae,{children:[s?Array(u).fill().map((v,b)=>g(b)):t.slice(0,u).map(p),D.jsx(Bae,{onClick:f,children:D.jsx(Hae,{children:D.jsx("h3",{children:r?"LESS CATEGORIES":"ALL CATEGORIES"})})}),r&&!s&&t.slice(u).map(p)]})]})},Wae="/assets/hero1_x2-Dbu37arq.jpg",Uae="/assets/hero2_x2-CaG_c0qk.jpg",Gae=ce.section`
+`,Vae=({setCategory:e})=>{const[t,n]=c.useState([]),[r,o]=c.useState(!1),[i,a]=c.useState(),[s,l]=c.useState(!0),u=11;c.useEffect(()=>{(async()=>{l(!0);try{const b=await zA();n(b.data.categories)}catch(b){a(b)}finally{l(!1)}})()},[]);const d=v=>{e(v)},f=()=>{o(!r)},p=(v,b)=>{const S=h=>{const m=Math.floor(h/3);return h%3===m%3};return D.jsx(Aae,{category:v,onClick:d,isLarge:S(b)},v.id)},g=v=>{const b=S=>{const h=Math.floor(S/3);return S%3===h%3};return D.jsx(Lae,{isLarge:b(v)},v)};return i?D.jsx("div",{children:i}):D.jsxs(zae,{children:[D.jsx(ph,{children:"CATEGORIES"}),D.jsx(Fae,{children:"Discover a limitless world of culinary possibilities and enjoy exquisite recipes that combine taste, style, and the warm atmosphere of the kitchen."}),D.jsxs(Dae,{children:[s?Array(u).fill().map((v,b)=>g(b)):t.slice(0,u).map(p),D.jsx(Bae,{onClick:f,children:D.jsx(Hae,{children:D.jsx("h3",{children:r?"LESS CATEGORIES":"ALL CATEGORIES"})})}),r&&!s&&t.slice(u).map(p)]})]})},Wae="/Foodies-Front/assets/hero1_x2-Dbu37arq.jpg",Uae="/Foodies-Front/assets/hero2_x2-CaG_c0qk.jpg",Gae=ce.section`
   width: 100%;
   height: 796px;
   flex-shrink: 0;
@@ -1491,7 +1491,7 @@ html body {
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
-`;const dle="/assets/template_avatar-DROKVYmP.png",fle="/assets/template_recipe-BlH4iYAs.jpg",UA=ce.div`
+`;const dle="/Foodies-Front/assets/template_avatar-DROKVYmP.png",fle="/Foodies-Front/assets/template_recipe-BlH4iYAs.jpg",UA=ce.div`
   width: 343px;
   height: 366px;
   display: flex;
