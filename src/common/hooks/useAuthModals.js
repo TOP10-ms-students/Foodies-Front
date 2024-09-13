@@ -1,34 +1,36 @@
-import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
-const MODALS = {
-  signUp: "signUp",
-  login: "login",
-};
+import {
+  closeAuthModal,
+  openLoginModal,
+  openSignUpModal,
+  switchAuthModal,
+  AUTH_MODALS,
+} from "~/store/slices/auth";
 
 export const useAuthModals = () => {
-  const [currentOpen, setCurrentOpen] = useState(null);
+  const dispatch = useDispatch();
+  const currentOpen = useSelector((state) => state.auth.currentAuthModal);
 
   const handleOpenSignUp = () => {
-    setCurrentOpen(MODALS.signUp);
+    dispatch(openSignUpModal());
   };
 
   const handleOpenLogin = () => {
-    setCurrentOpen(MODALS.login);
+    dispatch(openLoginModal());
   };
 
   const switchModals = () => {
-    setCurrentOpen((prev) =>
-      prev && prev === MODALS.signUp ? MODALS.login : MODALS.signUp
-    );
+    dispatch(switchAuthModal());
   };
 
   const handleCancel = () => {
-    setCurrentOpen(null);
+    dispatch(closeAuthModal());
   };
 
   return {
-    isOpenLogin: currentOpen === MODALS.login,
-    isOpenSignUp: currentOpen === MODALS.signUp,
+    isOpenLogin: currentOpen === AUTH_MODALS.login,
+    isOpenSignUp: currentOpen === AUTH_MODALS.signUp,
     handleOpenSignUp,
     handleOpenLogin,
     switchModals,

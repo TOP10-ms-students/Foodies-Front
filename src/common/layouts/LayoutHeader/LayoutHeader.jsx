@@ -17,7 +17,7 @@ import { setUser } from "~/store/slices/auth";
 import { ROUTE_PATHS } from "~/routing/constants";
 
 import { PageContainer } from "../PageContainer";
-import AuthBar from "./AuthBar";
+import { AuthBar } from "./AuthBar";
 import HeaderNav from "./HeaderNav";
 import {
   StyledLayoutHeader,

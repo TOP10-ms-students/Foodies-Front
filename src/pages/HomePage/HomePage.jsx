@@ -6,6 +6,7 @@ import { Hero } from "~/common/components/custom/Hero";
 import { RecipesList } from "~/common/components/custom/RecipesList";
 import { Testimonials } from "~/common/components/custom/Testimonials";
 
+import { useAuthModals } from "~/common/hooks/useAuthModals";
 import { useCategoriesQueries } from "~/common/hooks/useCategoriesQueries";
 
 import { CategoriesAndRecipesWrapper } from "./HomePage.styled";
@@ -13,6 +14,7 @@ import { CategoriesAndRecipesWrapper } from "./HomePage.styled";
 export const HomePage = () => {
   const { categoryName, categoryId, setCategory, resetCategory } =
     useCategoriesQueries();
+  const { handleOpenLogin } = useAuthModals();
   const [error, setError] = useState(null);
 
   const handleError = (errorMessage) => {
@@ -26,7 +28,7 @@ export const HomePage = () => {
 
   return (
     <div>
-      <Hero />
+      <Hero openLoginModal={handleOpenLogin} />
 
       {error && (
         <Alert

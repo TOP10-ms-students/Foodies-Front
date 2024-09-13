@@ -1,32 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 
-import { Segmented } from "~/common/components";
+import { StyledAuthBar, StyledAuthButton } from "./LayoutHeader.styled";
 
-const items = [
-  { value: "login", label: "Login" },
-  { value: "signup", label: "Sign Up" },
-];
-
-const AuthBar = ({ handleOpenLogin, handleOpenSignUp }) => {
-  const [isLoginActive, setIsLoginActive] = useState(false);
-
-  const onChange = (value) => {
-    if (value === "login") {
-      handleOpenLogin();
-      setIsLoginActive(true);
-    } else {
-      handleOpenSignUp();
-      setIsLoginActive(false);
-    }
-  };
-
-  return (
-    <Segmented
-      options={items}
-      value={isLoginActive ? "login" : "signup"}
-      onChange={onChange}
-    />
-  );
-};
-
-export default AuthBar;
+export const AuthBar = ({ handleOpenLogin, handleOpenSignUp }) => (
+  <StyledAuthBar>
+    <StyledAuthButton type="text" onClick={handleOpenLogin}>
+      Login
+    </StyledAuthButton>
+    <StyledAuthButton type="primary" onClick={handleOpenSignUp}>
+      Sign up
+    </StyledAuthButton>
+  </StyledAuthBar>
+);
