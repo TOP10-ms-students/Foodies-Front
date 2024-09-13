@@ -1,4 +1,3 @@
-import React from "react";
 import { styled } from "styled-components";
 
 import { Avatar } from "~/common/components";
@@ -40,7 +39,6 @@ export const CustomAvatar = styled(Avatar)`
     height: 40px;
 
     @media ${({ theme }) => theme.media.tablet} {
-      margin-bottom: 20px;
       width: 60px;
       height: 60px;
     }
@@ -86,6 +84,7 @@ export const PlusIcon = styled.div`
 `;
 
 export const UserName = styled.h3`
+  margin: 0;
   text-transform: uppercase;
   font-size: 18px;
   font-weight: 800;
