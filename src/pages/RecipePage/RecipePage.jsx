@@ -28,7 +28,7 @@ export const RecipePage = () => {
   const [notificationApi, notificationContext] = notification.useNotification();
 
   const [recipe, setRecipe] = useState();
-  const [isLoading, setIsLoading] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   const BREADCRUMB_ITEMS = [
     { title: <Link to={ROUTE_PATHS.HOME}>Home</Link> },
@@ -36,6 +36,7 @@ export const RecipePage = () => {
   ];
 
   const getAllRecipe = async () => {
+    setIsLoading(true);
     getRecipe(id)
       .then(({ data }) => {
         setRecipe(data.recipe);
@@ -88,7 +89,7 @@ export const RecipePage = () => {
 
             <RecipeIngredients recipe={recipe} />
 
-            <RecipePreparation instructions={recipe.instructions} />
+            <RecipePreparation instructions={recipe.instructions} id={id} />
           </RecipeInfo>
         </FormBox>
       ) : (
