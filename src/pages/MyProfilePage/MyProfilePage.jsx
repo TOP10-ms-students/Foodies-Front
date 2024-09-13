@@ -2,8 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import { Breadcrumb, PageTitle, PageSubtitle } from "~/common/components";
-import { FollowerInfoCard } from "~/common/components/custom/FollowerInfoCard";
-import { UserInfoCard } from "~/common/components/custom/UserInfoCard";
 
 import { ROUTE_PATHS } from "~/routing/constants";
 
@@ -24,8 +22,5 @@ export const MyProfilePage = () => (
       Reveal your culinary art, share your favorite recipe and create
       gastronomic masterpieces with us.
     </PageSubtitle>
-
-    {/* <UserInfoCard />
-    <FollowerInfoCard /> */}
   </PageBox>
 );
