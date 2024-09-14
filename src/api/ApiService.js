@@ -31,6 +31,23 @@ const onRequest = (config) => {
   return config;
 };
 
+/**
+ * handle authorization error
+ * this probably should be in some sort of
+ * redux-thunk but all the code already written
+ * so we doing so through axios interceptor
+ */
+
+const onErrorResponse = (error) => {
+  if (error.response && error.response.status === 401) {
+    // TODO: consider to also dispatch logout event to the store?
+    authTokenService.unset();
+  }
+  return Promise.reject(error);
+};
+
 api.interceptors.request.use(onRequest);
+
+api.interceptors.response.use((res) => res, onErrorResponse);
 
 export { api, authTokenService };
