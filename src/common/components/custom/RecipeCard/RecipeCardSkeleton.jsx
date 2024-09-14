@@ -22,9 +22,9 @@ export const RecipeCardSkeleton = () => (
         <Skeleton.Input active />
       </Title>
 
-      <Description>
+      <Title>
         <Skeleton.Input active />
-      </Description>
+      </Title>
 
       <Footer>
         <Space>

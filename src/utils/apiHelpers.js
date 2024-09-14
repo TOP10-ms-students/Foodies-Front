@@ -1,4 +1,4 @@
-export const handleApiRequest = async (
+export const handleFavoriteApi = async (
   requestFunc,
   successMessage,
   notificationApi,

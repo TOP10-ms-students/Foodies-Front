@@ -32,7 +32,8 @@ export const StyledLayoutHeader = styled.header`
   }
 
   padding: 16px;
-  background-color: ${({ theme }) => theme?.colors?.black};
+  background-color: ${({ theme, $isHomePage }) =>
+    $isHomePage ? theme?.colors?.black : theme?.colors?.white};
   border-radius: 30px;
 
   @media ${({ theme }) => theme.media.tablet} {
@@ -47,7 +48,8 @@ export const StyledLayoutHeader = styled.header`
 export const LogoLink = styled(NavLink)`
   font-weight: 800;
   font-size: 20px;
-  color: ${({ theme }) => theme?.colors?.white};
+  color: ${({ theme, $isHomePage }) =>
+    $isHomePage ? theme?.colors?.white : theme?.colors?.black};
   text-decoration: none;
 
   @media ${({ theme }) => theme.media.tablet} {
@@ -69,8 +71,10 @@ export const HeaderMenuLink = styled(NavLink)`
   font-weight: bold;
   text-transform: uppercase;
   padding: 14px;
-  color: ${({ theme }) => theme?.colors?.white};
-  background-color: ${({ theme }) => theme?.colors?.black};
+  color: ${({ theme, $isHomePage }) =>
+    $isHomePage ? theme?.colors?.white : theme?.colors?.black};
+  background-color: ${({ theme, $isHomePage }) =>
+    $isHomePage ? theme?.colors?.black : theme?.colors?.white};
   border-radius: 30px;
   text-decoration: none;
   &.active {
@@ -84,6 +88,14 @@ export const ProfileWrapper = styled.div`
 `;
 
 export const MobileMenuButtonBox = styled.div`
+  cursor: pointer;
+  margin-left: 4px;
+
+  svg path {
+    stroke: ${({ theme, $isHomePage }) =>
+      $isHomePage ? theme?.colors?.white : theme?.colors?.black};
+  }
+
   @media ${({ theme }) => theme.media.tablet} {
     display: none;
   }

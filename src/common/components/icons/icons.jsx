@@ -7,6 +7,7 @@ import Icon, {
   YoutubeFilled,
   DownOutlined,
   DeleteOutlined,
+  HeartFilled,
 } from "@ant-design/icons";
 import React from "react";
 import { styled } from "styled-components";
@@ -19,6 +20,7 @@ import { QuotesIconSvg } from "./QuotesIconSvg";
 export const EyeIcon = EyeOutlined;
 export const EyeInvisibleIcon = EyeInvisibleOutlined;
 export const HeartIcon = HeartOutlined;
+export const HeartIconFilled = HeartFilled;
 export const ArrowUpIcon = styled(ArrowUpOutlined)`
   transform: rotate(45deg);
 `;

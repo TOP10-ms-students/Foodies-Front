@@ -16,12 +16,6 @@ export const PageBox = styled.div`
 `;
 
 export const FormBox = styled.div`
-  padding-top: 18px;
-
-  @media ${({ theme }) => theme.media.tablet} {
-    padding-top: 24px;
-  }
-
   @media ${({ theme }) => theme.media.desktop} {
     display: grid;
     grid-template-columns: 550px auto;

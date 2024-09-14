@@ -1,6 +1,7 @@
 import { Modal, notification } from "antd";
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 import { LogoutModalContent } from "~/common/components/custom/LogoutModalContent";
 import { LoginForm } from "~/common/components/forms/LoginForm";
@@ -27,6 +28,7 @@ import {
 import UserBar from "./UserBar";
 
 export const LayoutHeader = () => {
+  const location = useLocation();
   const dispatch = useDispatch();
   const user = useSelector(getCurrentUser);
 
@@ -43,6 +45,8 @@ export const LayoutHeader = () => {
     switchModals,
     handleCancel,
   } = useAuthModals();
+
+  const isHomePage = location.pathname === "/";
 
   const handleOpenLogout = () => setIsOpenLogout(true);
 
@@ -70,14 +74,20 @@ export const LayoutHeader = () => {
     <>
       <PageContainer>
         <FixedHeader>
-          <StyledLayoutHeader>
-            <LogoLink to={ROUTE_PATHS.HOME}>foodies</LogoLink>
+          <StyledLayoutHeader $isHomePage={isHomePage}>
+            <LogoLink to={ROUTE_PATHS.HOME} $isHomePage={isHomePage}>
+              foodies
+            </LogoLink>
 
             {user ? (
               <>
-                <HeaderNav />
+                <HeaderNav isHomePage={isHomePage} />
 
-                <UserBar name={user.name} handleOpenLogout={handleOpenLogout} />
+                <UserBar
+                  name={user.name}
+                  handleOpenLogout={handleOpenLogout}
+                  isHomePage={isHomePage}
+                />
               </>
             ) : (
               <AuthBar

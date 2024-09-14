@@ -1,25 +1,17 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 
 import {
-  Breadcrumb,
   PageTitle,
   PageSubtitle,
   UserInfoCard,
   TabsList,
+  PathInfo,
 } from "~/common/components";
 
 import { getCurrentUser } from "~/store/selectors";
 
-import { ROUTE_PATHS } from "~/routing/constants";
-
 import { PageBox, ContentBox, TabsBox } from "./MyProfilePage.styled";
-
-const BREADCRUMB_ITEMS = [
-  { title: <Link to={ROUTE_PATHS.HOME}>Home</Link> },
-  { title: "Profile" },
-];
 
 export const MyProfilePage = () => {
   const user = useSelector(getCurrentUser);
@@ -30,7 +22,7 @@ export const MyProfilePage = () => {
 
   return (
     <PageBox>
-      <Breadcrumb items={BREADCRUMB_ITEMS} />
+      <PathInfo title={"Profile"} />
 
       <PageTitle>Profile</PageTitle>
 

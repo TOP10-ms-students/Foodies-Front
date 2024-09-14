@@ -3,10 +3,9 @@ import { Typography, notification, Spin } from "antd";
 import { useFormik } from "formik";
 import debounce from "lodash/debounce";
 import React, { useState, useEffect, useMemo, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import {
-  Breadcrumb,
   PageTitle,
   PageSubtitle,
   UploadPhoto,
@@ -17,14 +16,13 @@ import {
   Button,
   IngredientCard,
   DeleteIcon,
+  PathInfo,
 } from "~/common/components";
 
 import { getAllAreas } from "~/api/areas";
 import { getAllCategories } from "~/api/categories";
 import { getIngredients } from "~/api/ingredients";
 import { createRecipe } from "~/api/recipes";
-
-import { ROUTE_PATHS } from "~/routing/constants";
 
 import { addRecipeSchema } from "~/common/validation/recipes";
 
@@ -50,11 +48,6 @@ const { Text } = Typography;
 const ErrorMessage = ({ errors, touched, name }) =>
   errors?.[name] &&
   touched?.[name] && <Text type="danger">{errors[name]}</Text>;
-
-const BREADCRUMB_ITEMS = [
-  { title: <Link to={ROUTE_PATHS.HOME}>Home</Link> },
-  { title: "Add Recipe" },
-];
 
 const INIT_VALUES = {
   name: "",
@@ -216,7 +209,7 @@ export const AddRecipePage = () => {
     <PageBox>
       {notificationContext}
 
-      <Breadcrumb items={BREADCRUMB_ITEMS} />
+      <PathInfo title={"Add Recipe"} />
 
       <PageTitle>Add Recipe</PageTitle>
 
