@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import thumb from "~/common/components/img/template_recipe.jpg";
+import defaultImg from "~/common/components/img/template_recipe.jpg";
 
 import {
   CardBox,
@@ -15,23 +15,29 @@ import {
 } from "./SmallRecipeCard.styled";
 import { ArrowUpIcon, DeleteIcon } from "../../icons/icons";
 
-export const SmallRecipeCard = ({ recipe, onDelete }) => (
+export const SmallRecipeCard = ({
+  recipe: { id, thumb, title, description },
+  showDeleteButton,
+  onDelete,
+}) => (
   <CardBox>
-    <RecipeImage src={recipe.thumb || thumb} alt={recipe.title} />
+    <RecipeImage src={thumb || defaultImg} alt={title} />
     <BoxInfo>
       <BoxInfoTitle>
-        <RecipeTitle>{recipe.title}</RecipeTitle>
-        <RecipeDescription>{recipe.description}</RecipeDescription>
+        <RecipeTitle>{title}</RecipeTitle>
+        <RecipeDescription>{description}</RecipeDescription>
       </BoxInfoTitle>
       <BoxInfoIcons>
-        <Link to={`/recipe/${recipe.id}`}>
+        <Link to={`/recipe/${id}`}>
           <WrapperIcon>
             <ArrowUpIcon />
           </WrapperIcon>
         </Link>
-        <WrapperIcon onClick={onDelete}>
-          <DeleteIcon />
-        </WrapperIcon>
+        {showDeleteButton && (
+          <WrapperIcon onClick={onDelete}>
+            <DeleteIcon />
+          </WrapperIcon>
+        )}
       </BoxInfoIcons>
     </BoxInfo>
   </CardBox>

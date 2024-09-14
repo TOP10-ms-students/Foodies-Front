@@ -357,7 +357,6 @@ export const AddRecipePage = () => {
               iconPosition="end"
               onClick={onAddIngredient}
               disabled={disableAddIngredientBtn}
-              // eslint-disable-next-line prettier/prettier
             >
               Add ingredient
             </Button>

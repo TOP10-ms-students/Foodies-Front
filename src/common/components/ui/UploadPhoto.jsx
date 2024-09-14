@@ -105,7 +105,6 @@ export const UploadPhoto = ({ imageFile, setImageFile, initImageUrl }) => {
         listType="picture-card"
         showUploadList={false}
         beforeUpload={beforeUpload}
-        // eslint-disable-next-line prettier/prettier
       >
         {imageUrl ? (
           <StyledImg src={imageUrl} alt="avatar" />

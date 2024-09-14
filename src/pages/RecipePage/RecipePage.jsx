@@ -1,6 +1,7 @@
 import { notification } from "antd";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+
 import {
   RecipeMainInfo,
   RecipeIngredients,
@@ -9,11 +10,13 @@ import {
   PathInfo,
 } from "~/common/components";
 import thumb from "~/common/components/img/template_recipe.jpg";
+
 import { getRecipe } from "~/api/recipes.js";
+
 import { RecipeInfo, RecipeImg } from "./RecipePage.styled.js";
-import { FormBox, PageBox } from "../AddRecipePage/AddRecipePage.styled.jsx";
-import useFavoriteRecipes from "../../common/hooks/useFavoriteRecipes.js";
 import { RecipeSkeleton } from "./RecipeSkeleton.jsx";
+import useFavoriteRecipes from "../../common/hooks/useFavoriteRecipes.js";
+import { FormBox, PageBox } from "../AddRecipePage/AddRecipePage.styled.jsx";
 
 export const RecipePage = () => {
   const { id } = useParams();
@@ -28,7 +31,7 @@ export const RecipePage = () => {
     switchFavorite,
   } = useFavoriteRecipes(notificationApi);
 
-  const [recipe, setRecipe] = useState();
+  const [recipe, setRecipe] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const getAllRecipe = async () => {
@@ -36,7 +39,6 @@ export const RecipePage = () => {
     getRecipe(id)
       .then(({ data }) => {
         setRecipe(data.recipe);
-        notificationApi.success({ message: "Recipe get successfully!" });
       })
       .catch(({ response: { data } }) => {
         const message = data?.message ?? "Something went wrong";
@@ -53,7 +55,9 @@ export const RecipePage = () => {
     <PageBox>
       <PathInfo title={recipe?.title || "Recipe"} />
 
-      {!isLoading && recipe ? (
+      {isLoading && <RecipeSkeleton />}
+
+      {recipe && (
         <FormBox>
           <RecipeImg src={recipe.thumb || thumb} alt={recipe.title} />
 
@@ -79,8 +83,6 @@ export const RecipePage = () => {
             />
           </RecipeInfo>
         </FormBox>
-      ) : (
-        <RecipeSkeleton />
       )}
 
       <PopularRecipes

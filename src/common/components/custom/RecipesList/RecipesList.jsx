@@ -10,6 +10,8 @@ import { getAllAreas } from "~/api/areas";
 import { getIngredients } from "~/api/ingredients";
 import { getRecipes } from "~/api/recipes";
 
+import { DEFAULT_ITEMS_PER_PAGE } from "~/constants/paginationConstants.js";
+
 import {
   RecipesSection,
   BackButton,
@@ -38,8 +40,6 @@ export const RecipesList = ({ category, goToCategories, onError }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const topRef = useRef(null);
-
-  const RECIPES_PER_PAGE = 12;
 
   const fetchRecipes = async (page = 1) => {
     setIsLoading(true);
@@ -169,7 +169,7 @@ export const RecipesList = ({ category, goToCategories, onError }) => {
         <RecipesColumn>
           <RecipeGrid>
             {isLoading ? (
-              Array(RECIPES_PER_PAGE)
+              Array(DEFAULT_ITEMS_PER_PAGE)
                 .fill()
                 .map((_, index) => <RecipeCardSkeleton key={index} />)
             ) : recipes.length > 0 ? (
@@ -185,16 +185,13 @@ export const RecipesList = ({ category, goToCategories, onError }) => {
               <p>No recipes found for this category.</p>
             )}
           </RecipeGrid>
-          {totalRecipes > RECIPES_PER_PAGE && (
-            <Pagination
-              current={currentPage}
-              total={totalRecipes}
-              pageSize={RECIPES_PER_PAGE}
-              onChange={handlePageChange}
-              showSizeChanger={false}
-              showQuickJumper
-            />
-          )}
+          <Pagination
+            current={currentPage}
+            total={totalRecipes}
+            onChange={handlePageChange}
+            showSizeChanger={false}
+            showQuickJumper
+          />
         </RecipesColumn>
       </RecipesWrapper>
 

@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
 import { notification } from "antd";
-import { RecipeGrid } from "../RecipesList/RecipeList.styled";
-import { Box, Title } from "./PopularRecipes.styled";
+import React, { useEffect, useState } from "react";
+
 import { getPopularRecipes } from "~/api/recipes.js";
+
+import { Box, Title } from "./PopularRecipes.styled";
 import { RecipeCard } from "../RecipeCard/RecipeCard";
+import { RecipeGrid } from "../RecipesList/RecipeList.styled";
 
 export const PopularRecipes = ({ favoriteIds, switchFavorite }) => {
   const [popular, setPopular] = useState([]);
@@ -16,9 +18,6 @@ export const PopularRecipes = ({ favoriteIds, switchFavorite }) => {
     getPopularRecipes()
       .then(({ data }) => {
         setPopular(data?.recipes);
-        notificationApi.success({
-          message: "Popular recipe get successfully!",
-        });
       })
       .catch(({ data }) => {
         const message = data?.message ?? "Something went wrong";
