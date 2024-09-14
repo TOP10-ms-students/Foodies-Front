@@ -103,7 +103,6 @@ export const LayoutHeader = () => {
         centered
         closable={!isLoading}
         footer={null}
-        // eslint-disable-next-line prettier/prettier
       >
         <LogoutModalContent
           isLoading={isLoading}

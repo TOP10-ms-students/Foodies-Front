@@ -1,4 +1,4 @@
-import { notification } from "antd";
+import { notification, Spin } from "antd";
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
@@ -36,7 +36,6 @@ export const RecipePage = () => {
     getRecipe(id)
       .then(({ data }) => {
         setRecipe(data.recipe);
-        notificationApi.success({ message: "Recipe get successfully!" });
       })
       .catch(({ response: { data } }) => {
         const message = data?.message ?? "Something went wrong";
@@ -55,7 +54,8 @@ export const RecipePage = () => {
         <Breadcrumb items={BREADCRUMB_ITEMS} />
       </PathInfo>
 
-      {!isLoading && recipe ? (
+      {isLoading && <Spin />}
+      {recipe && (
         <FormBox>
           <RecipeImg src={recipe.thumb || thumb} alt={recipe.title} />
 
@@ -74,8 +74,6 @@ export const RecipePage = () => {
             <RecipePreparation instructions={recipe.instructions} id={id} />
           </RecipeInfo>
         </FormBox>
-      ) : (
-        <h2>Recipes Loading...</h2>
       )}
 
       <PopularRecipes />

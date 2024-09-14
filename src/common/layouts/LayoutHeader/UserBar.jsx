@@ -54,7 +54,6 @@ const UserBar = ({ name = "User", handleOpenLogout }) => {
         height="100%"
         onClose={closeMobileMenu}
         open={isOpenMobileMenu}
-        // eslint-disable-next-line prettier/prettier
       >
         <StyledDrawerContent>
           {HEADER_LINKS.map(({ name, path }) => (

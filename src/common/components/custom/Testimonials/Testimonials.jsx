@@ -57,7 +57,6 @@ export const Testimonials = () => {
         autoplay={{ delay: 5000 }}
         spaceBetween={30}
         slidesPerView={1}
-        // eslint-disable-next-line prettier/prettier
       >
         {testimonials.map((testimonial, index) => (
           <SwiperSlide key={index}>

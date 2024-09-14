@@ -1,6 +1,8 @@
-import React from "react";
 import { Pagination as AntdPagination } from "antd";
+import React from "react";
 import styled from "styled-components";
+
+import { DEFAULT_ITEMS_PER_PAGE } from "~/constants/paginationConstants";
 
 const StyledPagintaion = styled(AntdPagination)`
   display: flex;
@@ -10,11 +12,15 @@ const StyledPagintaion = styled(AntdPagination)`
 export const Pagination = ({
   current,
   total,
-  pageSize,
   onChange,
   showSizeChanger = false,
   disabled = false,
+  pageSize = DEFAULT_ITEMS_PER_PAGE,
 }) => {
+  const hidePagination = total / pageSize <= 1;
+
+  if (hidePagination) return null;
+
   return (
     <StyledPagintaion
       current={current}
