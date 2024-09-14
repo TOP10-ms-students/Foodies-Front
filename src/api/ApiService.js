@@ -1,4 +1,6 @@
 import axios from "axios";
+import { store } from "~/store";
+import { logout } from "~/store/slices/auth";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -40,7 +42,7 @@ const onRequest = (config) => {
 
 const onErrorResponse = (error) => {
   if (error.response && error.response.status === 401) {
-    // TODO: consider to also dispatch logout event to the store?
+    store.dispatch(logout());
     authTokenService.unset();
   }
   return Promise.reject(error);
