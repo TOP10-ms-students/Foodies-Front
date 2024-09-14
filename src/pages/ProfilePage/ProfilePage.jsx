@@ -1,10 +1,10 @@
 import { Spin } from "antd";
 import React, { useEffect, useState } from "react";
 import * as notificationApi from "react-dom/test-utils";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import {
-  Breadcrumb,
+  PathInfo,
   PageTitle,
   PageSubtitle,
   UserInfoCard,
@@ -13,18 +13,11 @@ import {
 
 import { getUserById } from "~/api/user";
 
-import { ROUTE_PATHS } from "~/routing/constants";
-
 import {
   PageBox,
   ContentBox,
   TabsBox,
 } from "../MyProfilePage/MyProfilePage.styled";
-
-const BREADCRUMB_ITEMS = [
-  { title: <Link to={ROUTE_PATHS.HOME}>Home</Link> },
-  { title: "Profile" },
-];
 
 export const ProfilePage = () => {
   const { id: userId } = useParams();
@@ -55,7 +48,7 @@ export const ProfilePage = () => {
 
   return (
     <PageBox>
-      <Breadcrumb items={BREADCRUMB_ITEMS} />
+      <PathInfo title="Profile" />
 
       <PageTitle>Profile</PageTitle>
 

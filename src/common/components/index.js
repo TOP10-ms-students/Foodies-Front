@@ -21,3 +21,4 @@ export * from "./custom/RecipePreparation";
 export * from "./custom/PopularRecipes";
 export * from "./custom/TabsList";
 export * from "./custom/UserInfoCard";
+export * from "./custom/PathInfo";

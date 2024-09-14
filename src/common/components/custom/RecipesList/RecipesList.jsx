@@ -1,4 +1,4 @@
-import { Spin } from "antd";
+import { Spin, notification } from "antd";
 import debounce from "lodash/debounce";
 import React, { useState, useEffect, useRef, useMemo } from "react";
 
@@ -23,8 +23,12 @@ import {
 } from "./RecipeList.styled";
 import { RecipeCard } from "../RecipeCard/RecipeCard";
 import { RecipeCardSkeleton } from "../RecipeCard/RecipeCardSkeleton";
+import useFavoriteRecipes from "../../../hooks/useFavoriteRecipes";
 
 export const RecipesList = ({ category, goToCategories, onError }) => {
+  const [notificationApi, notificationContext] = notification.useNotification();
+  const { favoriteIds, switchFavorite } = useFavoriteRecipes(notificationApi);
+
   const [recipes, setRecipes] = useState([]);
   const [ingredientsOptions, setIngredientsOptions] = useState([]);
   const [areas, setAreas] = useState([]);
@@ -170,7 +174,12 @@ export const RecipesList = ({ category, goToCategories, onError }) => {
                 .map((_, index) => <RecipeCardSkeleton key={index} />)
             ) : recipes.length > 0 ? (
               recipes.map((recipe) => (
-                <RecipeCard key={recipe.id} recipe={recipe} />
+                <RecipeCard
+                  key={recipe.id}
+                  recipe={recipe}
+                  isFavorite={favoriteIds.includes(recipe.id)}
+                  switchFavorite={switchFavorite}
+                />
               ))
             ) : (
               <p>No recipes found for this category.</p>
@@ -185,6 +194,8 @@ export const RecipesList = ({ category, goToCategories, onError }) => {
           />
         </RecipesColumn>
       </RecipesWrapper>
+
+      {notificationContext}
     </RecipesSection>
   );
 };

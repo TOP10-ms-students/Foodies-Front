@@ -1,9 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { HeartIcon, ArrowUpIcon } from "~/common/components/icons";
 import avatar from "~/common/components/img/template_avatar.png";
-import thumb from "~/common/components/img/template_recipe.jpg";
+import defaultImg from "~/common/components/img/template_recipe.jpg";
 
 import {
   Card,
@@ -17,34 +17,43 @@ import {
   FavoriteButton,
   ShareButton,
 } from "./RecipeCard.styled";
+import { HeartIconFilled } from "../../icons/icons";
+import { scrollToTop } from "../../../../utils/scrollToTop";
 
-export const RecipeCard = ({ recipe }) => (
-  <Card>
-    <Image src={recipe.thumb || thumb} alt={recipe.title} />
-    <>
-      <Title>{recipe.title}</Title>
-      <Description>{recipe.description}</Description>
-      <Footer>
-        <Author>
-          <AuthorImage
-            src={recipe.owner.avatar || avatar}
-            alt={recipe.owner.name}
-          />
-          <span>{recipe.owner.name}</span>
-        </Author>
+export const RecipeCard = ({ recipe, isFavorite, switchFavorite }) => {
+  const navigate = useNavigate();
 
-        <Actions>
-          <FavoriteButton>
-            <HeartIcon />
-          </FavoriteButton>
+  const { id, title, thumb, description, owner } = recipe;
 
-          <Link to={`/recipe/${recipe.id}`}>
-            <ShareButton>
-              <ArrowUpIcon />
-            </ShareButton>
-          </Link>
-        </Actions>
-      </Footer>
-    </>
-  </Card>
-);
+  const goToUserPage = () => {
+    navigate(`/users/${owner.id}`);
+  };
+
+  return (
+    <Card>
+      <Image src={thumb || defaultImg} alt={title} />
+      <>
+        <Title>{title}</Title>
+        <Description>{description}</Description>
+        <Footer>
+          <Author onClick={() => (goToUserPage(), scrollToTop())}>
+            <AuthorImage src={owner.avatar || avatar} alt={owner.name} />
+            <span>{owner.name}</span>
+          </Author>
+
+          <Actions>
+            <FavoriteButton onClick={() => switchFavorite(id)}>
+              {isFavorite ? <HeartIconFilled /> : <HeartIcon />}
+            </FavoriteButton>
+
+            <Link to={`/recipe/${id}`} onClick={scrollToTop}>
+              <ShareButton>
+                <ArrowUpIcon />
+              </ShareButton>
+            </Link>
+          </Actions>
+        </Footer>
+      </>
+    </Card>
+  );
+};

@@ -30,6 +30,9 @@ export const authSlice = createSlice({
       state.currentAuthModal =
         state.currentAuthModal === "login" ? "signUp" : "login";
     },
+    logout: (state) => {
+      state.user = null;
+    },
   },
 });
 
@@ -39,6 +42,7 @@ export const {
   openLoginModal,
   openSignUpModal,
   switchAuthModal,
+  logout,
 } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { AuthFormLayout } from "~/common/components/custom/AuthFormLayout";
 import { Input, PasswordInput } from "~/common/components/ui/Input";
 
+import { authTokenService } from "~/api/ApiService";
 import { signUp, login } from "~/api/user";
 
 import { setUser } from "~/store/slices/auth";
@@ -33,6 +34,7 @@ export const SignUpForm = ({ onLinkClick, onSuccess }) => {
         });
 
         dispatch(setUser(data.user));
+        authTokenService.set(data.token);
 
         notificationApi.success({ message: "Registration successfull!" });
         form.resetFields();

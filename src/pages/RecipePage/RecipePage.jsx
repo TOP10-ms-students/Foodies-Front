@@ -1,21 +1,21 @@
-import { notification, Spin } from "antd";
+import { notification } from "antd";
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import {
-  Breadcrumb,
   RecipeMainInfo,
   RecipeIngredients,
   RecipePreparation,
   PopularRecipes,
+  PathInfo,
 } from "~/common/components";
 import thumb from "~/common/components/img/template_recipe.jpg";
 
 import { getRecipe } from "~/api/recipes.js";
 
-import { ROUTE_PATHS } from "~/routing/constants";
-
-import { PathInfo, RecipeInfo, RecipeImg } from "./RecipePage.styled.js";
+import { RecipeInfo, RecipeImg } from "./RecipePage.styled.js";
+import { RecipeSkeleton } from "./RecipeSkeleton.jsx";
+import useFavoriteRecipes from "../../common/hooks/useFavoriteRecipes.js";
 import { FormBox, PageBox } from "../AddRecipePage/AddRecipePage.styled.jsx";
 
 export const RecipePage = () => {
@@ -23,13 +23,16 @@ export const RecipePage = () => {
 
   const [notificationApi, notificationContext] = notification.useNotification();
 
-  const [recipe, setRecipe] = useState();
-  const [isLoading, setIsLoading] = useState(false);
+  const {
+    favoriteIds,
+    isLoadingFavorite,
+    addFavorite,
+    removeFavorite,
+    switchFavorite,
+  } = useFavoriteRecipes(notificationApi);
 
-  const BREADCRUMB_ITEMS = [
-    { title: <Link to={ROUTE_PATHS.HOME}>Home</Link> },
-    { title: recipe?.title ?? "Recipe" },
-  ];
+  const [recipe, setRecipe] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getAllRecipe = async () => {
     setIsLoading(true);
@@ -46,15 +49,14 @@ export const RecipePage = () => {
 
   useEffect(() => {
     getAllRecipe();
-  }, []);
+  }, [id]);
 
   return (
     <PageBox>
-      <PathInfo>
-        <Breadcrumb items={BREADCRUMB_ITEMS} />
-      </PathInfo>
+      <PathInfo title={recipe?.title || "Recipe"} />
 
-      {isLoading && <Spin />}
+      {isLoading && <RecipeSkeleton />}
+
       {recipe && (
         <FormBox>
           <RecipeImg src={recipe.thumb || thumb} alt={recipe.title} />
@@ -71,12 +73,22 @@ export const RecipePage = () => {
 
             <RecipeIngredients recipe={recipe} />
 
-            <RecipePreparation instructions={recipe.instructions} id={id} />
+            <RecipePreparation
+              id={id}
+              instructions={recipe.instructions}
+              isFavorite={favoriteIds.includes(id)}
+              isLoading={isLoadingFavorite}
+              addFavorite={addFavorite}
+              removeFavorite={removeFavorite}
+            />
           </RecipeInfo>
         </FormBox>
       )}
 
-      <PopularRecipes />
+      <PopularRecipes
+        favoriteIds={favoriteIds}
+        switchFavorite={switchFavorite}
+      />
 
       {notificationContext}
     </PageBox>

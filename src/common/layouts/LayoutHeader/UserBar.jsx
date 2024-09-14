@@ -16,7 +16,7 @@ import {
   MobileMenuButtonBox,
 } from "./LayoutHeader.styled";
 
-const UserBar = ({ name = "User", handleOpenLogout }) => {
+const UserBar = ({ name = "User", handleOpenLogout, isHomePage = false }) => {
   const [isOpenMobileMenu, setIsOpenMobileMenu] = useState(false);
 
   const openMobileMenu = () => setIsOpenMobileMenu(true);
@@ -43,7 +43,7 @@ const UserBar = ({ name = "User", handleOpenLogout }) => {
       <ProfileWrapper>
         <UserDropdown menu={{ items }} avatarSrc={null} userName={name} />
 
-        <MobileMenuButtonBox onClick={openMobileMenu}>
+        <MobileMenuButtonBox onClick={openMobileMenu} $isHomePage={isHomePage}>
           <MenuIconSvg />
         </MobileMenuButtonBox>
       </ProfileWrapper>
