@@ -1,7 +1,5 @@
 import styled from "styled-components";
 
-export const PathInfo = styled.div``;
-
 export const RecipeInfo = styled.div``;
 
 export const RecipeImg = styled.img`

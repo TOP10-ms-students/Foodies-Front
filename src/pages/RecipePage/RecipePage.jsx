@@ -1,17 +1,16 @@
 import { notification } from "antd";
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
-  Breadcrumb,
   RecipeMainInfo,
   RecipeIngredients,
   RecipePreparation,
   PopularRecipes,
+  PathInfo,
 } from "~/common/components";
 import thumb from "~/common/components/img/template_recipe.jpg";
 import { getRecipe } from "~/api/recipes.js";
-import { ROUTE_PATHS } from "~/routing/constants";
-import { PathInfo, RecipeInfo, RecipeImg } from "./RecipePage.styled.js";
+import { RecipeInfo, RecipeImg } from "./RecipePage.styled.js";
 import { FormBox, PageBox } from "../AddRecipePage/AddRecipePage.styled.jsx";
 import useFavoriteRecipes from "../../common/hooks/useFavoriteRecipes.js";
 import { RecipeSkeleton } from "./RecipeSkeleton.jsx";
@@ -31,11 +30,6 @@ export const RecipePage = () => {
 
   const [recipe, setRecipe] = useState();
   const [isLoading, setIsLoading] = useState(false);
-
-  const BREADCRUMB_ITEMS = [
-    { title: <Link to={ROUTE_PATHS.HOME}>Home</Link> },
-    { title: recipe?.title ?? "Recipe" },
-  ];
 
   const getAllRecipe = async () => {
     setIsLoading(true);
@@ -57,9 +51,7 @@ export const RecipePage = () => {
 
   return (
     <PageBox>
-      <PathInfo>
-        <Breadcrumb items={BREADCRUMB_ITEMS} />
-      </PathInfo>
+      <PathInfo title={recipe?.title || "Recipe"} />
 
       {!isLoading && recipe ? (
         <FormBox>
