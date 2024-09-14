@@ -85,6 +85,7 @@ export const RecipeLabel = styled.span`
   display: flex;
   align-items: center;
   justify-content: center;
+  min-width: 75px;
   border-radius: 20px;
   padding: 0 10px;
   height: 38px;

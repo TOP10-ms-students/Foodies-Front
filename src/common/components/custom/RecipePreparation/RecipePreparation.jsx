@@ -13,7 +13,7 @@ import {
 
 import { handleApiRequest } from "./helper.js";
 
-export const RecipePreparation = ({ instructions, id }) => {
+export const RecipePreparation = ({ instructions, id, setFavoriteIds }) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -26,7 +26,10 @@ export const RecipePreparation = ({ instructions, id }) => {
       notificationApi,
       setIsLoading
     );
-    if (data) setIsFavorite(data?.recipes.some((el) => el.id === id));
+    if (data) {
+      setIsFavorite(data?.recipes.some((el) => el.id === id));
+      setFavoriteIds(data?.recipes.map(({ id }) => id));
+    }
   };
 
   const addFavorite = async () => {
@@ -36,7 +39,10 @@ export const RecipePreparation = ({ instructions, id }) => {
       notificationApi,
       setIsLoading
     );
-    if (data) setIsFavorite(true);
+    if (data) {
+      setIsFavorite(true);
+      setFavoriteIds((prev) => [...prev, id]);
+    }
   };
 
   const removeFavorite = async () => {
@@ -46,7 +52,10 @@ export const RecipePreparation = ({ instructions, id }) => {
       notificationApi,
       setIsLoading
     );
-    if (data) setIsFavorite(false);
+    if (data) {
+      setIsFavorite(false);
+      setFavoriteIds((prev) => prev.filter((elId) => elId !== id));
+    }
   };
 
   useEffect(() => {
@@ -55,7 +64,7 @@ export const RecipePreparation = ({ instructions, id }) => {
 
   return (
     <Preparation>
-      <Label>RecipePreparation</Label>
+      <Label>Recipe Preparation</Label>
 
       <RecipeText>{instructions}</RecipeText>
 

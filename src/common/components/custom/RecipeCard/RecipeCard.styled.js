@@ -141,6 +141,7 @@ export const FavoriteButton = styled.button`
   border: 1px solid rgba(0, 0, 0, 0.2);
   background-color: transparent;
   margin-right: 8px;
+  cursor: pointer;
 `;
 
 export const ShareButton = styled.button`
@@ -153,4 +154,5 @@ export const ShareButton = styled.button`
   font-size: 20px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   background-color: transparent;
+  cursor: pointer;
 `;

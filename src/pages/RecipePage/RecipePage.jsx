@@ -25,6 +25,9 @@ export const RecipePage = () => {
 
   const [recipe, setRecipe] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [favoriteIds, setFavoriteIds] = useState([]);
+
+  console.log(favoriteIds);
 
   const BREADCRUMB_ITEMS = [
     { title: <Link to={ROUTE_PATHS.HOME}>Home</Link> },
@@ -47,7 +50,14 @@ export const RecipePage = () => {
 
   useEffect(() => {
     getAllRecipe();
-  }, []);
+  }, [id]);
+
+  const switchFavorite = (id) => {
+    const isFavorite = favoriteIds.includes(id);
+    isFavorite
+      ? setFavoriteIds((prev) => prev.filter((elId) => elId !== id))
+      : setFavoriteIds((prev) => [...prev, id]);
+  };
 
   return (
     <PageBox>
@@ -71,14 +81,22 @@ export const RecipePage = () => {
 
             <RecipeIngredients recipe={recipe} />
 
-            <RecipePreparation instructions={recipe.instructions} id={id} />
+            <RecipePreparation
+              instructions={recipe.instructions}
+              id={id}
+              favoriteIds={favoriteIds}
+              setFavoriteIds={setFavoriteIds}
+            />
           </RecipeInfo>
         </FormBox>
       ) : (
         <h2>Recipes Loading...</h2>
       )}
 
-      <PopularRecipes />
+      <PopularRecipes
+        favoriteIds={favoriteIds}
+        switchFavorite={switchFavorite}
+      />
 
       {notificationContext}
     </PageBox>

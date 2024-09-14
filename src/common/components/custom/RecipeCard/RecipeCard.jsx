@@ -17,34 +17,36 @@ import {
   FavoriteButton,
   ShareButton,
 } from "./RecipeCard.styled";
+import { HeartIconFilled } from "../../icons/icons";
 
-export const RecipeCard = ({ recipe }) => (
-  <Card>
-    <Image src={recipe.thumb || thumb} alt={recipe.title} />
-    <>
-      <Title>{recipe.title}</Title>
-      <Description>{recipe.description}</Description>
-      <Footer>
-        <Author>
-          <AuthorImage
-            src={recipe.owner.avatar || avatar}
-            alt={recipe.owner.name}
-          />
-          <span>{recipe.owner.name}</span>
-        </Author>
+export const RecipeCard = ({ recipe, isFavorite, switchFavorite }) => {
+  const { id, title, thumb, description, owner } = recipe;
 
-        <Actions>
-          <FavoriteButton>
-            <HeartIcon />
-          </FavoriteButton>
+  return (
+    <Card>
+      <Image src={thumb || thumb} alt={title} />
+      <>
+        <Title>{title}</Title>
+        <Description>{description}</Description>
+        <Footer>
+          <Author>
+            <AuthorImage src={owner.avatar || avatar} alt={owner.name} />
+            <span>{owner.name}</span>
+          </Author>
 
-          <Link to={`/recipe/${recipe.id}`}>
-            <ShareButton>
-              <ArrowUpIcon />
-            </ShareButton>
-          </Link>
-        </Actions>
-      </Footer>
-    </>
-  </Card>
-);
+          <Actions>
+            <FavoriteButton onClick={() => switchFavorite(id)}>
+              {isFavorite ? <HeartIconFilled /> : <HeartIcon />}
+            </FavoriteButton>
+
+            <Link to={`/recipe/${id}`}>
+              <ShareButton>
+                <ArrowUpIcon />
+              </ShareButton>
+            </Link>
+          </Actions>
+        </Footer>
+      </>
+    </Card>
+  );
+};

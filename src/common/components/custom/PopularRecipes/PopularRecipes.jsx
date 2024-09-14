@@ -5,7 +5,7 @@ import { Box, Title } from "./PopularRecipes.styled";
 import { getPopularRecipes } from "~/api/recipes.js";
 import { RecipeCard } from "../RecipeCard/RecipeCard";
 
-export const PopularRecipes = () => {
+export const PopularRecipes = ({ favoriteIds, switchFavorite }) => {
   const [popular, setPopular] = useState([]);
   const [isLoading, setIsLoading] = useState();
 
@@ -38,7 +38,12 @@ export const PopularRecipes = () => {
       <RecipeGrid>
         {!isLoading && popular.length > 0 ? (
           popular.map((recipe) => (
-            <RecipeCard key={recipe.id} recipe={recipe} />
+            <RecipeCard
+              key={recipe.id}
+              recipe={recipe}
+              isFavorite={favoriteIds.includes(recipe.id)}
+              switchFavorite={switchFavorite}
+            />
           ))
         ) : (
           <p>No popular recipes found.</p>
