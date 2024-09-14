@@ -10,14 +10,14 @@ import {
   IconArrow,
 } from "./CategoryCard.styled";
 
-export const CategoryCard = ({ category, onClick, isLarge }) => (
+export const CategoryCard = ({ category, handleGoToCategory, isLarge }) => (
   <CategoryCardWrapper className={isLarge ? "large" : ""}>
     <CategoryImage src={category.img} alt={category.name} />
     <CategoryOverlay>
       <CategoryInfo>
         <h3>{category.name}</h3>
       </CategoryInfo>
-      <IconArrow onClick={() => onClick(category)}>
+      <IconArrow onClick={handleGoToCategory}>
         <ArrowUpIcon />
       </IconArrow>
     </CategoryOverlay>

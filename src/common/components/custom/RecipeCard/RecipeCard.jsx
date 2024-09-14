@@ -5,6 +5,8 @@ import { HeartIcon, ArrowUpIcon } from "~/common/components/icons";
 import avatar from "~/common/components/img/template_avatar.png";
 import defaultImg from "~/common/components/img/template_recipe.jpg";
 
+import { scrollToTop } from "~/utils/scrollToTop";
+
 import {
   Card,
   Image,
@@ -18,7 +20,6 @@ import {
   ShareButton,
 } from "./RecipeCard.styled";
 import { HeartIconFilled } from "../../icons/icons";
-import { scrollToTop } from "../../../../utils/scrollToTop";
 
 export const RecipeCard = ({ recipe, isFavorite, switchFavorite }) => {
   const navigate = useNavigate();

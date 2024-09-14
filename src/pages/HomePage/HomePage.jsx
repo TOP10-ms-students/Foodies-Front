@@ -1,5 +1,5 @@
-import { Alert } from "antd";
-import React, { useState } from "react";
+import { notification } from "antd";
+import React from "react";
 
 import { CategoriesList } from "~/common/components/custom/CategoriesList";
 import { Hero } from "~/common/components/custom/Hero";
@@ -12,34 +12,21 @@ import { useCategoriesQueries } from "~/common/hooks/useCategoriesQueries";
 import { CategoriesAndRecipesWrapper } from "./HomePage.styled";
 
 export const HomePage = () => {
+  const [notificationApi, notificationContext] = notification.useNotification();
   const { categoryName, categoryId, setCategory, resetCategory } =
     useCategoriesQueries();
   const { handleOpenLogin } = useAuthModals();
-  const [error, setError] = useState(null);
 
   const handleError = (errorMessage) => {
-    setError(errorMessage);
+    notificationApi.error({ message: errorMessage, duration: null });
     resetCategory();
-  };
-
-  const handleCloseError = () => {
-    setError(null);
   };
 
   return (
     <div>
-      <Hero openLoginModal={handleOpenLogin} />
+      {notificationContext}
 
-      {error && (
-        <Alert
-          message="Error"
-          description={error}
-          type="error"
-          closable
-          onClose={handleCloseError}
-          style={{ marginBottom: 16 }}
-        />
-      )}
+      <Hero openLoginModal={handleOpenLogin} />
 
       <CategoriesAndRecipesWrapper>
         {categoryName ? (

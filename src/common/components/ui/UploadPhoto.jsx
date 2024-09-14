@@ -1,5 +1,5 @@
 import { message, Upload, Typography } from "antd";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { styled } from "styled-components";
 
 import { CameraIcon } from "~/common/components/icons";
@@ -97,6 +97,10 @@ export const UploadPhoto = ({ imageFile, setImageFile, initImageUrl }) => {
 
     return false;
   };
+
+  useEffect(() => {
+    if (!imageFile) setImageUrl(null);
+  }, [imageFile]);
 
   return (
     <div>

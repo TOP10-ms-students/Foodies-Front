@@ -57,7 +57,7 @@ export const CategoriesList = ({ setCategory }) => {
       <CategoryCard
         key={category.id}
         category={category}
-        onClick={handleCategoryClick}
+        handleGoToCategory={handleCategoryClick.bind(null, category)}
         isLarge={isLarge(index)}
       />
     );

@@ -1,5 +1,5 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { Typography, notification, Spin } from "antd";
+import { Typography, notification, Spin, Tooltip } from "antd";
 import { useFormik } from "formik";
 import debounce from "lodash/debounce";
 import React, { useState, useEffect, useMemo, useRef } from "react";
@@ -76,12 +76,20 @@ export const AddRecipePage = () => {
 
   const [imageFile, setImageFile] = useState(null);
 
-  const { values, errors, setFieldValue, handleChange, handleSubmit, touched } =
-    useFormik({
-      initialValues: INIT_VALUES,
-      validationSchema: addRecipeSchema,
-      onSubmit,
-    });
+  const {
+    values,
+    errors,
+    setFieldValue,
+    handleChange,
+    handleSubmit,
+    touched,
+    resetForm,
+    dirty,
+  } = useFormik({
+    initialValues: INIT_VALUES,
+    validationSchema: addRecipeSchema,
+    onSubmit,
+  });
 
   useEffect(() => {
     setIsLoadingCategories(true);
@@ -203,13 +211,20 @@ export const AddRecipePage = () => {
     }
   }
 
+  const handleReset = () => {
+    setImageFile(null);
+    resetForm();
+  };
+
+  const disableResetBtn = !dirty && !imageFile;
+
   const disableAddIngredientBtn = !values.ingredient || !values.quantity;
 
   return (
     <PageBox>
       {notificationContext}
 
-      <PathInfo title={"Add Recipe"} />
+      <PathInfo title="Add Recipe" />
 
       <PageTitle>Add Recipe</PageTitle>
 
@@ -408,9 +423,13 @@ export const AddRecipePage = () => {
             </div>
 
             <ButtonsBox>
-              <div>
-                <Button icon={<DeleteIcon />} />
-              </div>
+              <Tooltip title={!disableResetBtn && "Reset form"}>
+                <Button
+                  icon={<DeleteIcon />}
+                  disabled={disableResetBtn}
+                  onClick={handleReset}
+                />
+              </Tooltip>
 
               <Button type="primary" htmlType="submit">
                 Publish

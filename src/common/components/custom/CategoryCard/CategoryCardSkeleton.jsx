@@ -1,19 +1,18 @@
+import { Skeleton } from "antd";
 import React from "react";
 
 import {
   CategoryCardWrapper,
-  CategoryImage,
   CategoryOverlay,
-  CategoryInfo,
+  StyledSkeleton,
 } from "./CategoryCard.styled";
 
 export const CategoryCardSkeleton = ({ isLarge }) => (
   <CategoryCardWrapper className={isLarge ? "large" : ""}>
-    <CategoryImage />
+    <StyledSkeleton />
     <CategoryOverlay>
-      <CategoryInfo>
-        <h3></h3>
-      </CategoryInfo>
+      <Skeleton.Input active />
+      <Skeleton.Avatar active size={32} />
     </CategoryOverlay>
   </CategoryCardWrapper>
 );

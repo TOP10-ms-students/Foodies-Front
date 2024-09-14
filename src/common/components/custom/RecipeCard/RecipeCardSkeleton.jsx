@@ -7,7 +7,6 @@ import {
   Card,
   SkeletonImage,
   Title,
-  Description,
   Footer,
   Actions,
   FavoriteButton,

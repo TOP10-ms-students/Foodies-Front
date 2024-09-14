@@ -1,3 +1,4 @@
+import { Skeleton } from "antd";
 import { styled } from "styled-components";
 
 import { Avatar } from "~/common/components";
@@ -129,5 +130,27 @@ export const UserDetailNumber = styled.span`
     font-size: 16px;
     line-height: 24px;
     color: ${({ theme }) => theme.colors.black};
+  }
+`;
+
+export const SkeletonAvatar = styled(Skeleton.Avatar)`
+  .ant-skeleton-avatar {
+    width: 80px !important;
+    height: 80px !important;
+
+    @media ${({ theme }) => theme.media.tablet} {
+      width: 120px !important;
+      height: 120px !important;
+    }
+  }
+
+  margin-bottom: 16px;
+`;
+
+export const SkeletonNumber = styled(Skeleton.Input)`
+  .ant-skeleton-input {
+    display: block;
+    width: 30px !important;
+    min-width: 30px !important;
   }
 `;
