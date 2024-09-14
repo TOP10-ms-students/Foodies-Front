@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { HeartIcon, ArrowUpIcon } from "~/common/components/icons";
 import avatar from "~/common/components/img/template_avatar.png";
@@ -21,7 +21,13 @@ import { HeartIconFilled } from "../../icons/icons";
 import { scrollToTop } from "../../../../utils/scrollToTop";
 
 export const RecipeCard = ({ recipe, isFavorite, switchFavorite }) => {
+  const navigate = useNavigate();
+
   const { id, title, thumb, description, owner } = recipe;
+
+  const goToUserPage = () => {
+    navigate(`/users/${owner.id}`);
+  };
 
   return (
     <Card>
@@ -30,7 +36,7 @@ export const RecipeCard = ({ recipe, isFavorite, switchFavorite }) => {
         <Title>{title}</Title>
         <Description>{description}</Description>
         <Footer>
-          <Author>
+          <Author onClick={() => (goToUserPage(), scrollToTop())}>
             <AuthorImage src={owner.avatar || avatar} alt={owner.name} />
             <span>{owner.name}</span>
           </Author>

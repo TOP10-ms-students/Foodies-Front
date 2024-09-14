@@ -98,6 +98,7 @@ export const Footer = styled.div`
 export const Author = styled.div`
   display: flex;
   align-items: center;
+  cursor: pointer;
 `;
 
 export const AuthorImage = styled.img`
