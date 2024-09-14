@@ -1,7 +1,6 @@
 import { notification } from "antd";
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-
 import {
   Breadcrumb,
   RecipeMainInfo,
@@ -10,32 +9,27 @@ import {
   PopularRecipes,
 } from "~/common/components";
 import thumb from "~/common/components/img/template_recipe.jpg";
-
-import {
-  getRecipe,
-  getFavoriteRecipes,
-  addFavoriteRecipe,
-  removeFavoriteRecipe,
-} from "~/api/recipes.js";
-
+import { getRecipe } from "~/api/recipes.js";
 import { ROUTE_PATHS } from "~/routing/constants";
-
 import { PathInfo, RecipeInfo, RecipeImg } from "./RecipePage.styled.js";
 import { FormBox, PageBox } from "../AddRecipePage/AddRecipePage.styled.jsx";
-import { handleApiFavorite } from "./helper.js";
+import useFavoriteRecipes from "../../common/hooks/useFavoriteRecipes.js";
 
 export const RecipePage = () => {
   const { id } = useParams();
 
   const [notificationApi, notificationContext] = notification.useNotification();
 
+  const {
+    favoriteIds,
+    isLoadingFavorite,
+    addFavorite,
+    removeFavorite,
+    switchFavorite,
+  } = useFavoriteRecipes(notificationApi);
+
   const [recipe, setRecipe] = useState();
   const [isLoading, setIsLoading] = useState(false);
-
-  const [favoriteIds, setFavoriteIds] = useState([]);
-  const [isLoadingFavorite, setIsLoadingFavorite] = useState(false);
-
-  console.log(favoriteIds);
 
   const BREADCRUMB_ITEMS = [
     { title: <Link to={ROUTE_PATHS.HOME}>Home</Link> },
@@ -56,54 +50,9 @@ export const RecipePage = () => {
       .finally(() => setIsLoading(false));
   };
 
-  const getAllFavorite = async () => {
-    const data = await handleApiFavorite(
-      getFavoriteRecipes,
-      null,
-      notificationApi,
-      setIsLoadingFavorite
-    );
-    if (data) {
-      setFavoriteIds(data?.recipes.map(({ id }) => id));
-    }
-  };
-
   useEffect(() => {
     getAllRecipe();
   }, [id]);
-
-  useEffect(() => {
-    getAllFavorite();
-  }, []);
-
-  const addFavorite = async (id) => {
-    const data = await handleApiFavorite(
-      () => addFavoriteRecipe(id),
-      "Add to favorites successfully!",
-      notificationApi,
-      setIsLoadingFavorite
-    );
-    if (data) {
-      setFavoriteIds((prev) => [...prev, id]);
-    }
-  };
-
-  const removeFavorite = async (id) => {
-    const data = await handleApiFavorite(
-      () => removeFavoriteRecipe(id),
-      "Removed from favorites successfully!",
-      notificationApi,
-      setIsLoadingFavorite
-    );
-    if (data) {
-      setFavoriteIds((prev) => prev.filter((elId) => elId !== id));
-    }
-  };
-
-  const switchFavorite = (id) => {
-    const isFavorite = favoriteIds.includes(id);
-    isFavorite ? removeFavorite(id) : addFavorite(id);
-  };
 
   return (
     <PageBox>
