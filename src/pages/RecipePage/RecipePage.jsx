@@ -14,6 +14,7 @@ import { ROUTE_PATHS } from "~/routing/constants";
 import { PathInfo, RecipeInfo, RecipeImg } from "./RecipePage.styled.js";
 import { FormBox, PageBox } from "../AddRecipePage/AddRecipePage.styled.jsx";
 import useFavoriteRecipes from "../../common/hooks/useFavoriteRecipes.js";
+import { RecipeSkeleton } from "./RecipeSkeleton.jsx";
 
 export const RecipePage = () => {
   const { id } = useParams();
@@ -87,7 +88,7 @@ export const RecipePage = () => {
           </RecipeInfo>
         </FormBox>
       ) : (
-        <h2>Recipes Loading...</h2>
+        <RecipeSkeleton />
       )}
 
       <PopularRecipes

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import { HeartIcon, ArrowUpIcon } from "~/common/components/icons";
 import avatar from "~/common/components/img/template_avatar.png";
-import thumb from "~/common/components/img/template_recipe.jpg";
+import defaultImg from "~/common/components/img/template_recipe.jpg";
 
 import {
   Card,
@@ -18,13 +18,14 @@ import {
   ShareButton,
 } from "./RecipeCard.styled";
 import { HeartIconFilled } from "../../icons/icons";
+import { scrollToTop } from "../../../../utils/scrollToTop";
 
 export const RecipeCard = ({ recipe, isFavorite, switchFavorite }) => {
   const { id, title, thumb, description, owner } = recipe;
 
   return (
     <Card>
-      <Image src={thumb || thumb} alt={title} />
+      <Image src={thumb || defaultImg} alt={title} />
       <>
         <Title>{title}</Title>
         <Description>{description}</Description>
@@ -39,7 +40,7 @@ export const RecipeCard = ({ recipe, isFavorite, switchFavorite }) => {
               {isFavorite ? <HeartIconFilled /> : <HeartIcon />}
             </FavoriteButton>
 
-            <Link to={`/recipe/${id}`}>
+            <Link to={`/recipe/${id}`} onClick={scrollToTop}>
               <ShareButton>
                 <ArrowUpIcon />
               </ShareButton>
