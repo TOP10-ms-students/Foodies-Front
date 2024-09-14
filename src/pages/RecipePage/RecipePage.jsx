@@ -11,12 +11,18 @@ import {
 } from "~/common/components";
 import thumb from "~/common/components/img/template_recipe.jpg";
 
-import { getRecipe } from "~/api/recipes.js";
+import {
+  getRecipe,
+  getFavoriteRecipes,
+  addFavoriteRecipe,
+  removeFavoriteRecipe,
+} from "~/api/recipes.js";
 
 import { ROUTE_PATHS } from "~/routing/constants";
 
 import { PathInfo, RecipeInfo, RecipeImg } from "./RecipePage.styled.js";
 import { FormBox, PageBox } from "../AddRecipePage/AddRecipePage.styled.jsx";
+import { handleApiFavorite } from "./helper.js";
 
 export const RecipePage = () => {
   const { id } = useParams();
@@ -25,7 +31,9 @@ export const RecipePage = () => {
 
   const [recipe, setRecipe] = useState();
   const [isLoading, setIsLoading] = useState(false);
+
   const [favoriteIds, setFavoriteIds] = useState([]);
+  const [isLoadingFavorite, setIsLoadingFavorite] = useState(false);
 
   console.log(favoriteIds);
 
@@ -48,15 +56,53 @@ export const RecipePage = () => {
       .finally(() => setIsLoading(false));
   };
 
+  const getAllFavorite = async () => {
+    const data = await handleApiFavorite(
+      getFavoriteRecipes,
+      null,
+      notificationApi,
+      setIsLoadingFavorite
+    );
+    if (data) {
+      setFavoriteIds(data?.recipes.map(({ id }) => id));
+    }
+  };
+
   useEffect(() => {
     getAllRecipe();
   }, [id]);
 
+  useEffect(() => {
+    getAllFavorite();
+  }, []);
+
+  const addFavorite = async (id) => {
+    const data = await handleApiFavorite(
+      () => addFavoriteRecipe(id),
+      "Add to favorites successfully!",
+      notificationApi,
+      setIsLoadingFavorite
+    );
+    if (data) {
+      setFavoriteIds((prev) => [...prev, id]);
+    }
+  };
+
+  const removeFavorite = async (id) => {
+    const data = await handleApiFavorite(
+      () => removeFavoriteRecipe(id),
+      "Removed from favorites successfully!",
+      notificationApi,
+      setIsLoadingFavorite
+    );
+    if (data) {
+      setFavoriteIds((prev) => prev.filter((elId) => elId !== id));
+    }
+  };
+
   const switchFavorite = (id) => {
     const isFavorite = favoriteIds.includes(id);
-    isFavorite
-      ? setFavoriteIds((prev) => prev.filter((elId) => elId !== id))
-      : setFavoriteIds((prev) => [...prev, id]);
+    isFavorite ? removeFavorite(id) : addFavorite(id);
   };
 
   return (
@@ -82,10 +128,12 @@ export const RecipePage = () => {
             <RecipeIngredients recipe={recipe} />
 
             <RecipePreparation
-              instructions={recipe.instructions}
               id={id}
-              favoriteIds={favoriteIds}
-              setFavoriteIds={setFavoriteIds}
+              instructions={recipe.instructions}
+              isFavorite={favoriteIds.includes(id)}
+              isLoading={isLoadingFavorite}
+              addFavorite={addFavorite}
+              removeFavorite={removeFavorite}
             />
           </RecipeInfo>
         </FormBox>
