@@ -77,7 +77,6 @@ export const LabelsBox = styled.div`
   justify-content: start;
   gap: 8px;
   margin-top: 20px;
-  width: 145px;
   height: 38px;
 `;
 
