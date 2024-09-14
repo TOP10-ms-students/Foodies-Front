@@ -1,10 +1,17 @@
+import { Modal } from "antd";
 import React from "react";
 import { useSelector } from "react-redux";
-import { Modal } from "antd";
-import { getCurrentUser } from "~/store/selectors";
-import { Avatar } from "../../ui/Avatar";
+import { useNavigate } from "react-router-dom";
+
 import { LoginForm } from "~/common/components/forms/LoginForm";
+import { Avatar } from "~/common/components/ui/Avatar";
+
 import { useAuthModals } from "~/common/hooks/useAuthModals";
+
+import { displayTime } from "~/utils/displayTime";
+
+import { getCurrentUser } from "~/store/selectors";
+
 import {
   LabelsBox,
   RecipeLabel,
@@ -14,7 +21,6 @@ import {
   UserInfo,
   UserName,
 } from "./RecipeMainInfo.styled";
-import { useNavigate } from "react-router-dom";
 
 export const RecipeMainInfo = ({
   title,
@@ -41,7 +47,7 @@ export const RecipeMainInfo = ({
 
       <LabelsBox>
         <RecipeLabel>{categoryName}</RecipeLabel>
-        <RecipeLabel>{time} min</RecipeLabel>
+        <RecipeLabel>{displayTime(time)}</RecipeLabel>
       </LabelsBox>
 
       <RecipeText>{description}</RecipeText>

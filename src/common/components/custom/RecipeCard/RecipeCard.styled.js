@@ -38,18 +38,18 @@ export const Image = styled.img`
 
 export const SkeletonImage = styled(Skeleton.Image)`
   width: 100% !important;
-  height: 230px !important;
+  height: 318px !important;
   object-fit: cover;
   border-radius: 30px;
   overflow: hidden;
   margin-bottom: 12px;
 
   @media ${({ theme }) => theme.media.tablet} {
-    height: 275px !important;
+    height: 400px !important;
   }
 
   @media ${({ theme }) => theme.media.desktop} {
-    height: 275px !important;
+    height: 400px !important;
   }
 `;
 

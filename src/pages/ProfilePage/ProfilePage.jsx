@@ -1,4 +1,3 @@
-import { Spin } from "antd";
 import React, { useEffect, useState } from "react";
 import * as notificationApi from "react-dom/test-utils";
 import { useParams } from "react-router-dom";
@@ -8,6 +7,7 @@ import {
   PageTitle,
   PageSubtitle,
   UserInfoCard,
+  UserInfoCardSkeleton,
   TabsList,
 } from "~/common/components";
 
@@ -44,8 +44,6 @@ export const ProfilePage = () => {
     if (userId) fetchUser(userId);
   }, [userId]);
 
-  if (isLoading) return <Spin />;
-
   return (
     <PageBox>
       <PathInfo title="Profile" />
@@ -58,13 +56,17 @@ export const ProfilePage = () => {
       </PageSubtitle>
 
       <ContentBox>
-        <UserInfoCard
-          name={user?.name}
-          email={user?.email}
-          avatar={user?.avatar}
-          createdRecipeCount={user?.statistic?.createdRecipeCount}
-          followersCount={user?.statistic?.followersCount}
-        />
+        {isLoading ? (
+          <UserInfoCardSkeleton />
+        ) : (
+          <UserInfoCard
+            name={user?.name}
+            email={user?.email}
+            avatar={user?.avatar}
+            createdRecipeCount={user?.statistic?.createdRecipeCount}
+            followersCount={user?.statistic?.followersCount}
+          />
+        )}
 
         <TabsBox>
           <TabsList userId={userId} />

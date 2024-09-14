@@ -1,3 +1,4 @@
+import { Skeleton } from "antd";
 import styled from "styled-components";
 
 import { Button } from "~/common/components";
@@ -77,4 +78,9 @@ export const StyledButton = styled(Button)`
   height: 40px;
   background-color: transparent;
   color: ${({ theme }) => theme.colors.white};
+`;
+
+export const StyledSkeleton = styled(Skeleton.Image)`
+  width: 100% !important;
+  height: 100% !important;
 `;

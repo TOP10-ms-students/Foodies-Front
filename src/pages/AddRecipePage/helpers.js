@@ -1,5 +1,5 @@
 const MAX_SECONDS = 60 * 5;
-const INTERVAL_SECONDS = 5;
+const INTERVAL_SECONDS = 1;
 
 /*
  * The COOKING_TIME_OPTIONS value is an array of objects, where each object represents a cooking time option.

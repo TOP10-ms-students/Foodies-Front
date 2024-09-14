@@ -6,6 +6,8 @@ import { PageTitle, Select } from "~/common/components";
 import { ArrowLeftIcon } from "~/common/components/icons";
 import { Pagination } from "~/common/components/ui/Pagination";
 
+import useFavoriteRecipes from "~/common/hooks/useFavoriteRecipes";
+
 import { getAllAreas } from "~/api/areas";
 import { getIngredients } from "~/api/ingredients";
 import { getRecipes } from "~/api/recipes";
@@ -23,7 +25,6 @@ import {
 } from "./RecipeList.styled";
 import { RecipeCard } from "../RecipeCard/RecipeCard";
 import { RecipeCardSkeleton } from "../RecipeCard/RecipeCardSkeleton";
-import useFavoriteRecipes from "../../../hooks/useFavoriteRecipes";
 
 export const RecipesList = ({ category, goToCategories, onError }) => {
   const [notificationApi, notificationContext] = notification.useNotification();
@@ -49,7 +50,7 @@ export const RecipesList = ({ category, goToCategories, onError }) => {
         page: page,
         ingredient: selectedIngredient,
         area: selectedArea,
-        limit: RECIPES_PER_PAGE,
+        limit: DEFAULT_ITEMS_PER_PAGE,
       };
 
       const response = await getRecipes(params);

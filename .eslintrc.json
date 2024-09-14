@@ -150,6 +150,7 @@
           "caseInsensitive": true
         }
       }
-    ]
+    ],
+    "no-undef": "warn"
   }
 }

@@ -40,6 +40,7 @@ export const StepsRangeInput = ({ options, value, setValue }) => {
       <Button icon="-" disabled={disableBack} onClick={goBack} />
 
       <StyledSelect
+        showSearch
         value={value}
         onChange={setValue}
         options={options}

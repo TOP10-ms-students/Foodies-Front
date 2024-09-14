@@ -1,4 +1,5 @@
 import styled from "styled-components";
+
 import { QuotesIcon } from "~/common/components/icons";
 
 export const TestimonialsSection = styled.div`
@@ -106,7 +107,7 @@ export const Author = styled.p`
   margin: 0;
   font-weight: 800;
   padding-bottom: 0;
-  
+
   @media (min-width: 768px) {
     font-size: 20px;
     padding-bottom: 16px;

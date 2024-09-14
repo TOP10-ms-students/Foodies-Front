@@ -1,4 +1,3 @@
-import { Spin } from "antd";
 import React, { useEffect, useState } from "react";
 import * as notificationApi from "react-dom/test-utils";
 
@@ -6,6 +5,7 @@ import {
   PageTitle,
   PageSubtitle,
   UserInfoCard,
+  UserInfoCardSkeleton,
   TabsList,
   PathInfo,
 } from "~/common/components";
@@ -40,8 +40,6 @@ export const MyProfilePage = () => {
     fetchCurrentUser();
   }, []);
 
-  if (isLoading) return <Spin />;
-
   return (
     <PageBox>
       <PathInfo title="Profile" />
@@ -54,17 +52,21 @@ export const MyProfilePage = () => {
       </PageSubtitle>
 
       <ContentBox>
-        <UserInfoCard
-          name={user?.name}
-          email={user?.email}
-          avatar={user?.avatar}
-          createdRecipeCount={user?.statistic?.createdRecipeCount}
-          followersCount={user?.statistic?.followersCount}
-          favoriteRecipeCount={user?.statistic?.favoriteRecipeCount}
-          followingCount={user?.statistic?.followingCount}
-          onUpdateAvatar={onUpdateAvatar}
-          isCurrentUser
-        />
+        {isLoading ? (
+          <UserInfoCardSkeleton isCurrentUser />
+        ) : (
+          <UserInfoCard
+            name={user?.name}
+            email={user?.email}
+            avatar={user?.avatar}
+            createdRecipeCount={user?.statistic?.createdRecipeCount}
+            followersCount={user?.statistic?.followersCount}
+            favoriteRecipeCount={user?.statistic?.favoriteRecipeCount}
+            followingCount={user?.statistic?.followingCount}
+            onUpdateAvatar={onUpdateAvatar}
+            isCurrentUser
+          />
+        )}
 
         <TabsBox>
           <TabsList userId={user?.id} isCurrentUser />
