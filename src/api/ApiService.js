@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { store } from "~/store";
-import { logout } from "~/store/slices/auth";
+import { logout, openLoginModal } from "~/store/slices/auth";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -45,6 +45,7 @@ const onErrorResponse = (error) => {
   if (error.response && error.response.status === 401) {
     store.dispatch(logout());
     authTokenService.unset();
+    store.dispatch(openLoginModal());
   }
   return Promise.reject(error);
 };

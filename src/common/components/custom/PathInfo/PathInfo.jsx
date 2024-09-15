@@ -1,14 +1,13 @@
 import { Breadcrumb } from "antd";
 import React from "react";
-import { Link } from "react-router-dom";
 
 import { ROUTE_PATHS } from "~/routing/constants";
 
-import { Box } from "./PathInfo.styled";
+import { Box, HomeLink } from "./PathInfo.styled";
 
 export const PathInfo = ({ title }) => {
   const BREADCRUMB_ITEMS = [
-    { title: <Link to={ROUTE_PATHS.HOME}>Home</Link> },
+    { title: <HomeLink to={ROUTE_PATHS.HOME}>Home</HomeLink> },
     { title },
   ];
 
