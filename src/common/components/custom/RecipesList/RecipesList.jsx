@@ -33,7 +33,8 @@ export const RecipesList = ({
   openLoginModal,
 }) => {
   const [notificationApi, notificationContext] = notification.useNotification();
-  const { favoriteIds, switchFavorite } = useFavoriteRecipes(notificationApi);
+  const { favoriteIds, switchFavorite, loadingRecipeId } =
+    useFavoriteRecipes(notificationApi);
 
   const [recipes, setRecipes] = useState([]);
   const [ingredientsOptions, setIngredientsOptions] = useState([]);
@@ -186,6 +187,7 @@ export const RecipesList = ({
                   isFavorite={favoriteIds.includes(recipe.id)}
                   switchFavorite={switchFavorite}
                   openLoginModal={openLoginModal}
+                  loadingId={loadingRecipeId}
                 />
               ))
             ) : (
