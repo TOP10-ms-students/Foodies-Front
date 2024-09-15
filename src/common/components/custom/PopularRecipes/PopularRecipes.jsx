@@ -7,7 +7,11 @@ import { Box, Title } from "./PopularRecipes.styled";
 import { RecipeCard } from "../RecipeCard/RecipeCard";
 import { RecipeGrid } from "../RecipesList/RecipeList.styled";
 
-export const PopularRecipes = ({ favoriteIds, switchFavorite }) => {
+export const PopularRecipes = ({
+  favoriteIds,
+  switchFavorite,
+  loadingRecipeId,
+}) => {
   const [popular, setPopular] = useState([]);
   const [isLoading, setIsLoading] = useState();
 
@@ -42,6 +46,7 @@ export const PopularRecipes = ({ favoriteIds, switchFavorite }) => {
               recipe={recipe}
               isFavorite={favoriteIds.includes(recipe.id)}
               switchFavorite={switchFavorite}
+              loadingId={loadingRecipeId}
             />
           ))
         ) : (

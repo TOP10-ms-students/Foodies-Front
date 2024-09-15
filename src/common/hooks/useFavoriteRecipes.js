@@ -14,6 +14,7 @@ import { handleFavoriteApi } from "../../utils/apiHelpers";
 const useFavoriteRecipes = (notificationApi) => {
   const [favoriteIds, setFavoriteIds] = useState([]);
   const [isLoadingFavorite, setIsLoadingFavorite] = useState(false);
+  const [loadingRecipeId, setLoadingRecipeId] = useState(null);
 
   const isAuth = useSelector(getIsAuthenticated);
 
@@ -37,6 +38,7 @@ const useFavoriteRecipes = (notificationApi) => {
   }, [isAuth]);
 
   const addFavorite = async (id) => {
+    setLoadingRecipeId(id);
     const data = await handleFavoriteApi(
       () => addFavoriteRecipe(id),
       "Add to favorites successfully!",
@@ -45,10 +47,12 @@ const useFavoriteRecipes = (notificationApi) => {
     );
     if (data) {
       setFavoriteIds((prev) => [...prev, id]);
+      setLoadingRecipeId(null);
     }
   };
 
   const removeFavorite = async (id) => {
+    setLoadingRecipeId(id);
     const data = await handleFavoriteApi(
       () => removeFavoriteRecipe(id),
       "Removed from favorites successfully!",
@@ -57,6 +61,7 @@ const useFavoriteRecipes = (notificationApi) => {
     );
     if (data) {
       setFavoriteIds((prev) => prev.filter((elId) => elId !== id));
+      setLoadingRecipeId(null);
     }
   };
 
@@ -72,6 +77,7 @@ const useFavoriteRecipes = (notificationApi) => {
     addFavorite,
     removeFavorite,
     switchFavorite,
+    loadingRecipeId,
   };
 };
 
