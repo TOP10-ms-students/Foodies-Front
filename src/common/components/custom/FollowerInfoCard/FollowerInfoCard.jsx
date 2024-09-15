@@ -6,7 +6,6 @@ import { ArrowUpIcon } from "~/common/components";
 
 import {
   CardBox,
-  CardRightBlock,
   CustomAvatar,
   UserDetail,
   UserName,
@@ -69,24 +68,22 @@ export const FollowerInfoCard = ({
         </div>
       </UserInfoBox>
 
-      <CardRightBlock>
-        {displayedImages.length > 0 && (
-          <RecipesList>
-            {displayedImages.map((link, index) => (
-              <RecipeItem key={index}>
-                <a onClick={() => handleImageClick(link.id)}>
-                  <img src={link.thumb} alt={`Recipe ${link.id}`} />
-                </a>
-              </RecipeItem>
-            ))}
-          </RecipesList>
-        )}
+      {displayedImages.length > 0 && (
+        <RecipesList>
+          {displayedImages.map((link, index) => (
+            <RecipeItem key={index}>
+              <a onClick={() => handleImageClick(link.id)}>
+                <img src={link.thumb} alt={`Recipe ${link.id}`} />
+              </a>
+            </RecipeItem>
+          ))}
+        </RecipesList>
+      )}
 
-        <StyledArrowButton
-          onClick={handleGoToFollowerProfile}
-          icon={<ArrowUpIcon />}
-        />
-      </CardRightBlock>
+      <StyledArrowButton
+        onClick={handleGoToFollowerProfile}
+        icon={<ArrowUpIcon />}
+      />
     </CardBox>
   );
 };

@@ -1,6 +1,8 @@
 import { notification } from "antd";
 import React, { useEffect, useState } from "react";
 
+import { useAuthModals } from "~/common/hooks/useAuthModals";
+
 import { getPopularRecipes } from "~/api/recipes.js";
 
 import { Box, Title } from "./PopularRecipes.styled";
@@ -12,6 +14,7 @@ export const PopularRecipes = ({ favoriteIds, switchFavorite }) => {
   const [isLoading, setIsLoading] = useState();
 
   const [notificationApi, notificationContext] = notification.useNotification();
+  const { handleOpenLogin } = useAuthModals();
 
   const getPopular = async () => {
     setIsLoading(true);
@@ -42,6 +45,7 @@ export const PopularRecipes = ({ favoriteIds, switchFavorite }) => {
               recipe={recipe}
               isFavorite={favoriteIds.includes(recipe.id)}
               switchFavorite={switchFavorite}
+              openLoginModal={handleOpenLogin}
             />
           ))
         ) : (

@@ -46,7 +46,11 @@ export const RecipeCard = ({
         <Title>{title}</Title>
         <Description>{description}</Description>
         <Footer>
-          <Author onClick={() => (goToUserPage(), scrollToTop())}>
+          <Author
+            onClick={
+              isAuth ? () => (goToUserPage(), scrollToTop()) : openLoginModal
+            }
+          >
             <AuthorImage src={owner.avatar || avatar} alt={owner.name} />
             <span>{owner.name}</span>
           </Author>
