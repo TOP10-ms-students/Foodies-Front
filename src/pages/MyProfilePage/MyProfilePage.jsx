@@ -1,3 +1,4 @@
+import { notification } from "antd";
 import React, { useEffect, useState } from "react";
 import * as notificationApi from "react-dom/test-utils";
 
@@ -10,16 +11,35 @@ import {
   PathInfo,
 } from "~/common/components";
 
-import { getCurrentUser } from "~/api/user";
+import { getCurrentUser, updateCurrentUserAvatar } from "~/api/user";
 
 import { PageBox, ContentBox, TabsBox } from "./MyProfilePage.styled";
 
 export const MyProfilePage = () => {
+  const [notificationApi, notificationContext] = notification.useNotification();
+
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const onUpdateAvatar = () => {
-    // TODO
+  const onUpdateAvatar = async () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.click();
+
+    input.onchange = async () => {
+      const file = input.files[0];
+      const formData = new FormData();
+      formData.append("avatar", file);
+      await updateCurrentUserAvatar(formData);
+
+      notificationApi.success({
+        message: "Avatar successfully updated",
+      });
+
+      fetchCurrentUser();
+    };
+
+    input.remove();
   };
 
   const fetchCurrentUser = async () => {
@@ -42,6 +62,8 @@ export const MyProfilePage = () => {
 
   return (
     <PageBox>
+      {notificationContext}
+
       <PathInfo title="Profile" />
 
       <PageTitle>Profile</PageTitle>

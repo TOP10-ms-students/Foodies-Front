@@ -8,6 +8,9 @@ export const logout = () => api.post("auth/logout");
 
 export const getCurrentUser = () => api.get("users/current");
 
+export const updateCurrentUserAvatar = (formData) =>
+  api.patch("users/avatar", formData);
+
 export const getUserFollowers = (userId, params) =>
   api.get(`users/${userId}/followers`, { params });
 
