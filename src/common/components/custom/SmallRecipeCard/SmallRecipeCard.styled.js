@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 
 export const CardBox = styled.div`
   display: flex;
-  width: 343px;
+  width: 100%;
   height: 75px;
   gap: 10px;
 
@@ -32,7 +32,8 @@ export const RecipeImage = styled.img`
 
 export const BoxInfo = styled.div`
   display: flex;
-  width: 258px;
+  gap: 8px;
+  flex-grow: 2;
   justify-content: space-between;
 
   @media ${({ theme }) => theme.media.tablet} {
@@ -59,7 +60,7 @@ export const RecipeTitle = styled.h2`
   line-height: 24px;
   letter-spacing: -0.02em;
   text-transform: uppercase;
-  width: 166px;
+  width: 100%;
   margin: 0;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -81,7 +82,7 @@ export const RecipeDescription = styled.p`
   line-height: 20px;
   letter-spacing: -0.02em;
   color: ${({ theme }) => theme.colors.gray};
-  width: 166px;
+  width: 100%;
   margin: 0;
   display: -webkit-box;
   -webkit-box-orient: vertical;

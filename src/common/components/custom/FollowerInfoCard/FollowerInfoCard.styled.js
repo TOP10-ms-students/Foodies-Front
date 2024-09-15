@@ -4,7 +4,15 @@ import { Avatar, Button } from "~/common/components";
 
 export const CardBox = styled.div`
   display: flex;
+  gap: 8px;
   justify-content: space-between;
+`;
+
+export const CardRightBlock = styled.div`
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  flex-grow: 2;
 `;
 
 export const UserInfoBox = styled.div`
