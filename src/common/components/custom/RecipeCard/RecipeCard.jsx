@@ -1,3 +1,4 @@
+import { Spin } from "antd";
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -23,7 +24,6 @@ import {
   ShareButton,
 } from "./RecipeCard.styled";
 import { HeartIconFilled } from "../../icons/icons";
-import { Spin } from "antd";
 
 export const RecipeCard = ({
   recipe,
@@ -41,6 +41,17 @@ export const RecipeCard = ({
     navigate(`/users/${owner.id}`);
   };
 
+  const getClickHandler = (isAuth) => {
+    if (isAuth) {
+      return () => {
+        goToUserPage();
+        scrollToTop();
+      };
+    } else {
+      return openLoginModal;
+    }
+  };
+
   const icon = isFavorite ? <HeartIconFilled /> : <HeartIcon />;
 
   return (
@@ -50,7 +61,7 @@ export const RecipeCard = ({
         <Title>{title}</Title>
         <Description>{description}</Description>
         <Footer>
-          <Author onClick={() => (goToUserPage(), scrollToTop())}>
+          <Author onClick={getClickHandler(isAuth)}>
             <AuthorImage src={owner.avatar || avatar} alt={owner.name} />
             <span>{owner.name}</span>
           </Author>
