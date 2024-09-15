@@ -39,6 +39,17 @@ export const RecipeCard = ({
     navigate(`/users/${owner.id}`);
   };
 
+  const getClickHandler = (isAuth) => {
+    if (isAuth) {
+      return () => {
+        goToUserPage();
+        scrollToTop();
+      };
+    } else {
+      return openLoginModal;
+    }
+  };
+
   return (
     <Card>
       <Image src={thumb || defaultImg} alt={title} />
@@ -46,11 +57,7 @@ export const RecipeCard = ({
         <Title>{title}</Title>
         <Description>{description}</Description>
         <Footer>
-          <Author
-            onClick={
-              isAuth ? () => (goToUserPage(), scrollToTop()) : openLoginModal
-            }
-          >
+          <Author onClick={getClickHandler(isAuth)}>
             <AuthorImage src={owner.avatar || avatar} alt={owner.name} />
             <span>{owner.name}</span>
           </Author>
