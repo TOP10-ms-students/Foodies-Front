@@ -10,7 +10,7 @@ import { useAuthModals } from "~/common/hooks/useAuthModals";
 
 import { displayTime } from "~/utils/displayTime";
 
-import { getCurrentUser } from "~/store/selectors";
+import { getIsAuthenticated } from "~/store/selectors";
 
 import {
   LabelsBox,
@@ -27,18 +27,17 @@ export const RecipeMainInfo = ({
   categoryName,
   time,
   description,
+  ownerId,
   ownerAvatar,
   ownerName,
 }) => {
-  const { id } = useSelector(getCurrentUser);
-
-  const { isOpenLogin, handleOpenLogin, switchModals, handleCancel } =
-    useAuthModals();
+  const { isOpenLogin, switchModals, handleCancel } = useAuthModals();
 
   const navigate = useNavigate();
-
+  const isAuth = useSelector(getIsAuthenticated);
+  const { handleOpenLogin } = useAuthModals();
   const goToUserPage = () => {
-    navigate(`/users/${id}`);
+    navigate(`/users/${ownerId}`);
   };
 
   return (
@@ -52,7 +51,7 @@ export const RecipeMainInfo = ({
 
       <RecipeText>{description}</RecipeText>
 
-      <UserBtn onClick={id ? goToUserPage : handleOpenLogin}>
+      <UserBtn onClick={isAuth ? goToUserPage : handleOpenLogin}>
         <Avatar src={ownerAvatar} />
 
         <UserInfo>

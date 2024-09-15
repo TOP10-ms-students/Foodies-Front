@@ -34,6 +34,7 @@ export const HomePage = () => {
             category={{ name: categoryName, id: categoryId }}
             goToCategories={resetCategory}
             onError={handleError}
+            openLoginModal={handleOpenLogin}
           />
         ) : (
           <CategoriesList setCategory={setCategory} />

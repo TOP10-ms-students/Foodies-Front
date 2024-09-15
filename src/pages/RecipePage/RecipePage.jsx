@@ -67,6 +67,7 @@ export const RecipePage = () => {
               categoryName={recipe.category.name}
               time={recipe.time}
               description={recipe.description}
+              ownerId={recipe.owner.id}
               ownerAvatar={recipe.owner.avatar}
               ownerName={recipe.owner.name}
             />

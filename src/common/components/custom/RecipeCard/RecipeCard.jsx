@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 import { HeartIcon, ArrowUpIcon } from "~/common/components/icons";
@@ -6,6 +7,8 @@ import avatar from "~/common/components/img/template_avatar.png";
 import defaultImg from "~/common/components/img/template_recipe.jpg";
 
 import { scrollToTop } from "~/utils/scrollToTop";
+
+import { getIsAuthenticated } from "~/store/selectors";
 
 import {
   Card,
@@ -21,8 +24,14 @@ import {
 } from "./RecipeCard.styled";
 import { HeartIconFilled } from "../../icons/icons";
 
-export const RecipeCard = ({ recipe, isFavorite, switchFavorite }) => {
+export const RecipeCard = ({
+  recipe,
+  isFavorite,
+  switchFavorite,
+  openLoginModal,
+}) => {
   const navigate = useNavigate();
+  const isAuth = useSelector(getIsAuthenticated);
 
   const { id, title, thumb, description, owner } = recipe;
 
@@ -43,10 +52,15 @@ export const RecipeCard = ({ recipe, isFavorite, switchFavorite }) => {
           </Author>
 
           <Actions>
-            <FavoriteButton onClick={() => switchFavorite(id)}>
-              {isFavorite ? <HeartIconFilled /> : <HeartIcon />}
-            </FavoriteButton>
-
+            {isAuth ? (
+              <FavoriteButton onClick={() => switchFavorite(id)}>
+                {isFavorite ? <HeartIconFilled /> : <HeartIcon />}
+              </FavoriteButton>
+            ) : (
+              <FavoriteButton type="primary" onClick={openLoginModal}>
+                <HeartIcon />
+              </FavoriteButton>
+            )}
             <Link to={`/recipe/${id}`} onClick={scrollToTop}>
               <ShareButton>
                 <ArrowUpIcon />
