@@ -23,12 +23,14 @@ import {
   ShareButton,
 } from "./RecipeCard.styled";
 import { HeartIconFilled } from "../../icons/icons";
+import { Spin } from "antd";
 
 export const RecipeCard = ({
   recipe,
   isFavorite,
   switchFavorite,
   openLoginModal,
+  loadingId,
 }) => {
   const navigate = useNavigate();
   const isAuth = useSelector(getIsAuthenticated);
@@ -38,6 +40,8 @@ export const RecipeCard = ({
   const goToUserPage = () => {
     navigate(`/users/${owner.id}`);
   };
+
+  const icon = isFavorite ? <HeartIconFilled /> : <HeartIcon />;
 
   return (
     <Card>
@@ -58,7 +62,7 @@ export const RecipeCard = ({
           <Actions>
             {isAuth ? (
               <FavoriteButton onClick={() => switchFavorite(id)}>
-                {isFavorite ? <HeartIconFilled /> : <HeartIcon />}
+                {loadingId === id ? <Spin size="middle" /> : icon}
               </FavoriteButton>
             ) : (
               <FavoriteButton type="primary" onClick={openLoginModal}>

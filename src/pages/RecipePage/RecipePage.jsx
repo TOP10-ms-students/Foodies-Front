@@ -25,10 +25,10 @@ export const RecipePage = () => {
 
   const {
     favoriteIds,
-    isLoadingFavorite,
     addFavorite,
     removeFavorite,
     switchFavorite,
+    loadingRecipeId,
   } = useFavoriteRecipes(notificationApi);
 
   const [recipe, setRecipe] = useState(null);
@@ -78,7 +78,7 @@ export const RecipePage = () => {
               id={id}
               instructions={recipe.instructions}
               isFavorite={favoriteIds.includes(id)}
-              isLoading={isLoadingFavorite}
+              isLoading={loadingRecipeId === id}
               addFavorite={addFavorite}
               removeFavorite={removeFavorite}
             />
@@ -89,6 +89,7 @@ export const RecipePage = () => {
       <PopularRecipes
         favoriteIds={favoriteIds}
         switchFavorite={switchFavorite}
+        loadingRecipeId={loadingRecipeId}
       />
 
       {notificationContext}
