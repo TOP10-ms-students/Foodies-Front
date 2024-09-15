@@ -3,6 +3,7 @@ import { styled } from "styled-components";
 export const CardBox = styled.div`
   display: flex;
   width: 100%;
+  max-width: calc(100vw - 32px);
   height: 75px;
   gap: 10px;
 
@@ -60,13 +61,14 @@ export const RecipeTitle = styled.h2`
   line-height: 24px;
   letter-spacing: -0.02em;
   text-transform: uppercase;
-  width: 100%;
+  max-width: calc(100vw - 200px);
   margin: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 
   @media ${({ theme }) => theme.media.tablet} {
+    max-width: unset;
     font-size: 20px;
     margin-bottom: 10px;
     width: 468px;
@@ -82,7 +84,7 @@ export const RecipeDescription = styled.p`
   line-height: 20px;
   letter-spacing: -0.02em;
   color: ${({ theme }) => theme.colors.gray};
-  width: 100%;
+  max-width: calc(100vw - 200px);
   margin: 0;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -91,6 +93,7 @@ export const RecipeDescription = styled.p`
   text-overflow: ellipsis;
 
   @media ${({ theme }) => theme.media.tablet} {
+    max-width: unset;
     font-size: 16px;
     line-height: 24px;
     width: 468px;

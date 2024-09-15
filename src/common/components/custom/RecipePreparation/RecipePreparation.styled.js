@@ -2,6 +2,10 @@ import styled from "styled-components";
 
 export const Preparation = styled.div`
   margin-top: 32px;
+
+  & > button {
+    width: 250px;
+  }
 `;
 
 export const RecipeText = styled.div`

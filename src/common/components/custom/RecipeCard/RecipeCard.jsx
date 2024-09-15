@@ -1,3 +1,4 @@
+import { Spin } from "antd";
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -29,6 +30,7 @@ export const RecipeCard = ({
   isFavorite,
   switchFavorite,
   openLoginModal,
+  loadingId,
 }) => {
   const navigate = useNavigate();
   const isAuth = useSelector(getIsAuthenticated);
@@ -50,6 +52,8 @@ export const RecipeCard = ({
     }
   };
 
+  const icon = isFavorite ? <HeartIconFilled /> : <HeartIcon />;
+
   return (
     <Card>
       <Image src={thumb || defaultImg} alt={title} />
@@ -65,7 +69,7 @@ export const RecipeCard = ({
           <Actions>
             {isAuth ? (
               <FavoriteButton onClick={() => switchFavorite(id)}>
-                {isFavorite ? <HeartIconFilled /> : <HeartIcon />}
+                {loadingId === id ? <Spin size="middle" /> : icon}
               </FavoriteButton>
             ) : (
               <FavoriteButton type="primary" onClick={openLoginModal}>
