@@ -1,6 +1,5 @@
 import { notification } from "antd";
 import React, { useEffect, useState } from "react";
-import * as notificationApi from "react-dom/test-utils";
 
 import {
   PageTitle,
