@@ -12,6 +12,13 @@ const StyledTabs = styled(AntdTabs)`
   .ant-tabs-ink-bar {
     height: 3px !important;
   }
+
+  margin: 0 auto;
+  max-width: calc(100vw - 32px);
+
+  @media ${({ theme }) => theme.media.tablet} {
+    max-width: calc(100vw - 64px);
+  }
 `;
 
 export const Tabs = ({ ...props }) => <StyledTabs {...props} />;

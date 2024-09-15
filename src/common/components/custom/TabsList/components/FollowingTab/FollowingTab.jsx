@@ -1,7 +1,8 @@
 import { notification, Spin } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 
 import { FollowerInfoCard } from "~/common/components/custom/FollowerInfoCard";
+import { FollowersDivider } from "~/common/components/custom/TabsList/TabsList.styled";
 import { Pagination } from "~/common/components/ui/Pagination";
 
 import { getUserFollowing } from "~/api/user";
@@ -49,12 +50,11 @@ export const FollowingTab = () => {
       {!loading && (
         <div>
           {following.length ? (
-            following.map((followedUser) => (
-              <FollowerInfoCard
-                key={followedUser.id}
-                userInfo={followedUser}
-                initialFollowing
-              />
+            following.map((followedUser, index) => (
+              <Fragment key={followedUser.id}>
+                {index !== 0 && <FollowersDivider />}
+                <FollowerInfoCard userInfo={followedUser} initialFollowing />
+              </Fragment>
             ))
           ) : (
             <p>No following found.</p>

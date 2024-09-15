@@ -1,7 +1,8 @@
 import { notification, Spin } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 
 import { FollowerInfoCard } from "~/common/components/custom/FollowerInfoCard";
+import { FollowersDivider } from "~/common/components/custom/TabsList/TabsList.styled";
 import { Pagination } from "~/common/components/ui/Pagination";
 
 import { getUserFollowers } from "~/api/user";
@@ -50,8 +51,11 @@ export const FollowersTab = ({ userId }) => {
       {!loading && (
         <div>
           {followers.length ? (
-            followers.map((follower) => (
-              <FollowerInfoCard key={follower.id} userInfo={follower} />
+            followers.map((follower, index) => (
+              <Fragment key={follower.id}>
+                {index !== 0 && <FollowersDivider />}
+                <FollowerInfoCard userInfo={follower} />
+              </Fragment>
             ))
           ) : (
             <p>No followers found.</p>
