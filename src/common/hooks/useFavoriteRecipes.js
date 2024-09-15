@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { handleFavoriteApi } from "../../utils/apiHelpers";
+import { useSelector } from "react-redux";
 
 import {
   getFavoriteRecipes,
@@ -7,11 +7,20 @@ import {
   removeFavoriteRecipe,
 } from "~/api/recipes.js";
 
+import { getIsAuthenticated } from "~/store/selectors";
+
+import { handleFavoriteApi } from "../../utils/apiHelpers";
+
 const useFavoriteRecipes = (notificationApi) => {
   const [favoriteIds, setFavoriteIds] = useState([]);
   const [isLoadingFavorite, setIsLoadingFavorite] = useState(false);
 
+  const isAuth = useSelector(getIsAuthenticated);
+
   const getAllFavorite = async () => {
+    if (!isAuth) {
+      return;
+    }
     const data = await handleFavoriteApi(
       getFavoriteRecipes,
       null,
@@ -25,7 +34,7 @@ const useFavoriteRecipes = (notificationApi) => {
 
   useEffect(() => {
     getAllFavorite();
-  }, []);
+  }, [isAuth]);
 
   const addFavorite = async (id) => {
     const data = await handleFavoriteApi(

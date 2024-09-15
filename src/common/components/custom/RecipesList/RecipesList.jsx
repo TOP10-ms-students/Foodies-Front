@@ -26,7 +26,12 @@ import {
 import { RecipeCard } from "../RecipeCard/RecipeCard";
 import { RecipeCardSkeleton } from "../RecipeCard/RecipeCardSkeleton";
 
-export const RecipesList = ({ category, goToCategories, onError }) => {
+export const RecipesList = ({
+  category,
+  goToCategories,
+  onError,
+  openLoginModal,
+}) => {
   const [notificationApi, notificationContext] = notification.useNotification();
   const { favoriteIds, switchFavorite } = useFavoriteRecipes(notificationApi);
 
@@ -180,6 +185,7 @@ export const RecipesList = ({ category, goToCategories, onError }) => {
                   recipe={recipe}
                   isFavorite={favoriteIds.includes(recipe.id)}
                   switchFavorite={switchFavorite}
+                  openLoginModal={openLoginModal}
                 />
               ))
             ) : (
