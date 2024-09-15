@@ -12,22 +12,23 @@ import {
 import storage from "redux-persist/lib/storage";
 
 import authReducer from "./slices/auth";
+import optionsReducer from "./slices/options";
 
-const authPersistConfig = {
-  key: "auth",
+const persistConfig = {
+  key: "recipe-app",
   version: 1,
   storage,
 };
 
-const persistedReducer = persistReducer(authPersistConfig, authReducer);
-
 const rootReducers = combineReducers({
-  auth: persistedReducer,
-  // recipes: recipesReducer,
+  auth: authReducer,
+  options: optionsReducer,
 });
 
+const persistedReducer = persistReducer(persistConfig, rootReducers);
+
 const store = configureStore({
-  reducer: rootReducers,
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {

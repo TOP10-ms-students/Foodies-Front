@@ -6,9 +6,9 @@ import { PageTitle, Select } from "~/common/components";
 import { ArrowLeftIcon } from "~/common/components/icons";
 import { Pagination } from "~/common/components/ui/Pagination";
 
+import { useAreasOptions } from "~/common/hooks/useAreasOptions";
 import useFavoriteRecipes from "~/common/hooks/useFavoriteRecipes";
 
-import { getAllAreas } from "~/api/areas";
 import { getIngredients } from "~/api/ingredients";
 import { getRecipes } from "~/api/recipes";
 
@@ -35,10 +35,10 @@ export const RecipesList = ({
   const [notificationApi, notificationContext] = notification.useNotification();
   const { favoriteIds, switchFavorite, loadingRecipeId } =
     useFavoriteRecipes(notificationApi);
+  const { areasOptions } = useAreasOptions();
 
   const [recipes, setRecipes] = useState([]);
   const [ingredientsOptions, setIngredientsOptions] = useState([]);
-  const [areas, setAreas] = useState([]);
   const [selectedIngredient, setSelectedIngredient] = useState(null);
   const [selectedArea, setSelectedArea] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -74,22 +74,6 @@ export const RecipesList = ({
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    const fetchFilters = async () => {
-      try {
-        // const ingredientsResponse = await getAllIngredients();
-        const areasResponse = await getAllAreas();
-
-        // setIngredients(ingredientsResponse.data.ingredients || []);
-        setAreas(areasResponse.data.areas || []);
-      } catch (error) {
-        onError("Failed to fetch filters. Please try again later.");
-      }
-    };
-
-    fetchFilters();
-  }, [onError]);
 
   useEffect(() => {
     if (category) {
@@ -130,11 +114,6 @@ export const RecipesList = ({
     return debounce(loadOptions, 500);
   }, []);
 
-  const areaOptions = areas.map(({ id, name }) => ({
-    value: id,
-    label: name,
-  }));
-
   return (
     <RecipesSection ref={topRef}>
       <BackButton onClick={goToCategories}>
@@ -166,7 +145,7 @@ export const RecipesList = ({
           <Select
             width="330px"
             allowClear
-            options={areaOptions}
+            options={areasOptions}
             placeholder="Areas"
             value={selectedArea}
             onChange={setSelectedArea}
