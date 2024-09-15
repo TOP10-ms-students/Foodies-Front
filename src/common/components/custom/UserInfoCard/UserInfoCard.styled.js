@@ -5,6 +5,7 @@ import { Avatar, Button } from "~/common/components";
 
 export const CardBoxWrapper = styled.div`
   max-width: 343px;
+  width: 100%;
 
   @media ${({ theme }) => theme.media.tablet} {
     width: 394px;
