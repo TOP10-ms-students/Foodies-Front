@@ -191,7 +191,7 @@ export const AddRecipePage = () => {
       formdata.append("areaId", values.area);
       formdata.append("instructions", values.preparation);
       formdata.append("description", values.description);
-      formdata.append("time", values.cookingTime * 60);
+      formdata.append("time", values.cookingTime);
 
       values.ingredients.forEach(({ value, quantity }, index) => {
         formdata.append(`ingredients[${index}][ingredientId]`, value);
