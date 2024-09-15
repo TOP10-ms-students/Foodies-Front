@@ -1,7 +1,8 @@
 import { Modal } from "antd";
 import React, { useEffect, useState } from "react";
 import * as notificationApi from "react-dom/test-utils";
-import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 
 import {
   PathInfo,
@@ -14,6 +15,10 @@ import {
 
 import { getUserById, followUser, unfollowUser } from "~/api/user";
 
+import { getCurrentUser } from "~/store/selectors.js";
+
+import { ROUTE_PATHS } from "~/routing/constants.js";
+
 import {
   PageBox,
   ContentBox,
@@ -24,10 +29,14 @@ export const ProfilePage = () => {
   const [modal, modalContextHolder] = Modal.useModal();
 
   const { id: userId } = useParams();
+  const navigate = useNavigate();
 
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isFollowLoading, setIsFollowLoading] = useState(false);
+
+  const loggedUser = useSelector(getCurrentUser);
+  const itsMe = userId === loggedUser.id;
 
   const fetchUser = async (id) => {
     setIsLoading(true);
@@ -82,6 +91,10 @@ export const ProfilePage = () => {
       setIsFollowLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (itsMe) navigate(ROUTE_PATHS.MY_PROFILE);
+  }, [itsMe]);
 
   useEffect(() => {
     if (userId) fetchUser(userId);
