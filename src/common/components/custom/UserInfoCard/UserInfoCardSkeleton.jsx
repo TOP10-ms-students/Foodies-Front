@@ -2,6 +2,7 @@ import { Skeleton } from "antd";
 import React from "react";
 
 import {
+  CardBoxWrapper,
   CardBox,
   AvatarWrapper,
   UserName,
@@ -9,42 +10,49 @@ import {
   UserDetail,
   SkeletonAvatar,
   SkeletonNumber,
+  ActionButton,
 } from "./UserInfoCard.styled";
 
 const TextSkeleton = () => <Skeleton.Input active size="small" />;
 const NumberSkeleton = () => <SkeletonNumber active size="small" />;
 
-export const UserInfoCardSkeleton = ({ isCurrentUser }) => (
-  <CardBox>
-    <AvatarWrapper>
-      <SkeletonAvatar active />
-    </AvatarWrapper>
+export const UserInfoCardSkeleton = ({ isCurrentUser, actionButtonText }) => (
+  <CardBoxWrapper>
+    <CardBox>
+      <AvatarWrapper>
+        <SkeletonAvatar active />
+      </AvatarWrapper>
 
-    <UserName>
-      <TextSkeleton />
-    </UserName>
+      <UserName>
+        <TextSkeleton />
+      </UserName>
 
-    <UserInfo>
-      <UserDetail>
-        Email: <TextSkeleton />
-      </UserDetail>
-      <UserDetail>
-        Added recipes: <NumberSkeleton />
-      </UserDetail>
-      {isCurrentUser && (
+      <UserInfo>
         <UserDetail>
-          Favorites: <NumberSkeleton />
+          Email: <TextSkeleton />
         </UserDetail>
-      )}
-      <UserDetail>
-        Followers:
-        <NumberSkeleton />
-      </UserDetail>
-      {isCurrentUser && (
         <UserDetail>
-          Following: <NumberSkeleton />
+          Added recipes: <NumberSkeleton />
         </UserDetail>
-      )}
-    </UserInfo>
-  </CardBox>
+        {isCurrentUser && (
+          <UserDetail>
+            Favorites: <NumberSkeleton />
+          </UserDetail>
+        )}
+        <UserDetail>
+          Followers:
+          <NumberSkeleton />
+        </UserDetail>
+        {isCurrentUser && (
+          <UserDetail>
+            Following: <NumberSkeleton />
+          </UserDetail>
+        )}
+      </UserInfo>
+    </CardBox>
+
+    <ActionButton type="priary" disabled>
+      {actionButtonText}
+    </ActionButton>
+  </CardBoxWrapper>
 );

@@ -2,6 +2,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import React from "react";
 
 import {
+  CardBoxWrapper,
   CardBox,
   CustomAvatar,
   AvatarWrapper,
@@ -10,6 +11,7 @@ import {
   UserInfo,
   UserDetail,
   UserDetailNumber,
+  ActionButton,
 } from "./UserInfoCard.styled";
 
 export const UserInfoCard = ({
@@ -22,39 +24,58 @@ export const UserInfoCard = ({
   followingCount = 0,
   onUpdateAvatar,
   isCurrentUser,
+  actionButtonText,
+  onActionButtonClick,
+  isLoadingActionButton,
 }) => (
-  <CardBox>
-    <AvatarWrapper>
-      <CustomAvatar src={avatar} alt="User Avatar" />
-      {isCurrentUser && (
-        <PlusIcon onClick={onUpdateAvatar}>
-          <PlusOutlined />
-        </PlusIcon>
-      )}
-    </AvatarWrapper>
+  <CardBoxWrapper>
+    <CardBox>
+      <AvatarWrapper>
+        <CustomAvatar src={avatar} alt="User Avatar" />
+        {isCurrentUser && (
+          <PlusIcon onClick={onUpdateAvatar}>
+            <PlusOutlined />
+          </PlusIcon>
+        )}
+      </AvatarWrapper>
 
-    <UserName>{name}</UserName>
+      <UserName>{name}</UserName>
 
-    <UserInfo>
-      <UserDetail>
-        Email: <UserDetailNumber>{email}</UserDetailNumber>
-      </UserDetail>
-      <UserDetail>
-        Added recipes: <UserDetailNumber>{createdRecipeCount}</UserDetailNumber>
-      </UserDetail>
-      {isCurrentUser && (
+      <UserInfo>
         <UserDetail>
-          Favorites: <UserDetailNumber>{favoriteRecipeCount}</UserDetailNumber>
+          Email: <UserDetailNumber>{email}</UserDetailNumber>
         </UserDetail>
-      )}
-      <UserDetail>
-        Followers: <UserDetailNumber>{followersCount}</UserDetailNumber>
-      </UserDetail>
-      {isCurrentUser && (
+
         <UserDetail>
-          Following: <UserDetailNumber>{followingCount}</UserDetailNumber>
+          Added recipes:{" "}
+          <UserDetailNumber>{createdRecipeCount}</UserDetailNumber>
         </UserDetail>
-      )}
-    </UserInfo>
-  </CardBox>
+
+        {isCurrentUser && (
+          <UserDetail>
+            Favorites:{" "}
+            <UserDetailNumber>{favoriteRecipeCount}</UserDetailNumber>
+          </UserDetail>
+        )}
+
+        <UserDetail>
+          Followers: <UserDetailNumber>{followersCount}</UserDetailNumber>
+        </UserDetail>
+
+        {isCurrentUser && (
+          <UserDetail>
+            Following: <UserDetailNumber>{followingCount}</UserDetailNumber>
+          </UserDetail>
+        )}
+      </UserInfo>
+    </CardBox>
+
+    <ActionButton
+      type="primary"
+      onClick={onActionButtonClick}
+      loading={isLoadingActionButton}
+    >
+      {actionButtonText}
+    </ActionButton>
+  </CardBoxWrapper>
 );

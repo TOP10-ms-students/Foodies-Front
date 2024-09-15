@@ -1,3 +1,4 @@
+import { Modal } from "antd";
 import React, { useEffect, useState } from "react";
 import * as notificationApi from "react-dom/test-utils";
 import { useParams } from "react-router-dom";
@@ -11,7 +12,7 @@ import {
   TabsList,
 } from "~/common/components";
 
-import { getUserById } from "~/api/user";
+import { getUserById, followUser, unfollowUser } from "~/api/user";
 
 import {
   PageBox,
@@ -20,10 +21,13 @@ import {
 } from "../MyProfilePage/MyProfilePage.styled";
 
 export const ProfilePage = () => {
+  const [modal, modalContextHolder] = Modal.useModal();
+
   const { id: userId } = useParams();
 
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isFollowLoading, setIsFollowLoading] = useState(false);
 
   const fetchUser = async (id) => {
     setIsLoading(true);
@@ -40,12 +44,57 @@ export const ProfilePage = () => {
     }
   };
 
+  const handleFollowUser = async () => {
+    setIsFollowLoading(true);
+    try {
+      await followUser(userId);
+      setUser((prev) => ({ ...prev, isFollowing: true }));
+    } catch ({ response: { data } }) {
+      const message = data?.message ?? "Something went wrong";
+      notificationApi.error({ message });
+    } finally {
+      setIsFollowLoading(false);
+    }
+  };
+
+  const handleUnfollowUser = async () => {
+    modal.confirm({
+      title: "Unfollow user",
+      icon: null,
+      content: "Are you sure you want to unfollow this user?",
+      okText: "Unfollow",
+      onOk: confirmUnfollowUser,
+      okButtonProps: { loading: isFollowLoading },
+      cancelButtonProps: { loading: isFollowLoading },
+      centered: true,
+    });
+  };
+
+  const confirmUnfollowUser = async () => {
+    setIsFollowLoading(true);
+    try {
+      await unfollowUser(userId);
+      setUser((prev) => ({ ...prev, isFollowing: false }));
+    } catch ({ response: { data } }) {
+      const message = data?.message ?? "Something went wrong";
+      notificationApi.error({ message });
+    } finally {
+      setIsFollowLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (userId) fetchUser(userId);
   }, [userId]);
 
+  const isFollowing = user?.isFollowing;
+
+  const actionButtonText = isFollowing ? "Unfollow" : "Follow";
+
   return (
     <PageBox>
+      {modalContextHolder}
+
       <PathInfo title="Profile" />
 
       <PageTitle>Profile</PageTitle>
@@ -57,7 +106,7 @@ export const ProfilePage = () => {
 
       <ContentBox>
         {isLoading ? (
-          <UserInfoCardSkeleton />
+          <UserInfoCardSkeleton actionButtonText={actionButtonText} />
         ) : (
           <UserInfoCard
             name={user?.name}
@@ -65,6 +114,11 @@ export const ProfilePage = () => {
             avatar={user?.avatar}
             createdRecipeCount={user?.statistic?.createdRecipeCount}
             followersCount={user?.statistic?.followersCount}
+            actionButtonText={actionButtonText}
+            onActionButtonClick={
+              isFollowing ? handleUnfollowUser : handleFollowUser
+            }
+            isLoadingActionButton={isFollowLoading}
           />
         )}
 
