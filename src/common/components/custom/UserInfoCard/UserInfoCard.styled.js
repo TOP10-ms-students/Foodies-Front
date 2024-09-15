@@ -1,7 +1,15 @@
 import { Skeleton } from "antd";
 import { styled } from "styled-components";
 
-import { Avatar } from "~/common/components";
+import { Avatar, Button } from "~/common/components";
+
+export const CardBoxWrapper = styled.div`
+  max-width: 343px;
+
+  @media ${({ theme }) => theme.media.tablet} {
+    width: 394px;
+  }
+`;
 
 export const CardBox = styled.div`
   display: flex;
@@ -10,11 +18,6 @@ export const CardBox = styled.div`
   justify-content: center;
   box-sizing: border-box;
   padding: 30px;
-  max-width: 343px;
-
-  @media ${({ theme }) => theme.media.tablet} {
-    width: 394px;
-  }
 
   border-radius: 30px;
   border: 1px solid ${({ theme }) => theme.colors.gray};
@@ -153,4 +156,9 @@ export const SkeletonNumber = styled(Skeleton.Input)`
     width: 30px !important;
     min-width: 30px !important;
   }
+`;
+
+export const ActionButton = styled(Button)`
+  width: 100%;
+  margin-top: 20px;
 `;

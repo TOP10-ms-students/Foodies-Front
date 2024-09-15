@@ -10,6 +10,8 @@ import {
   PathInfo,
 } from "~/common/components";
 
+import { useAuthModals } from "~/common/hooks/useAuthModals";
+
 import { getCurrentUser, updateCurrentUserAvatar } from "~/api/user";
 
 import { PageBox, ContentBox, TabsBox } from "./MyProfilePage.styled";
@@ -19,6 +21,8 @@ export const MyProfilePage = () => {
 
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  const { handleOpenLogout } = useAuthModals();
 
   const onUpdateAvatar = async () => {
     const input = document.createElement("input");
@@ -74,7 +78,7 @@ export const MyProfilePage = () => {
 
       <ContentBox>
         {isLoading ? (
-          <UserInfoCardSkeleton isCurrentUser />
+          <UserInfoCardSkeleton isCurrentUser actionButtonText="Log out" />
         ) : (
           <UserInfoCard
             name={user?.name}
@@ -86,6 +90,8 @@ export const MyProfilePage = () => {
             followingCount={user?.statistic?.followingCount}
             onUpdateAvatar={onUpdateAvatar}
             isCurrentUser
+            actionButtonText="Log out"
+            onActionButtonClick={handleOpenLogout}
           />
         )}
 

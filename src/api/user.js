@@ -18,3 +18,7 @@ export const getUserFollowing = (params) =>
   api.get("users/following", { params });
 
 export const getUserById = (userId) => api.get(`users/${userId}`);
+
+export const followUser = (userId) => api.post(`users/${userId}/follow`);
+
+export const unfollowUser = (userId) => api.delete(`users/${userId}/follow`);

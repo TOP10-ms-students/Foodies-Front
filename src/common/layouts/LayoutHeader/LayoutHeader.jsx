@@ -34,23 +34,22 @@ export const LayoutHeader = () => {
 
   const [notificationApi, notificationContext] = notification.useNotification();
 
-  const [isOpenLogout, setIsOpenLogout] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const {
     isOpenLogin,
     isOpenSignUp,
+    isOpenLogout,
     handleOpenSignUp,
     handleOpenLogin,
+    handleOpenLogout,
     switchModals,
     handleCancel,
   } = useAuthModals();
 
   const isHomePage = location.pathname === "/";
 
-  const handleOpenLogout = () => setIsOpenLogout(true);
-
-  const handleCloseLogout = () => !isLoading && setIsOpenLogout(false);
+  const handleCloseLogout = () => !isLoading && handleCancel();
 
   const handleLogout = () => {
     setIsLoading(true);
@@ -59,7 +58,7 @@ export const LayoutHeader = () => {
       .then(() => {
         dispatch(setUser(null));
         authTokenService.unset();
-        setIsOpenLogout();
+        handleCancel();
         notificationApi.success({ message: "Logout successful!" });
       })
       .catch(() => {
