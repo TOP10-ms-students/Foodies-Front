@@ -19,7 +19,9 @@ import {
   PathInfo,
 } from "~/common/components";
 
-import { getAllAreas } from "~/api/areas";
+import { useAreasOptions } from "~/common/hooks/useAreasOptions";
+import { useCategoriesOptions } from "~/common/hooks/useCategoriesOptions";
+
 import { getAllCategories } from "~/api/categories";
 import { getIngredients } from "~/api/ingredients";
 import { createRecipe } from "~/api/recipes";
@@ -65,15 +67,12 @@ export const AddRecipePage = () => {
   const navigate = useNavigate();
   const [notificationApi, notificationContext] = notification.useNotification();
 
-  const [isLoadingCategories, setIsLoadingCategories] = useState(false);
-  const [isLoadingAreas, setIsLoadingAreas] = useState(false);
-  const [isLoadingIngredients, setIsLoadingIngredients] = useState(false);
+  const { areasOptions, isLoadingAreas } = useAreasOptions();
+  const { categoriesOptions, isLoadingCategories } = useCategoriesOptions();
 
+  const [isLoadingIngredients, setIsLoadingIngredients] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [ingredientsOptions, setIngredientsOptions] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [areas, setAreas] = useState([]);
-
   const [imageFile, setImageFile] = useState(null);
 
   const {
@@ -90,38 +89,6 @@ export const AddRecipePage = () => {
     validationSchema: addRecipeSchema,
     onSubmit,
   });
-
-  useEffect(() => {
-    setIsLoadingCategories(true);
-    getAllCategories()
-      .then(({ data }) => setCategories(data?.categories ?? []))
-      .catch(({ response: { data } }) => {
-        const message = data?.message ?? "Something went wrong";
-        notificationApi.error({ message });
-      })
-      .finally(() => setIsLoadingCategories(false));
-  }, []);
-
-  useEffect(() => {
-    setIsLoadingAreas(true);
-    getAllAreas()
-      .then(({ data }) => setAreas(data?.areas ?? []))
-      .catch(({ response: { data } }) => {
-        const message = data?.message ?? "Something went wrong";
-        notificationApi.error({ message });
-      })
-      .finally(() => setIsLoadingAreas(false));
-  }, []);
-
-  const categoriesOptions = useMemo(
-    () => categories?.map(({ id, name }) => ({ value: id, label: name })),
-    [categories]
-  );
-
-  const areasOptions = useMemo(
-    () => areas?.map(({ id, name }) => ({ value: id, label: name })),
-    [areas]
-  );
 
   const onChangeIngredient = (o) => {
     const ingredient = ingredientsOptions.find((i) => i.value === o.value);
