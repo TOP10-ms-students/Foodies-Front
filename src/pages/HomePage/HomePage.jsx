@@ -1,5 +1,5 @@
 import { notification } from "antd";
-import React from "react";
+import React, { useMemo } from "react";
 
 import { CategoriesList } from "~/common/components/custom/CategoriesList";
 import { Hero } from "~/common/components/custom/Hero";
@@ -22,6 +22,11 @@ export const HomePage = () => {
     resetCategory();
   };
 
+  const category = useMemo(
+    () => ({ name: categoryName, id: categoryId }),
+    [categoryName, categoryId]
+  );
+
   return (
     <div>
       {notificationContext}
@@ -31,7 +36,7 @@ export const HomePage = () => {
       <CategoriesAndRecipesWrapper>
         {categoryName ? (
           <RecipesList
-            category={{ name: categoryName, id: categoryId }}
+            category={category}
             goToCategories={resetCategory}
             onError={handleError}
             openLoginModal={handleOpenLogin}

@@ -12,20 +12,31 @@ export const RecipePreparation = ({
   isLoading,
   addFavorite,
   removeFavorite,
-}) => (
-  <Preparation>
-    <Label>Recipe Preparation</Label>
+  handleOpenLogin,
+  isAuth,
+}) => {
+  const handleActionButton = () => {
+    if (!isAuth) {
+      handleOpenLogin();
+      return;
+    }
 
-    <RecipeText>{instructions}</RecipeText>
+    if (isFavorite) {
+      removeFavorite(id);
+    } else {
+      addFavorite(id);
+    }
+  };
 
-    {!isLoading && (
-      <Button
-        onClick={() => (isFavorite ? removeFavorite(id) : addFavorite(id))}
-      >
+  return (
+    <Preparation>
+      <Label>Recipe Preparation</Label>
+
+      <RecipeText>{instructions}</RecipeText>
+
+      <Button onClick={handleActionButton} loading={isLoading}>
         {isFavorite ? "Remove from favorites" : "Add to favorites"}
       </Button>
-    )}
-
-    {isLoading && <Button disabled>Loading...</Button>}
-  </Preparation>
-);
+    </Preparation>
+  );
+};

@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import {
@@ -13,25 +14,25 @@ export const useAuthModals = () => {
   const dispatch = useDispatch();
   const currentOpen = useSelector((state) => state.auth.currentAuthModal);
 
-  const handleOpenSignUp = () => {
+  const handleOpenSignUp = useCallback(() => {
     dispatch(openSignUpModal());
-  };
+  }, [dispatch]);
 
-  const handleOpenLogin = () => {
+  const handleOpenLogin = useCallback(() => {
     dispatch(openLoginModal());
-  };
+  }, [dispatch]);
 
-  const handleOpenLogout = () => {
+  const handleOpenLogout = useCallback(() => {
     dispatch(openLogoutModal());
-  };
+  }, [dispatch]);
 
-  const switchModals = () => {
+  const switchModals = useCallback(() => {
     dispatch(switchAuthModal());
-  };
+  }, [dispatch]);
 
-  const handleCancel = () => {
+  const handleCancel = useCallback(() => {
     dispatch(closeAuthModal());
-  };
+  }, [dispatch]);
 
   return {
     isOpenLogin: currentOpen === AUTH_MODALS.login,

@@ -3,6 +3,7 @@ import { useMediaQuery } from "react-responsive";
 import { useNavigate } from "react-router-dom";
 
 import { ArrowUpIcon } from "~/common/components";
+import defaultImg from "~/common/components/img/template_recipe.jpg";
 
 import {
   CardBox,
@@ -14,6 +15,7 @@ import {
   UserInfoBox,
   RecipesList,
   RecipeItem,
+  RecipeImage,
 } from "./FollowerInfoCard.styled";
 
 export const FollowerInfoCard = ({
@@ -73,7 +75,11 @@ export const FollowerInfoCard = ({
           {displayedImages.map((link, index) => (
             <RecipeItem key={index}>
               <a onClick={() => handleImageClick(link.id)}>
-                <img src={link.thumb} alt={`Recipe ${link.id}`} />
+                <RecipeImage
+                  shape="square"
+                  src={link.thumb || defaultImg}
+                  alt={`Recipe ${link.id}`}
+                />
               </a>
             </RecipeItem>
           ))}
