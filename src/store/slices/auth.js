@@ -18,6 +18,9 @@ export const authSlice = createSlice({
     setUser: (state, action) => {
       state.user = action.payload;
     },
+    updateUserAvatar: (state, action) => {
+      state.user = { ...state.user, avatar: action.payload };
+    },
     closeAuthModal: (state) => {
       state.currentAuthModal = null;
     },
@@ -42,6 +45,7 @@ export const authSlice = createSlice({
 
 export const {
   setUser,
+  updateUserAvatar,
   closeAuthModal,
   openLoginModal,
   openSignUpModal,
