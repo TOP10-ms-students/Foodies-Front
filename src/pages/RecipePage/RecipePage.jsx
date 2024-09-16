@@ -1,5 +1,6 @@
 import { notification } from "antd";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 import {
@@ -11,7 +12,11 @@ import {
 } from "~/common/components";
 import thumb from "~/common/components/img/template_recipe.jpg";
 
+import { useAuthModals } from "~/common/hooks/useAuthModals";
+
 import { getRecipe } from "~/api/recipes.js";
+
+import { getIsAuthenticated } from "~/store/selectors";
 
 import { RecipeInfo, RecipeImg } from "./RecipePage.styled.js";
 import { RecipeSkeleton } from "./RecipeSkeleton.jsx";
@@ -20,7 +25,9 @@ import { FormBox, PageBox } from "../AddRecipePage/AddRecipePage.styled.jsx";
 
 export const RecipePage = () => {
   const { id } = useParams();
+  const isAuth = useSelector(getIsAuthenticated);
 
+  const { handleOpenLogin } = useAuthModals();
   const [notificationApi, notificationContext] = notification.useNotification();
 
   const {
@@ -81,6 +88,8 @@ export const RecipePage = () => {
               isLoading={loadingRecipeId === id}
               addFavorite={addFavorite}
               removeFavorite={removeFavorite}
+              handleOpenLogin={handleOpenLogin}
+              isAuth={isAuth}
             />
           </RecipeInfo>
         </FormBox>
