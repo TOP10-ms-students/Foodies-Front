@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const Box = styled.div`
@@ -11,4 +12,8 @@ export const Box = styled.div`
   @media ${({ theme }) => theme.media.tablet} {
     margin-bottom: 40px;
   }
+`;
+
+export const HomeLink = styled(Link)`
+  color: ${({ theme }) => theme.colors.gray} !important;
 `;

@@ -78,7 +78,9 @@ export const HeaderMenuLink = styled(NavLink)`
   border-radius: 30px;
   text-decoration: none;
   &.active {
-    border: 1px solid ${({ theme }) => theme?.colors?.darkgray};
+    border: 1px solid
+      ${({ theme, $isHomePage }) =>
+        $isHomePage ? theme?.colors?.white : theme?.colors?.gray};
   }
 `;
 

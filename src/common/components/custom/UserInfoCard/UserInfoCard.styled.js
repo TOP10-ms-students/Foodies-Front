@@ -113,6 +113,11 @@ export const UserInfo = styled.ul`
 `;
 
 export const UserDetail = styled.li`
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  justify-content: flex-start;
+  align-items: center;
   color: ${({ theme }) => theme.colors.gray};
   font-size: 12px;
   line-height: 18px;
