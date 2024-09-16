@@ -84,6 +84,7 @@ export const LayoutHeader = () => {
 
                 <UserBar
                   name={user.name}
+                  avatarSrc={user.avatar}
                   handleOpenLogout={handleOpenLogout}
                   isHomePage={isHomePage}
                 />

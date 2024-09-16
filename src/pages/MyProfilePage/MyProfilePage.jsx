@@ -1,5 +1,6 @@
 import { notification } from "antd";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 import {
   PageTitle,
@@ -14,12 +15,15 @@ import { useAuthModals } from "~/common/hooks/useAuthModals";
 
 import { getCurrentUser, updateCurrentUserAvatar } from "~/api/user";
 
+import { updateUserAvatar } from "~/store/slices/auth";
+
 import { PageBox, ContentBox, TabsBox } from "./MyProfilePage.styled";
 
 export const MyProfilePage = () => {
+  const dispatch = useDispatch();
   const [notificationApi, notificationContext] = notification.useNotification();
 
-  const [user, setUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const { handleOpenLogout } = useAuthModals();
@@ -33,7 +37,8 @@ export const MyProfilePage = () => {
       const file = input.files[0];
       const formData = new FormData();
       formData.append("avatar", file);
-      await updateCurrentUserAvatar(formData);
+      const { data } = await updateCurrentUserAvatar(formData);
+      dispatch(updateUserAvatar(data.user.avatar));
 
       notificationApi.success({
         message: "Avatar successfully updated",
@@ -51,7 +56,7 @@ export const MyProfilePage = () => {
     try {
       const { data } = await getCurrentUser();
 
-      setUser(data.user);
+      setCurrentUser(data.user);
     } catch ({ response: { data } }) {
       const message = data?.message ?? "Something went wrong";
       notificationApi.error({ message });
@@ -81,13 +86,13 @@ export const MyProfilePage = () => {
           <UserInfoCardSkeleton isCurrentUser actionButtonText="Log out" />
         ) : (
           <UserInfoCard
-            name={user?.name}
-            email={user?.email}
-            avatar={user?.avatar}
-            createdRecipeCount={user?.statistic?.createdRecipeCount}
-            followersCount={user?.statistic?.followersCount}
-            favoriteRecipeCount={user?.statistic?.favoriteRecipeCount}
-            followingCount={user?.statistic?.followingCount}
+            name={currentUser?.name}
+            email={currentUser?.email}
+            avatar={currentUser?.avatar}
+            createdRecipeCount={currentUser?.statistic?.createdRecipeCount}
+            followersCount={currentUser?.statistic?.followersCount}
+            favoriteRecipeCount={currentUser?.statistic?.favoriteRecipeCount}
+            followingCount={currentUser?.statistic?.followingCount}
             onUpdateAvatar={onUpdateAvatar}
             isCurrentUser
             actionButtonText="Log out"
@@ -96,7 +101,7 @@ export const MyProfilePage = () => {
         )}
 
         <TabsBox>
-          <TabsList userId={user?.id} isCurrentUser />
+          <TabsList userId={currentUser?.id} isCurrentUser />
         </TabsBox>
       </ContentBox>
     </PageBox>
